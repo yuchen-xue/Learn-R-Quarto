@@ -1,0 +1,25 @@
+---
+title: "Using Section Header in a R File"
+description: "How to use section headers in a R File"
+---
+
+## Insert a section using shortcut 
+
+::: {.callout-note title="The shortcut for inserting a section"}
+CTRL + SHIFT + R
+:::
+
+Inside the pop-up window, you can type your desired section heading name
+This method is preferred because R Studio will automatically fill the rest of the lines with dashes
+
+```{r}
+# Insert a section using shortcut ----------------------------------------- 
+```
+
+## Insert a section manually
+
+At least *4 dashes* behind a comment is recognized as an indicator for a section
+
+```{r}
+# Insert a section manually ----
+```

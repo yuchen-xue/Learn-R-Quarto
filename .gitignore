@@ -1,0 +1,12 @@
+# Quarto
+_site
+.quarto
+*_files
+
+# R Studio
+.RData
+*.Rproj*
+.Rhistory
+
+# System specific
+.DS_Store

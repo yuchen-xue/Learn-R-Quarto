@@ -1,0 +1,115 @@
+---
+title: "Correlation and Regression"
+description: "this is a reading note of [this tutorial](https://schmidtpaul.github.io/dsfair_quarto/ch/rbasics/correlation_regression.html)."
+---
+
+## About Our Dataset
+The relationship between the blood alcohol level of two people and the number of beers they have drunk.
+
+## About Correlation analysis
+* Suitable for two numerical variable.
+* Range: $[-1, 1]$.
+  * positive: One variable increases as another variable increases.
+  * negative: the other way around.
+* Correlation is not a model.
+  * It only tells how a variable behaves when on another variable changes.
+  * It can't make prediction. E.g. in our case, it can't tell how much blood alcohol a person contains when this person drink 5 beers.
+  * Correlation doesn't imply causation. Sometimes two correlated  variables might mean nothing.
+* Since usually it's impossible to analyse the population, the realistic correlation analyses are based on samples.
+* Since a correlation analysis is based on a sample, we need to make a $p$-value test to prove that this analysis has statistical significance.
+
+## Prepare Runtime Environment & Load Data
+
+```{r envirionment & data}
+# (install &) load packages
+pacman::p_load(
+  broom,
+  conflicted,
+  modelbased,
+  tidyverse)
+
+# handle function conflicts
+conflicts_prefer(dplyr::filter) 
+conflicts_prefer(dplyr::select)
+
+# load data
+path <- "https://raw.githubusercontent.com/SchmidtPaul/dsfair_quarto/master/data/DrinksPeterMax.csv"
+dat <- read_csv(path)
+```
+ 
+
+## Make a Correlation Hypothesis 
+
+```{r correlation}
+cor(dat$drinks, dat$blood_alc)
+```
+
+The estimation ($r$) is around $0.96$.
+
+## Null Hypothesis Significance Testing & $p$-value
+
+There are two important concepts: 
+
+* $r$: The estimation correlation.
+* $\rho$: The true correlation.
+
+Since we can't obtain the real correlation value (since it's impossible to make an experiment on the whole population), we need to test if our estimation is persuasive or not.
+
+The definition of $p$-value from [Wikipedia](https://en.wikipedia.org/wiki/P-value): 
+
+> In null-hypothesis significance testing, the $p$-value is the probability of obtaining test results at least as extreme as the result actually observed, under the assumption that the null hypothesis is correct.
+
+In correlation anaylysis, given two statistics *(In our case: the relationship between people's blood alcohol content and how many glasses of bear drunk by them)*, the null hypothesis $H_0$ says the correlation $\rho$ between these two statistics is $0$.
+
+::: {.callout-note}
+When talking about significance, make sure: 
+
+* what data
+* what hypotheise
+:::
+
+::: {.callout-note Extra information: publication bias title="Tip with Title" collapse="true"}
+In many cases, journals only accept research with a very significant $p$ value. This results in some problems in the research field. See more on this [Wikipedia website](https://en.wikipedia.org/wiki/Publication_bias) and [this statement](https://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108).
+:::
+
+After testing, we are confident that the probability this null hypothesis really happens ($p$) is lower than $0.05$. Thus we can reject the null hypothesis (i.e. claim that $\rho != 0$) and adopt the alternative hypothesis (namely $H_A$ or $H_1$). In other words, we are certain that there **DO** exists a correlation between the two statistics.
+
+::: {.callout-important}
+$p < 0.05$ only tells us that there **DO** exists a correlation. It neither means the true correlation is equal to our estimation, nor it means that we've found an important result.
+:::
+
+## Make a Simple Linear Model
+
+```{r lm}
+reg_simple <- lm(formula = blood_alc ~ drinks, data = dat)
+reg_simple
+```
+
+Let a linear regression relationship is written as $y = a + bx$. Here `blood_alc` is $y$ and `drinks` is $x$.
+
+## Test this a Simple Linear Model
+
+```{r predict simple lm model}
+tibble(drinks = seq(0, 9)) %>% 
+  estimate_expectation(model = reg_simple) %>% 
+  as_tibble()
+```
+
+Problem: the blood alcohol value is $0.049$ and thus larger than $0$. By our common sense this result is wrong.
+
+We then get the $p$-value using `broom::tidy()`. It produces more concise result compared to the `summary()` function.
+
+```{r test simply lm model}
+tidy(reg_simple, conf.int = TRUE)
+```
+
+The $p$-value is larger than $0.05$, thus this model is not convincing.
+
+## Make an Improved Linear Model
+
+This time we assume the linear model follows this patter: $y = ax$.
+
+```{r improved lm model}
+reg_noint <- lm(formula = blood_alc ~ 0 + drinks, data = dat)
+reg_noint
+```

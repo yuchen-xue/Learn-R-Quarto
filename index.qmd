@@ -1,0 +1,6 @@
+---
+title: "My R Language Learning Note"
+description: "This website serves as my reading note about R language."
+---
+
+This project contains my note about the R workshop in University of Rostock in 2024.

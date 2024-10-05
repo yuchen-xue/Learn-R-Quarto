@@ -1,0 +1,48 @@
+---
+title: "Package Loading and Conflicting Management"
+description: "This page contains the information about packages loading and conflict resolving"
+---
+
+## Loading Packages
+
+When using built-in R functions
+
+```{r using built-in package loading functions}
+#| eval: false
+
+install.packages(packagename) # install package every time, even though the package is already installed
+library(packagename) # If the package is not found, an error will be raised
+```
+
+When using `pacman::p_load()`, it only installs packages when the package is not found on the system. Note here we don't load the package `{pacman}`. Instead, we only use the `p_load()` function directly from this package.
+
+```{r using pacman}
+#| eval: false
+
+pacman::p_load("packagename1", "packagename2") 
+```
+
+## Conflict Resolving
+
+By default, R uses the function of the package that was loaded **THE LAST**. Instead of relying on this built-in mechanism, it's a good practice to manage package confilicts explicitly.
+
+E.g. there are two common functions with the same name but come from different packages: 
+
+* `dplyr::filter()`
+* `stats::filter()`
+
+We can use the `{conflicted}` package to deal with the conflict.
+
+```{r conflict management}
+# (install &) load packages
+pacman::p_load(
+    conflicted, 
+    tidyverse)
+
+# handle function conflicts
+conflicts_prefer(dplyr::filter) 
+```
+
+::: {.callout-note title="External resources"}
+* https://schmidtpaul.github.io/dsfair_quarto/ch/misc/usefulthings.html#conflicted
+:::

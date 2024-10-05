@@ -1,0 +1,64 @@
+
+```{r load package}
+#| output: false
+
+pacman::p_load(tidyverse)
+```
+
+## About pipe
+
+Here's a mini example
+1. Create a vector
+2. Calculate the square root of this vector
+3. Calculate the mean of the square root of the result
+4. Calculate the square root of the result
+
+### Option 1: Nesting Functions
+
+```{r}
+sqrt(mean(sqrt(c(3, 5, 8))))
+```
+* PRO: Not much code
+* CON: Hard to read
+
+### Option 2: Intermediate Results
+
+* PRO: Easy to read
+* CON: A lot of code, unnecessary intermediate results
+
+```{r}
+a <- c(3, 5, 8)
+b <- sqrt(a)
+c <- mean(b)
+sqrt(c)
+```
+### Option 3: Pipe Operator
+These do the same thing:
+```{r}
+sqrt(c(3, 5, 8))      # baseR
+c(3, 5, 8) %>% sqrt() # Pipe
+```
+
+Thus the final solution by using the pipe operator is:
+
+```{r}
+c(3, 5, 8) %>% sqrt() %>% mean() %>% sqrt()
+```
+
+## Deal with functions with additional arguments
+
+What if I want to pipe my object into an argument of a function that is **NOT** the first argument? For example: 
+
+```{r}
+tbl <- as_tibble(PlantGrowth)
+lm(weight ~ group, data = tbl)
+```
+
+Answer: Use a dot to say which argument to pipe to.
+
+```{r}
+tbl %>% lm(weight ~ group, data = .)
+```
+
+## But what about this Operator: `|>` 
+There's minor difference but `%>%` operator is still bettern than `|>` operator. Find more information from [this tutorial](https://schmidtpaul.github.io/dsfair_quarto/ch/rbasics/tidyverse.html#the-pipe-operator).

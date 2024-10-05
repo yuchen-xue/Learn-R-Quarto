@@ -1,0 +1,63 @@
+---
+title: "Model Testing"
+description: "This is my reading note about model testing."
+---
+
+::: {.callout-note title="This reading note envolves the following topics"}
+* [Multiplicity Adjustments][1]
+* [Model Diagnostics][2]
+:::
+
+## Brief Introduction to Testing Errors
+
+Suppose you want to find out if 3 treatments has effects on the yield of the crop. You build a linear model and use ANOVA to test if this model has statistic significance. But be careful -- you should also know about potential error.
+
+There're two types of errors: Type I and Type II.
+
+### Type I Error
+
+::: {.callout-note}
+When a Type I error (false positive, denoted as $\alpha$) occurs, the null hypothesis is correct but it's falsely rejected (since you thought the null hypothesis shall be false).
+:::
+
+After the experiment you confidently claim that different treatment have effect on the yield. But in reality, no matter which of the 3 treatments is chosen, there's **no effect** on the yield of the crop.
+
+### Type II Error
+
+::: {.callout-note}
+When a Type I error (false negative, denoted as $\beta$) occurs, the null hypothesis isn't correct but it isn't rejected (since you thought the null hypothesis shall be true). It's a *better* error.
+:::
+
+After the experiment you feel disappointed since you thought the null hypothesis is true (i.e. there's no difference no matter which treatment is chosen). But in reality, there **do exists** different effect on the yield of the crop depends on which treatment is chosen.
+
+## Multiple Comparison Problem
+
+> When a test is said to be “performed at the 5% level,” it means that the Type I error rate ($\alpha$) is controlled at 5%, accepting a 5% risk of a false positive.
+> [*(source)*][1]
+
+This is fine for one single experiment. But what about when you need to conduct numerous times of experiments (i.e. multiple t-test)? Without adjustment on the testing method, the $\alpha$ value will rise drastically as the number of experiments increses. E.g. when conduting the experiments 5 times, $\alpha = 1-(1-0.05)^5 = 0.23$. This is called the "Alpha Inflation".
+
+To address this issue, there are several methods that try to constrain $\alpha$ within the $0.05$ range. For exmaple, Tukey's HSD test.
+
+Note that usually multiple t-test can find a smaller $p$-value compared to Tukey's HSD test.
+
+So which one should I use? It depends on your goal. Don't run both tests and deliberately choose the result you prefer.
+
+::: {.callout-tip title="Some useful resources about the multiple comparison problem"}
+* [Multiple comparisons problem from Wikipedia](https://en.wikipedia.org/wiki/Multiple_comparisons_problem)
+* [The Problem of Multiple Comparisons from Youtube](https://youtu.be/HpjlcEH4zuY)
+:::
+
+## Model Diagnostics --  Should I continue testing my Linear Model?
+
+After building up a linear model, there are four criteria should be met before proceding the test: 
+
+1. Independence
+2. Normality
+3. Variance homogeneity
+4. Linearity
+
+Read more information [here][2].
+
+[1]: https://schmidtpaul.github.io/dsfair_quarto/ch/summaryarticles/multiplicityadj.html
+[2]: https://schmidtpaul.github.io/dsfair_quarto/ch/summaryarticles/modeldiagnostics.html

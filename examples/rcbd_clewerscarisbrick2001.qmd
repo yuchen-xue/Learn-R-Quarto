@@ -1,0 +1,311 @@
+---
+title: "One Way RCBD Analysis"
+description: "this is a reading note of [this tutorial](https://schmidtpaul.github.io/dsfair_quarto/ch/exan/simple/rcbd_clewerscarisbrick2001.html)."
+---
+
+```{r load packages & data}
+#| output: false
+
+# (install &) load packages
+pacman::p_load(
+  conflicted,
+  desplot,
+  emmeans,
+  ggtext,
+  multcomp,
+  multcompView,
+  tidyverse)
+
+# handle function conflicts
+conflicts_prefer(dplyr::filter) 
+conflicts_prefer(dplyr::select)
+
+# load data
+path <- "https://raw.githubusercontent.com/SchmidtPaul/dsfair_quarto/master/data/Clewer&Scarisbrick2001.csv"
+dat <- read_csv(path)
+```
+
+the columns block and cultivar should be encoded as factors
+```{r data factorization}
+# the columns block and cultivar should be encoded as factors
+dat <- dat %>%
+  mutate(across(c(block, cultivar), ~ as.factor(.x)))
+dat
+```
+
+## Mini exercise
+Get mean yeild per calt and sourt best caul to top
+
+```{r mini exercise}
+dat %>%
+  group_by(cultivar) %>%
+  summarise(mean_yield = mean(yield)) %>%
+  arrange(desc(mean_yield))
+```
+
+## Using `dlookr::describe()`
+
+`dlookr::describe()` is more useful than  `summarise`.
+
+::: {.callout-important}
+Don't load dlookr, instead only call the function `dlookr::describe()`. Otherwise it will affect font size of ggplot. More info [on this tutorial](https://schmidtpaul.github.io/dsfair_quarto/ch/misc/usefulthings.html#dlookr).
+:::
+
+### About Percentile
+
+```{r describe simple}
+dat %>% 
+  group_by(cultivar) %>% 
+  dlookr::describe(yield)
+```
+
+p00 ...
+percentile
+e.g. `p01 <dbl>`: 1% of value smaller than `<dbl>`.
+p50 is the min.
+p50 is the mediam.
+p100 is the max.
+
+### More Application using `dlookr::describe()`
+
+We can also get can summarize per block and per cultivar.
+
+```{r describe }
+dat %>% 
+  group_by(cultivar) %>% 
+  dlookr::describe(yield) %>% 
+  select(cultivar:sd, p00, p50, p100) %>% 
+  arrange(desc(mean))
+```
+
+
+## Extract Values and Save as a Vector
+
+It's possible to extract certain values (e.g. here the means per cultivar) from a tibble and save it into a vector.
+
+```{r mymean}
+# extract mean values from tibble into a vector
+mymeans <- dat %>% 
+  group_by(cultivar) %>% 
+  summarise(mean_yield = mean(yield)) %>% 
+  ungroup()
+
+mymeans
+
+# option 1: with $ just like in baseR
+mymeans$mean_yield
+
+# option 2: with pull() from dplyr
+mymeans %>% pull(mean_yield)
+```
+
+
+## Plot the Data
+
+```{r plot}
+ggplot(data = dat) +
+  aes(y = yield, x = cultivar, color = block) +
+  geom_point() +
+    scale_x_discrete(
+    name = "Cultivar"
+  ) +
+  scale_y_continuous(
+    name = "Yield",
+    limits = c(0, NA),
+    expand = expansion(mult = c(0, 0.1))
+  ) +
+  scale_color_discrete(
+    name = "Block"
+  ) +
+  theme_classic()
+```
+
+From the plot we know that no matter under which circumstance, field 1 yields the best result.
+
+## Linear Model
+
+```{r lm model}
+mod <- lm(yield ~ cultivar + block, data = dat)
+mod
+```
+
+The formula of the yield is:
+
+$$
+yield = Int + cultivar_i + block_j
+$$
+
+where $cultivar_i$ is the treatment coefficient (in our case, the effect of using different cultivars), $block_j$ is the block coefficient. The intercept ($Int$) corresponds to the baseline, i.e. the yield of using C1 and on block 1. The result of using different treatment on different blocks can be summarized as following:
+
+* Pred C1 in B1: $7.75 + 0    + 0     = 7.75$
+* Pred C1 in B2: $7.75 + 0    + -1.65 = 6.10$
+* Pred C1 in B3: $7.75 + 0    + -2.10 = 5.65$
+* ...
+* Pred C4 in B1: $7.75 + 1.80 + 0     = 9.55$
+* Pred C4 in B2: $7.75 + 1.80 + -1.65 = 7.90$
+* Pred C4 in B3: $7.75 + 1.80 + -2.10 = 7.45$
+
+## ANOVA
+
+```{r ANOVA}
+ANOVA <- anova(mod)
+ANOVA
+```
+
+## EM Means
+
+Instead of the effect of different *blocks*, people only interested in  which *cultivar* is the most effective. Thus we need to evaluate the mean yield of each cultivar.
+
+Manual calculation of emmeans for cultivars:
+
+* emmean C1: $7.75 + 0    + mean(c(0, -1.65, -2.10)) = 6.5$
+* emmean C2: $7.75 + 1.10 + mean(c(0, -1.65, -2.10)) = 7.6$
+* emmean C3: $7.75 + 0.10 + mean(c(0, -1.65, -2.10)) = 6.6$
+* emmean C4: $7.75 + 1.80 + mean(c(0, -1.65, -2.10)) = 8.3$
+
+Note that these values are identical to the simple mean (`mymeans` variables). But `emmean` is still preferred, especially when there's missing data and when mixed models are used. In those cases, `emmean` and simple mean won't be identical.
+
+```{r emmeans}
+mean_comp <- mod %>% 
+  emmeans(specs = ~ cultivar) %>% # adj. mean per cultivar
+  cld(adjust = "none", Letters = letters) # compact letter display (CLD)
+
+mean_comp
+```
+
+## Plot the Result
+
+```{r result plot}
+#| code-fold: true
+
+my_caption <- "Black dots represent raw data. Red dots and error bars represent adjusted means with 95% confidence limits per cultivar. Means followed by a common letter are not significantly different according to the t-test."
+
+ggplot() +
+  aes(x = cultivar) +
+  # black dots representing the raw data
+  geom_point(
+    data = dat,
+    aes(y = yield)
+  ) +
+  # red dots representing the adjusted means
+  geom_point(
+    data = mean_comp,
+    aes(y = emmean),
+    color = "red",
+    position = position_nudge(x = 0.1)
+  ) +
+  # red error bars representing the confidence limits of the adjusted means
+  geom_errorbar(
+    data = mean_comp,
+    aes(ymin = lower.CL, ymax = upper.CL),
+    color = "red",
+    width = 0.1,
+    position = position_nudge(x = 0.1)
+  ) +
+  # red letters 
+  geom_text(
+    data = mean_comp,
+    aes(y = emmean, label = str_trim(.group)),
+    color = "red",
+    position = position_nudge(x = 0.2),
+    hjust = 0
+  ) +
+  scale_x_discrete(
+    name = "Cultivar"
+  ) +
+  scale_y_continuous(
+    name = "Yield",
+    limits = c(0, NA),
+    expand = expansion(mult = c(0, 0.1))
+  ) +
+  scale_color_discrete(
+    name = "Block"
+  ) +
+  theme_classic() +
+  labs(caption = my_caption) +
+  theme(plot.caption = element_textbox_simple(margin = margin(t = 5)),
+        plot.caption.position = "plot")
+```
+
+You use a split-plot design, when one factor is harder to randomize than the other. You first create main plots (=blocks inside your blocks) with respect to the harder-to-randomize factor.
+
+## What will happen when we don't consider the Block Effect
+
+We build a linear model using solely the cultivar:
+
+```{r lm model no block}
+mod_no_block <- lm(yield ~ cultivar, data = dat)
+
+mean_comp_no_block <- mod_no_block %>% 
+  emmeans(specs = ~ cultivar) %>% # adj. mean per cultivar
+  cld(adjust = "none", Letters = letters) # compact letter display (CLD)
+```
+
+```{r result plot no block}
+#| code-fold: true
+
+my_caption <- "Black dots represent raw data. Red dots and error bars represent adjusted means with 95% confidence limits per cultivar. Means followed by a common letter are not significantly different according to the t-test."
+
+ggplot() +
+  aes(x = cultivar) +
+  # black dots representing the raw data
+  geom_point(
+    data = dat,
+    aes(y = yield)
+  ) +
+  # red dots representing the adjusted means
+  geom_point(
+    data = mean_comp_no_block,
+    aes(y = emmean),
+    color = "red",
+    position = position_nudge(x = 0.1)
+  ) +
+  # red error bars representing the confidence limits of the adjusted means
+  geom_errorbar(
+    data = mean_comp_no_block,
+    aes(ymin = lower.CL, ymax = upper.CL),
+    color = "red",
+    width = 0.1,
+    position = position_nudge(x = 0.1)
+  ) +
+  # red letters 
+  geom_text(
+    data = mean_comp_no_block,
+    aes(y = emmean, label = str_trim(.group)),
+    color = "red",
+    position = position_nudge(x = 0.2),
+    hjust = 0
+  ) +
+  scale_x_discrete(
+    name = "Cultivar"
+  ) +
+  scale_y_continuous(
+    name = "Yield",
+    limits = c(0, NA),
+    expand = expansion(mult = c(0, 0.1))
+  ) +
+  scale_color_discrete(
+    name = "Block"
+  ) +
+  theme_classic() +
+  labs(caption = my_caption) +
+  theme(plot.caption = element_textbox_simple(margin = margin(t = 5)),
+        plot.caption.position = "plot")
+```
+
+This time the standard deviations of each cultivar become bigger. In addition, the letter are always "a", meaning that t-test failed to find the statistic significance. The reason is that the model doesn't know about the blocks and thinks some of the data (e.g. the highest point of C2) are noise.
+
+## Q&A
+
+### Is ANOVA in RCBD two-way ANOVA?
+
+It depends on whom you ask. I think no. Because the definition of a two-way ANOVA is having two treatments. In this example there's only one treatment, i.e. "cultivar". The variable "block" is not what we really interested in.
+
+### Is RCBD the same as a nested ANOVA?
+
+It's not necessary true.
+
+* Cross effect:  $A \ \& \ B: A + B + A:B$
+* Nested effect: $B \ in \ A: A +     A:B$
+
+In this case both cross effect and nested effect are not discussed.

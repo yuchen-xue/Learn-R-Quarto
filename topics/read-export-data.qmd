@@ -1,0 +1,32 @@
+---
+title: "Read & Export Data"
+description: "This is my reading note about loading and exporting data."
+---
+
+## Read a csv file using the `tidyverse` packages
+
+`readr::read_csv()` Is a part of the `tidyverse` universe, thus the output is a `tibble`.
+
+::: {.callout-important}
+Don't be confused with the native `read.csv()` function.
+:::
+
+```{r}
+pacman::p_load(readr)
+path <- "../data/Clewer&Scarisbrick2001.csv"
+dat <- read_csv(path) # use path from above
+dat
+```
+
+## Read a Excel `.xlsx` Files
+
+```{r}
+pacman::p_load(readxl)
+xlsx_path <- "../data/vision_fixed.xlsx"
+xlsx_dat <- read_excel(xlsx_path)
+xlsx_dat
+```
+
+## Write a csv file using the `tidyverse` packages
+
+Learn more from this [doc](https://readr.tidyverse.org/reference/write_delim.html).

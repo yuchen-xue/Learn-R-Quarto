@@ -1,0 +1,62 @@
+---
+title: "Exercise of `{tidyverse}`"
+---
+
+## Prerequisite
+
+```{r load packages & data}
+#| output: false
+
+# (install &) load packages
+pacman::p_load(
+    broom,
+    conflicted,
+    modelbased,
+    tidyverse
+)
+
+# handle function conflicts
+conflicts_prefer(dplyr::filter)
+conflicts_prefer(dplyr::select)
+```
+
+We load the data `PlantGrowth` as a `tibble` object.
+```{r load_tibble}
+tbl <- as_tibble(PlantGrowth)
+tbl
+```
+
+## Exercise 1
+Use the original `tbl`, create a new column "Kg" and assume that the weight columns is in tons that you convert to Kg.
+Afterwards, delete the weight column.
+Keep only values smaller than 5000 Kg.
+Sort the data so that the largest Kg are on top
+
+```{r}
+tbl %>%
+    mutate(Kg = weight * 1000) %>%
+    select(-weight) %>%
+    filter(Kg < 5000) %>%
+    arrange(desc(Kg))
+```
+
+## Exercise 2
+Given the data `dat`:
+
+```{r}
+path <- "https://raw.githubusercontent.com/SchmidtPaul/dsfair_quarto/master/data/Mead1993.csv"
+dat <- read_csv(path) # use path from above
+```
+
+Find out the average, minimum and maximum yields per variety using `summarise()`. Arrage as the highest value on the top.
+
+```{r}
+dat %>%
+    group_by(variety) %>%
+    summarise(
+        avg_yield = mean(yield),
+        min_yield = min(yield),
+        max_yield = max(yield)
+    ) %>%
+    arrange(desc(avg_yield))
+```

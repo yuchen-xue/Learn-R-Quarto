@@ -1,0 +1,25 @@
+---
+title: "Brief Introduction to `tidyverse::ggplot2`"
+description: "This is my reading note about ggplot2 function"
+---
+
+## Expansion
+
+For charts like scatter plots, this gives us a nicer look because points are not located at the edge of the plotting area this way. To know more about this topic, check the following websites.
+
+* https://schmidtpaul.github.io/dsfair_quarto/ch/summaryarticles/ggplot2intro.html#expand
+* https://3mw.albert-rapp.de/p/change-axes-expansion
+
+## Miscellaneous
+
+### Does the order of the function call matters? 
+
+Usually it doens't. Only the order of the *`geom`* functions (e.g. `geom_abline()`) may influence the result.
+
+### How to add a photo for $x$ tick?
+
+Use [`ggtext`](https://wilkelab.org/ggtext/)
+
+## External resources
+
+* https://teunbrand.github.io/ggh4x/articles/Facets.html
