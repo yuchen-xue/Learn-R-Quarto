@@ -231,8 +231,8 @@
     "text": "But what about this Operator: |&gt;\nThere’s minor difference but %&gt;% operator is still bettern than |&gt; operator. Find more information from this tutorial."
   },
   {
-    "objectID": "content/index.html",
-    "href": "content/index.html",
+    "objectID": "index.html",
+    "href": "index.html",
     "title": "My R Language Learning Note",
     "section": "",
     "text": "This project contains my note about the R workshop in University of Rostock in 2024."
