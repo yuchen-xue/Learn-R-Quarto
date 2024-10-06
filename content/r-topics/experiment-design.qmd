@@ -15,7 +15,7 @@ description: "This is my reading note on [how to design experiments](https://sch
 
 Suppose we have a fridge that fits 9 Petri dishes. The fridge is not functioning well and its left part is hotter than its right part (we suppose the temperature difference from left to right is linear). We have three different treatments for a particular bacterium. We need to count how many bacteria grow under each treatment.
 
-![CRD v.s. RCBD explained using Petri dishes in a fridge (screenshot from the workshop)](/img/CRD-vs-RCBD.png)
+![CRD v.s. RCBD explained using Petri dishes in a fridge (screenshot from the workshop)](/content/img/CRD-vs-RCBD.png)
 
 ### Completely Randomized Design (CRD)
 
@@ -60,7 +60,7 @@ RCBD blocks do not have to be the same size or shape. In the following example, 
 
 Thus the RCBD design on the football pitch is shown as follows: 
 
-![RCBD design on a football pitch (screenshot from the workshop)](/img/RCBD-football-pitch.png)
+![RCBD design on a football pitch (screenshot from the workshop)](/content/img/RCBD-football-pitch.png)
 
 ## Two-Way RCBD
 
@@ -71,6 +71,6 @@ Take [this experiment](https://schmidtpaul.github.io/dsfair_quarto/ch/exan/simpl
 
 We need to find out the best conbination of the genetic and nitrogen that can produce the best yield. By following a **Two-Way RCBD** design, we can summarize all the possible 5 scenarios as the following illustration:
 
-![two-way-RCBD-scenarios](/img/two-way-RCBD-scenarios.png)
+![two-way-RCBD-scenarios](/content/img/two-way-RCBD-scenarios.png)
 
 When we test this design using one-way ANOVA, it only considers the two scenarios that is surrounded by orange line. In order to consider all the possible scenarios, a two-way ANOVA is necessary.

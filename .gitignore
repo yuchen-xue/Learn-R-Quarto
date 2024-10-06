@@ -1,8 +1,3 @@
-# Quarto
-_site
-.quarto
-*_files
-
 # R Studio
 .RData
 *.Rproj*
@@ -10,3 +5,9 @@ _site
 
 # System specific
 .DS_Store
+
+# Quarto
+_site
+*_files
+/site_libs/
+/.quarto/

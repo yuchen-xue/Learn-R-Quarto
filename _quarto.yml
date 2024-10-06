@@ -2,41 +2,45 @@ project:
   type: website
 
 website:
-  title: "Learning R Language"
+  title: "Learning R + Quarto"
   navbar:
     left:
       - text: Home
-        href: index.qmd
-      - text: Topics
+        href: content/index.qmd
+      - text: R Topics
         menu:
           - text: Correlation And Linear Model
-            href: topics/correlation-lm.qmd
+            href: content/r-topics/correlation-lm.qmd
           - text: Experiment Design
-            href: topics/experiment-design.qmd
+            href: content/r-topics/experiment-design.qmd
           - text: Basics of Tidyverse
-            href: topics/tidyverse-basic.qmd
+            href: content/r-topics/tidyverse-basic.qmd
           - text: Tidyverse Exercise
-            href: topics/tidyverse-exercise.qmd
+            href: content/r-topics/tidyverse-exercise.qmd
           - text: Basics of ggplot2
-            href: topics/ggplot2-basic.qmd
+            href: content/r-topics/ggplot2-basic.qmd
           - text: Pipe Operator
-            href: topics/pipe-operator.qmd
+            href: content/r-topics/pipe-operator.qmd
           - text: Package Loading & Conflict Resolve
-            href: topics/package-loading-conflict.qmd
+            href: content/r-topics/package-loading-conflict.qmd
           - text: Read And Export Data
-            href: topics/read-export-data.qmd
+            href: content/r-topics/read-export-data.qmd
           - text: Model Testing
-            href: topics/model-testing.qmd
+            href: content/r-topics/model-testing.qmd
           - text: R Section Header
-            href: topics/r-section-header.qmd
+            href: content/r-topics/r-section-header.qmd
+          - text: Further Resources
+            href: content/further-resources.qmd
+      - text: Quarto Topics
+        menu:
+          - text: Code Block
+            href: content/quarto-topics/code-block.qmd
       - text: Examples
         menu:
           - text: One Way CRD Analysis
-            href: examples/crd_mead1993.qmd
+            href: content/examples/crd_mead1993.qmd
           - text: One Way RCBD Analysis
-            href: examples/rcbd_clewerscarisbrick2001.qmd
-      - text: Further Resources
-        href: further-resources.qmd
+            href: content/examples/rcbd_clewerscarisbrick2001.qmd
 
 format:
   html:
