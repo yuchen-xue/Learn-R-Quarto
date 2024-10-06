@@ -11,8 +11,6 @@ website:
         menu:
           - text: Correlation And Linear Model
             href: content/r-topics/correlation-lm.qmd
-          - text: Experiment Design
-            href: content/r-topics/experiment-design.qmd
           - text: Basics of Tidyverse
             href: content/r-topics/tidyverse-basic.qmd
           - text: Tidyverse Exercise
@@ -27,20 +25,20 @@ website:
             href: content/r-topics/read-export-data.qmd
           - text: Model Testing
             href: content/r-topics/model-testing.qmd
-          - text: R Section Header
-            href: content/r-topics/r-section-header.qmd
-          - text: Further Resources
-            href: content/further-resources.qmd
+          - text: Using Things about R and R Studio
+            href: content/r-topics/useful-r-r_studio.qmd
       - text: Quarto Topics
         menu:
           - text: Code Block
             href: content/quarto-topics/code-block.qmd
-      - text: Examples
+      - text: Experiment Designs
         menu:
+          - text: Basics of Experiment Design
+            href: content/experiment-designs/experiment-design-basic.qmd
           - text: One Way CRD Analysis
-            href: content/examples/crd_mead1993.qmd
+            href: content/experiment-designs/crd_mead1993.qmd
           - text: One Way RCBD Analysis
-            href: content/examples/rcbd_clewerscarisbrick2001.qmd
+            href: content/experiment-designs/rcbd_clewerscarisbrick2001.qmd
 
 format:
   html:

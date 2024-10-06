@@ -1,9 +1,11 @@
 ---
-title: "Using Section Header in a R File"
-description: "How to use section headers in a R File"
+title: "Using Things about R and R Studio"
+description: "This page introduces some small but useful things about R and R Studio"
 ---
 
-## Insert a section using shortcut 
+## Insert a Section in a R File
+
+### Insert a section using shortcut 
 
 ::: {.callout-note title="The shortcut for inserting a section"}
 CTRL + SHIFT + R
@@ -16,10 +18,13 @@ This method is preferred because R Studio will automatically fill the rest of th
 # Insert a section using shortcut ----------------------------------------- 
 ```
 
-## Insert a section manually
+### Insert a section manually
 
 At least *4 dashes* behind a comment is recognized as an indicator for a section
 
 ```{r}
 # Insert a section manually ----
 ```
+
+## R Studio Shortcuts
+* [R Studio Shortcuts](https://bookdown.org/yihui/rmarkdown-cookbook/rstudio-shortcuts.html)

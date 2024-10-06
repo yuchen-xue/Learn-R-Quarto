@@ -74,3 +74,9 @@ We need to find out the best conbination of the genetic and nitrogen that can pr
 ![two-way-RCBD-scenarios](/content/img/two-way-RCBD-scenarios.png)
 
 When we test this design using one-way ANOVA, it only considers the two scenarios that is surrounded by orange line. In order to consider all the possible scenarios, a two-way ANOVA is necessary.
+
+## Further Information about Design Patters
+
+* [Design Patterns](https://schmidtpaul.github.io/dsfair_quarto/ch/summaryarticles/designingexperiments.html)
+* [Analysis of factorial experiments](https://onlinelibrary.wiley.com/doi/full/10.1111/jac.12267)
+* [Randomized Complete Block Design Tutorial](https://pbgworks.org/sites/pbgworks.org/files/RandomizedCompleteBlockDesignTutorial.pdf)

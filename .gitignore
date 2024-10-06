@@ -9,5 +9,4 @@
 # Quarto
 _site
 *_files
-/site_libs/
 /.quarto/

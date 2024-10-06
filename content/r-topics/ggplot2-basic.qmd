@@ -22,4 +22,5 @@ Use [`ggtext`](https://wilkelab.org/ggtext/)
 
 ## External resources
 
-* https://teunbrand.github.io/ggh4x/articles/Facets.html
+* [`ggplot2` official](https://ggplot2.tidyverse.org/reference/)
+* [About Facets]https://teunbrand.github.io/ggh4x/articles/Facets.html
