@@ -6,7 +6,7 @@ website:
   navbar:
     left:
       - text: Home
-        href: content/index.qmd
+        href: index.qmd
       - text: R Topics
         menu:
           - text: Correlation And Linear Model
