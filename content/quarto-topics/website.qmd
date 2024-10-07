@@ -1,0 +1,61 @@
+---
+title: "Writing a Website using Quarto"
+description: "This page contains information about using Quarto to renden a website and using Github to publish a website."
+---
+
+## Creating a Web Project
+
+A web project can be created by using [Quarto CLI tool](https://quarto.org/docs/get-started/). A web project consists of the following files:
+
+* `_quarto.yml` -- the main config file of the Quarto project
+* `index.qmd` -- the main page of the web project
+* `styles.css` -- contains style information
+
+You can render and view the website locally using `quarto preview` command.
+
+::: {.callout-note}
+Read more from [Quarto Web Project](https://quarto.org/docs/websites/).
+:::
+
+## Publishing Website on Github
+
+There are mainly two ways to publicize your website on Github: 
+
+1. Render the website locally and publish it to a Github Repo. This is a preferred when you don't need to run your code on Github. (See the following section about [rendering the website locally](#render-the-website-locally))
+2. Render the website using Github Action. By doing so, you don't need to run your code locally. Everything is managed by Github Action.
+
+The rendered website will be accessble under `https://<your-username>.github.io/<repository-name>`.
+
+::: {.callout-note}
+More information can be found from [the original tutorial](https://quarto.org/docs/publishing/github-pages.html).
+:::
+
+### Render the Website locally
+
+1. Set up a Github repository. Assume your workspace is on the `main` branch. 
+2. Exclude Quarto related files (`/.quarto/` and `/_site/`) from the version control by adding them in a `.gitignore` file.
+3. Check the configurations in "Settings -> Pages" of your Github:
+   * the site directory is set to the repository root (`/`)
+   * the source branch for your repository is `gh-pages`
+4. Commit your code!
+5. Make an initial empty push to the remote `gh-pages` branch:
+    ```{bash create an empty remote branch for hosting}
+    git checkout --orphan gh-pages
+    git reset --hard # make sure all changes are committed before running this!
+    git commit --allow-empty -m "Initialising gh-pages branch"
+    git push origin gh-pages
+    ```
+6. Check out to your main branch:
+    ```{bash checkout to the main branch}
+    git checkout main
+    ```
+7. Publish to the new branch:
+    ```{bash publish to branch}
+    quarto publish gh-pages
+    ```
+
+### Publishing Website using Github Action
+
+If you would like to execute your code locally before pushing to Github, you can follow [this tutorial](https://quarto.org/docs/publishing/github-pages.html#freezing-computations). This can be useful if you would like to include result from a legacy code.
+
+You can also instead let Github Action run the code and publish the website all at once, thus you can follow [this tutorial](https://quarto.org/docs/publishing/github-pages.html#executing-code).

@@ -1,0 +1,14 @@
+---
+title: "Brief Introduction to Quarto Projects"
+description: "This is a brief introduciton to Quarto projects."
+---
+
+## About a Quarto Project
+
+Quarto is a successor of R markdown. A Quarto project is defined by a `_quarto.yml` file and usually some Quarto markdown `.qmd` files. It can conveniently convert `.qmd` files into website, presentation or other formats. The output format is defined inside the `_quarto.yml` file. Multiple output format is allowed.
+
+Quarto projects can be created and managed by [Quarto CLI tool](https://quarto.org/docs/get-started/).
+
+::: {.callout-note}
+Read more about [Quarto Projects](https://quarto.org/docs/projects/quarto-projects.html).
+:::

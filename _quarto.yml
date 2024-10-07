@@ -31,6 +31,10 @@ website:
         menu:
           - text: Code Block
             href: content/quarto-topics/code-block.qmd
+          - text: Brief Introduction to Quarto Projects
+            href: content/quarto-topics/quarto-projects.qmd
+          - text: Writing a Website using Quarto
+            href: content/quarto-topics/website.qmd
       - text: Experiment Designs
         menu:
           - text: Basics of Experiment Design
