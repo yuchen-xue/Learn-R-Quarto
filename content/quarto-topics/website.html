@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="This website serves as my reading note about R language and Quarto.">
+<meta name="description" content="This page contains information about using Quarto to renden a website and using Github to publish a website.">
 
-<title>My R Language Learning Note – Learning R + Quarto</title>
+<title>Writing a Website using Quarto – Learning R + Quarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,22 +24,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Learning R + Quarto</span>
     </a>
   </div>
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -99,39 +99,39 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-r-topics">    
         <li>
-    <a class="dropdown-item" href="./content/r-topics/correlation-lm.html">
+    <a class="dropdown-item" href="../../content/r-topics/correlation-lm.html">
  <span class="dropdown-text">Correlation And Linear Model</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/tidyverse-basic.html">
+    <a class="dropdown-item" href="../../content/r-topics/tidyverse-basic.html">
  <span class="dropdown-text">Basics of Tidyverse</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/tidyverse-exercise.html">
+    <a class="dropdown-item" href="../../content/r-topics/tidyverse-exercise.html">
  <span class="dropdown-text">Tidyverse Exercise</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/ggplot2-basic.html">
+    <a class="dropdown-item" href="../../content/r-topics/ggplot2-basic.html">
  <span class="dropdown-text">Basics of ggplot2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/pipe-operator.html">
+    <a class="dropdown-item" href="../../content/r-topics/pipe-operator.html">
  <span class="dropdown-text">Pipe Operator</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/package-loading-conflict.html">
+    <a class="dropdown-item" href="../../content/r-topics/package-loading-conflict.html">
  <span class="dropdown-text">Package Loading &amp; Conflict Resolve</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/read-export-data.html">
+    <a class="dropdown-item" href="../../content/r-topics/read-export-data.html">
  <span class="dropdown-text">Read And Export Data</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/model-testing.html">
+    <a class="dropdown-item" href="../../content/r-topics/model-testing.html">
  <span class="dropdown-text">Model Testing</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/r-topics/useful-r-r_studio.html">
+    <a class="dropdown-item" href="../../content/r-topics/useful-r-r_studio.html">
  <span class="dropdown-text">Using Things about R and R Studio</span></a>
   </li>  
     </ul>
@@ -142,15 +142,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-quarto-topics">    
         <li>
-    <a class="dropdown-item" href="./content/quarto-topics/code-block.html">
+    <a class="dropdown-item" href="../../content/quarto-topics/code-block.html">
  <span class="dropdown-text">Code Block</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/quarto-topics/quarto-projects.html">
+    <a class="dropdown-item" href="../../content/quarto-topics/quarto-projects.html">
  <span class="dropdown-text">Brief Introduction to Quarto Projects</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/quarto-topics/website.html">
+    <a class="dropdown-item" href="../../content/quarto-topics/website.html">
  <span class="dropdown-text">Writing a Website using Quarto</span></a>
   </li>  
     </ul>
@@ -161,15 +161,15 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-experiment-designs">    
         <li>
-    <a class="dropdown-item" href="./content/experiment-designs/experiment-design-basic.html">
+    <a class="dropdown-item" href="../../content/experiment-designs/experiment-design-basic.html">
  <span class="dropdown-text">Basics of Experiment Design</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/experiment-designs/crd_mead1993.html">
+    <a class="dropdown-item" href="../../content/experiment-designs/crd_mead1993.html">
  <span class="dropdown-text">One Way CRD Analysis</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./content/experiment-designs/rcbd_clewerscarisbrick2001.html">
+    <a class="dropdown-item" href="../../content/experiment-designs/rcbd_clewerscarisbrick2001.html">
  <span class="dropdown-text">One Way RCBD Analysis</span></a>
   </li>  
     </ul>
@@ -185,20 +185,31 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#creating-a-web-project" id="toc-creating-a-web-project" class="nav-link active" data-scroll-target="#creating-a-web-project">Creating a Web Project</a></li>
+  <li><a href="#publishing-website-on-github" id="toc-publishing-website-on-github" class="nav-link" data-scroll-target="#publishing-website-on-github">Publishing Website on Github</a>
+  <ul class="collapse">
+  <li><a href="#render-the-website-locally" id="toc-render-the-website-locally" class="nav-link" data-scroll-target="#render-the-website-locally">Render the Website locally</a></li>
+  <li><a href="#publishing-website-using-github-action" id="toc-publishing-website-using-github-action" class="nav-link" data-scroll-target="#publishing-website-using-github-action">Publishing Website using Github Action</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">My R Language Learning Note</h1>
+<h1 class="title">Writing a Website using Quarto</h1>
 </div>
 
 <div>
   <div class="description">
-    This website serves as my reading note about R language and Quarto.
+    This page contains information about using Quarto to renden a website and using Github to publish a website.
   </div>
 </div>
 
@@ -215,9 +226,80 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This project contains my note about the R workshop in University of Rostock in 2024.</p>
+<section id="creating-a-web-project" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-web-project">Creating a Web Project</h2>
+<p>A web project can be created by using <a href="https://quarto.org/docs/get-started/">Quarto CLI tool</a>. A web project consists of the following files:</p>
+<ul>
+<li><code>_quarto.yml</code> – the main config file of the Quarto project</li>
+<li><code>index.qmd</code> – the main page of the web project</li>
+<li><code>styles.css</code> – contains style information</li>
+</ul>
+<p>You can render and view the website locally using <code>quarto preview</code> command.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Read more from <a href="https://quarto.org/docs/websites/">Quarto Web Project</a>.</p>
+</div>
+</div>
+</section>
+<section id="publishing-website-on-github" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-website-on-github">Publishing Website on Github</h2>
+<p>There are mainly two ways to publicize your website on Github:</p>
+<ol type="1">
+<li>Render the website locally and publish it to a Github Repo. This is a preferred when you don’t need to run your code on Github. (See the following section about <a href="#render-the-website-locally">rendering the website locally</a>)</li>
+<li>Render the website using Github Action. By doing so, you don’t need to run your code locally. Everything is managed by Github Action.</li>
+</ol>
+<p>The rendered website will be accessble under <code>https://&lt;your-username&gt;.github.io/&lt;repository-name&gt;</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>More information can be found from <a href="https://quarto.org/docs/publishing/github-pages.html">the original tutorial</a>.</p>
+</div>
+</div>
+<section id="render-the-website-locally" class="level3">
+<h3 class="anchored" data-anchor-id="render-the-website-locally">Render the Website locally</h3>
+<ol type="1">
+<li><p>Set up a Github repository. Assume your workspace is on the <code>main</code> branch.</p></li>
+<li><p>Exclude Quarto related files (<code>/.quarto/</code> and <code>/_site/</code>) from the version control by adding them in a <code>.gitignore</code> file.</p></li>
+<li><p>Check the configurations in “Settings -&gt; Pages” of your Github:</p>
+<ul>
+<li>the site directory is set to the repository root (<code>/</code>)</li>
+<li>the source branch for your repository is <code>gh-pages</code></li>
+</ul></li>
+<li><p>Commit your code!</p></li>
+<li><p>Make an initial empty push to the remote <code>gh-pages</code> branch:</p>
+<pre class="{bash create an empty remote branch for hosting}"><code>git checkout --orphan gh-pages
+git reset --hard # make sure all changes are committed before running this!
+git commit --allow-empty -m "Initialising gh-pages branch"
+git push origin gh-pages</code></pre></li>
+<li><p>Check out to your main branch:</p>
+<pre class="{bash checkout to the main branch}"><code>git checkout main</code></pre></li>
+<li><p>Publish to the new branch:</p>
+<pre class="{bash publish to branch}"><code>quarto publish gh-pages</code></pre></li>
+</ol>
+</section>
+<section id="publishing-website-using-github-action" class="level3">
+<h3 class="anchored" data-anchor-id="publishing-website-using-github-action">Publishing Website using Github Action</h3>
+<p>If you would like to execute your code locally before pushing to Github, you can follow <a href="https://quarto.org/docs/publishing/github-pages.html#freezing-computations">this tutorial</a>. This can be useful if you would like to include result from a legacy code.</p>
+<p>You can also instead let Github Action run the code and publish the website all at once, thus you can follow <a href="https://quarto.org/docs/publishing/github-pages.html#executing-code">this tutorial</a>.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
