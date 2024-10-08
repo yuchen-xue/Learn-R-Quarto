@@ -5,18 +5,55 @@ description: "This is my reading note about loading and exporting data."
 
 ## Read a csv file using the `tidyverse` packages
 
-`readr::read_csv()` Is a part of the `tidyverse` universe, thus the output is a `tibble`.
+`readr::read_csv()` is a part of the `tidyverse` universe. Its output is a `tibble`, instead of a `data.frame`.
 
 ::: {.callout-important}
-Don't be confused with the native `read.csv()` function.
+Don't be confused with the native `read.csv()` function, which produces a `data.frame` object.
 :::
 
 ```{r}
 pacman::p_load(readr)
 path <- "../data/Clewer&Scarisbrick2001.csv"
 dat <- read_csv(path) # use path from above
-dat
 ```
+
+### Suppressing the output
+
+You will notice from the output there's a message:
+
+```default
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+### Suppressing using function arguments
+
+According to [this Stack Overflow discussion](https://stackoverflow.com/q/55687401), you have two options. Either -- as suggested by the message -- pass the `show_col_types = FALSE` argument, or add information about the separator.
+
+:::: {.columns}
+::: {.column width="49%"}
+
+```{r}
+dat <- read_csv(
+    path, show_col_types = FALSE)
+```
+
+:::
+
+::: {.column width="2%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="49%"}
+
+```{r}
+dat <- read_csv(
+    path, col_types = cols())
+```
+
+:::
+
+::::  
+<!-- end of columns -->
 
 ## Read a Excel `.xlsx` Files
 
