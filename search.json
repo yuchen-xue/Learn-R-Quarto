@@ -200,28 +200,28 @@
     "href": "content/r-topics/tidyverse-exercise.html",
     "title": "Exercise of {tidyverse}",
     "section": "",
-    "text": "# (install &) load packages\npacman::p_load(\n    broom,\n    conflicted,\n    modelbased,\n    tidyverse\n)\n\n# handle function conflicts\nconflicts_prefer(dplyr::filter)\nconflicts_prefer(dplyr::select)\n\nWe load the data PlantGrowth as a tibble object.\n\ntbl &lt;- as_tibble(PlantGrowth)\ntbl\n\n# A tibble: 30 × 2\n   weight group\n    &lt;dbl&gt; &lt;fct&gt;\n 1   4.17 ctrl \n 2   5.58 ctrl \n 3   5.18 ctrl \n 4   6.11 ctrl \n 5   4.5  ctrl \n 6   4.61 ctrl \n 7   5.17 ctrl \n 8   4.53 ctrl \n 9   5.33 ctrl \n10   5.14 ctrl \n# ℹ 20 more rows"
+    "text": "This page contains several tests. The output of each answer is shown in order to help you understand the questions. The code itself is hidden and you can unfold them when needed."
   },
   {
-    "objectID": "content/r-topics/tidyverse-exercise.html#prerequisite",
-    "href": "content/r-topics/tidyverse-exercise.html#prerequisite",
+    "objectID": "content/r-topics/tidyverse-exercise.html#introduction",
+    "href": "content/r-topics/tidyverse-exercise.html#introduction",
     "title": "Exercise of {tidyverse}",
     "section": "",
-    "text": "# (install &) load packages\npacman::p_load(\n    broom,\n    conflicted,\n    modelbased,\n    tidyverse\n)\n\n# handle function conflicts\nconflicts_prefer(dplyr::filter)\nconflicts_prefer(dplyr::select)\n\nWe load the data PlantGrowth as a tibble object.\n\ntbl &lt;- as_tibble(PlantGrowth)\ntbl\n\n# A tibble: 30 × 2\n   weight group\n    &lt;dbl&gt; &lt;fct&gt;\n 1   4.17 ctrl \n 2   5.58 ctrl \n 3   5.18 ctrl \n 4   6.11 ctrl \n 5   4.5  ctrl \n 6   4.61 ctrl \n 7   5.17 ctrl \n 8   4.53 ctrl \n 9   5.33 ctrl \n10   5.14 ctrl \n# ℹ 20 more rows"
+    "text": "This page contains several tests. The output of each answer is shown in order to help you understand the questions. The code itself is hidden and you can unfold them when needed."
   },
   {
     "objectID": "content/r-topics/tidyverse-exercise.html#exercise-1",
     "href": "content/r-topics/tidyverse-exercise.html#exercise-1",
     "title": "Exercise of {tidyverse}",
     "section": "Exercise 1",
-    "text": "Exercise 1\nUse the original tbl, create a new column “Kg” and assume that the weight columns is in tons that you convert to Kg. Afterwards, delete the weight column. Keep only values smaller than 5000 Kg. Sort the data so that the largest Kg are on top\n\ntbl %&gt;%\n    mutate(Kg = weight * 1000) %&gt;%\n    select(-weight) %&gt;%\n    filter(Kg &lt; 5000) %&gt;%\n    arrange(desc(Kg))\n\n# A tibble: 13 × 2\n   group    Kg\n   &lt;fct&gt; &lt;dbl&gt;\n 1 trt2   4920\n 2 trt1   4890\n 3 trt1   4810\n 4 trt1   4690\n 5 ctrl   4610\n 6 ctrl   4530\n 7 ctrl   4500\n 8 trt1   4410\n 9 trt1   4320\n10 ctrl   4170\n11 trt1   4170\n12 trt1   3830\n13 trt1   3590"
+    "text": "Exercise 1\nGiven the data:\n\ntbl &lt;- as_tibble(PlantGrowth)\ntbl\n\n# A tibble: 30 × 2\n   weight group\n    &lt;dbl&gt; &lt;fct&gt;\n 1   4.17 ctrl \n 2   5.58 ctrl \n 3   5.18 ctrl \n 4   6.11 ctrl \n 5   4.5  ctrl \n 6   4.61 ctrl \n 7   5.17 ctrl \n 8   4.53 ctrl \n 9   5.33 ctrl \n10   5.14 ctrl \n# ℹ 20 more rows\n\n\nUse the original tbl, create a new column “Kg” and assume that the weight columns is in tons that you convert to Kg. Afterwards, delete the weight column. Keep only values smaller than 5000 Kg. Sort the data so that the largest Kg are on top\n\n\nCode\ntbl %&gt;%\n    mutate(Kg = weight * 1000) %&gt;%\n    select(-weight) %&gt;%\n    filter(Kg &lt; 5000) %&gt;%\n    arrange(desc(Kg))\n\n\n# A tibble: 13 × 2\n   group    Kg\n   &lt;fct&gt; &lt;dbl&gt;\n 1 trt2   4920\n 2 trt1   4890\n 3 trt1   4810\n 4 trt1   4690\n 5 ctrl   4610\n 6 ctrl   4530\n 7 ctrl   4500\n 8 trt1   4410\n 9 trt1   4320\n10 ctrl   4170\n11 trt1   4170\n12 trt1   3830\n13 trt1   3590"
   },
   {
     "objectID": "content/r-topics/tidyverse-exercise.html#exercise-2",
     "href": "content/r-topics/tidyverse-exercise.html#exercise-2",
     "title": "Exercise of {tidyverse}",
     "section": "Exercise 2",
-    "text": "Exercise 2\nGiven the data dat:\n\npath &lt;- \"https://raw.githubusercontent.com/SchmidtPaul/dsfair_quarto/master/data/Mead1993.csv\"\ndat &lt;- read_csv(path) # use path from above\n\nRows: 24 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (1): variety\ndbl (3): yield, row, col\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nFind out the average, minimum and maximum yields per variety using summarise(). Arrage as the highest value on the top.\n\ndat %&gt;%\n    group_by(variety) %&gt;%\n    summarise(\n        avg_yield = mean(yield),\n        min_yield = min(yield),\n        max_yield = max(yield)\n    ) %&gt;%\n    arrange(desc(avg_yield))\n\n# A tibble: 4 × 4\n  variety avg_yield min_yield max_yield\n  &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 v2           37.4      32.0      43.3\n2 v4           29.9      27.6      33.2\n3 v1           20.5      15.9      26.4\n4 v3           19.5      11.4      25.9"
+    "text": "Exercise 2\nGiven the data dat:\n\npath &lt;- \"https://raw.githubusercontent.com/SchmidtPaul/dsfair_quarto/master/data/Mead1993.csv\"\ndat &lt;- read_csv(path, col_types = cols()) # use path from above\n\n\ndat\n\n# A tibble: 24 × 4\n   variety yield   row   col\n   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n 1 v1       25.1     4     2\n 2 v1       17.2     1     6\n 3 v1       26.4     4     1\n 4 v1       16.1     1     4\n 5 v1       22.2     1     2\n 6 v1       15.9     2     4\n 7 v2       40.2     4     4\n 8 v2       35.2     3     1\n 9 v2       32.0     4     6\n10 v2       36.5     2     1\n# ℹ 14 more rows\n\n\nFind out the average, minimum and maximum yields per variety using summarise(). Arrage as the highest value on the top.\n\n\nCode\ndat %&gt;%\n    group_by(variety) %&gt;%\n    summarise(\n        avg_yield = mean(yield),\n        min_yield = min(yield),\n        max_yield = max(yield)\n    ) %&gt;%\n    arrange(desc(avg_yield))\n\n\n# A tibble: 4 × 4\n  variety avg_yield min_yield max_yield\n  &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 v2           37.4      32.0      43.3\n2 v4           29.9      27.6      33.2\n3 v1           20.5      15.9      26.4\n4 v3           19.5      11.4      25.9"
   },
   {
     "objectID": "content/r-topics/package-loading-conflict.html",
