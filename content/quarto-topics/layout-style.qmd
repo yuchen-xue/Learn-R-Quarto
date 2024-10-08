@@ -1,0 +1,44 @@
+---
+title: "Layout and Styling"
+description: "This is my reading note about layout and applying styles (CSS & SCSS) in Quarto."
+---
+
+## Two-Column Layout
+
+In this [Stack Overflow discussion](zhttps://stackoverflow.com/q/74162212), there are several options:
+
+1.  `{.columns}`
+2.  `{.grid}`
+3. `{layout-ncol=2}`
+
+Below is an example of using the first option:
+
+
+:::: {.columns}
+::: {.column width="49%"}
+
+Text on the left
+
+:::
+
+::: {.column width="2%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="49%"}
+
+Text on the right.
+
+:::
+
+::::  
+<!-- end of columns -->
+
+::: {.callout-note title="Further Resources"}
+* [Article Layout](https://quarto.org/docs/authoring/article-layout.html)
+* [Page Layout](https://quarto.org/docs/output-formats/page-layout.html)
+* [Figure Layout](https://quarto.org/docs/authoring/figures.html)
+:::
+
+## Styling using CSS
+TODO

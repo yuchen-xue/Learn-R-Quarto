@@ -29,10 +29,12 @@ website:
             href: content/r-topics/useful-r-r_studio.qmd
       - text: Quarto Topics
         menu:
-          - text: Code Block
-            href: content/quarto-topics/code-block.qmd
           - text: Brief Introduction to Quarto Projects
             href: content/quarto-topics/quarto-projects.qmd
+          - text: Layout and Style
+            href: content/quarto-topics/layout-style.qmd
+          - text: Code Block
+            href: content/quarto-topics/code-block.qmd
           - text: Writing a Website using Quarto
             href: content/quarto-topics/website.qmd
       - text: Experiment Designs
