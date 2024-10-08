@@ -3,6 +3,32 @@ title: "Introduction to Code Blocks"
 description: "This is my reading note about features of code blocks in Quarto."
 ---
 
+## Code Blocks with Plain Text
+
+For non-executable code blocks (e.g. output of a code, text from the man page, etc.), use the `default` indicator. 
+
+```default
+This is a plain text.
+```
+
+## Raw `HTML`, `Latex` code
+
+Use the `{=language_name}` syntax. This can also be used for inline code. Learn more from [the documentation](https://quarto.org/docs/authoring/markdown-basics.html#raw-content).
+
+## Language Support
+
+> Pandoc supports syntax highlighting for over 140 different languages.
+
+::: {.callout-important}
+Note that sometimes you need to install `jupyter` in order to render code that is written in other languages, such as Python and Bash.
+:::
+
+## Code Blocks can be treated as CSS Elements
+
+Code blocks of the same language highlight share the same CSS class, thus you can apply your own style format for code of different language. Learn more from [the documentation](https://quarto.org/docs/authoring/markdown-basics.html#source-code).
+
+You can also add customized class to a code block and adjusted its style individually, which is discussed in [this Stack Overflow discussion](https://stackoverflow.com/a/74026889).
+
 ## Code Execution Options
 
 Code execution options can be used when you want to, e.g., regulate the code output, hide the code piece, and so on. Read [the official guide about execution options](https://quarto.org/docs/computations/execution-options.html) for more detail.
