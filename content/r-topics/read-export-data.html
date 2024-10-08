@@ -224,7 +224,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#read-a-csv-file-using-the-tidyverse-packages" id="toc-read-a-csv-file-using-the-tidyverse-packages" class="nav-link active" data-scroll-target="#read-a-csv-file-using-the-tidyverse-packages">Read a csv file using the <code>tidyverse</code> packages</a></li>
+  <li><a href="#read-a-csv-file-using-the-tidyverse-packages" id="toc-read-a-csv-file-using-the-tidyverse-packages" class="nav-link active" data-scroll-target="#read-a-csv-file-using-the-tidyverse-packages">Read a csv file using the <code>tidyverse</code> packages</a>
+  <ul class="collapse">
+  <li><a href="#suppressing-the-output" id="toc-suppressing-the-output" class="nav-link" data-scroll-target="#suppressing-the-output">Suppressing the output</a></li>
+  <li><a href="#suppressing-using-function-arguments" id="toc-suppressing-using-function-arguments" class="nav-link" data-scroll-target="#suppressing-using-function-arguments">Suppressing using function arguments</a></li>
+  </ul></li>
   <li><a href="#read-a-excel-.xlsx-files" id="toc-read-a-excel-.xlsx-files" class="nav-link" data-scroll-target="#read-a-excel-.xlsx-files">Read a Excel <code>.xlsx</code> Files</a></li>
   <li><a href="#write-a-csv-file-using-the-tidyverse-packages" id="toc-write-a-csv-file-using-the-tidyverse-packages" class="nav-link" data-scroll-target="#write-a-csv-file-using-the-tidyverse-packages">Write a csv file using the <code>tidyverse</code> packages</a></li>
   </ul>
@@ -259,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="read-a-csv-file-using-the-tidyverse-packages" class="level2">
 <h2 class="anchored" data-anchor-id="read-a-csv-file-using-the-tidyverse-packages">Read a csv file using the <code>tidyverse</code> packages</h2>
-<p><code>readr::read_csv()</code> Is a part of the <code>tidyverse</code> universe, thus the output is a <code>tibble</code>.</p>
+<p><code>readr::read_csv()</code> is a part of the <code>tidyverse</code> universe. Its output is a <code>tibble</code>, instead of a <code>data.frame</code>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -270,7 +274,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Don’t be confused with the native <code>read.csv()</code> function.</p>
+<p>Don’t be confused with the native <code>read.csv()</code> function, which produces a <code>data.frame</code> object.</p>
 </div>
 </div>
 <div class="cell">
@@ -287,33 +291,40 @@ dbl (3): yield, row, col
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12 × 5
-   block cultivar yield   row   col
-   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1 B1    C1         7.4     2     1
- 2 B1    C2         9.8     3     1
- 3 B1    C3         7.3     1     1
- 4 B1    C4         9.5     4     1
- 5 B2    C1         6.5     1     2
- 6 B2    C2         6.8     4     2
- 7 B2    C3         6.1     3     2
- 8 B2    C4         8       2     2
- 9 B3    C1         5.6     2     3
-10 B3    C2         6.2     1     3
-11 B3    C3         6.4     3     3
-12 B3    C4         7.4     4     3</code></pre>
+</div>
+<section id="suppressing-the-output" class="level3">
+<h3 class="anchored" data-anchor-id="suppressing-the-output">Suppressing the output</h3>
+<p>You will notice from the output there’s a message:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="suppressing-using-function-arguments" class="level3">
+<h3 class="anchored" data-anchor-id="suppressing-using-function-arguments">Suppressing using function arguments</h3>
+<p>According to <a href="https://stackoverflow.com/q/55687401">this Stack Overflow discussion</a>, you have two options. Either – as suggested by the message – pass the <code>show_col_types = FALSE</code> argument, or add information about the separator.</p>
+<div class="columns">
+<div class="column" style="width:49%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:2%;">
+<!-- empty column to create gap -->
+</div><div class="column" style="width:49%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    path, <span class="at">col_types =</span> <span class="fu">cols</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+</div>
+<!-- end of columns -->
+</section>
 </section>
 <section id="read-a-excel-.xlsx-files" class="level2">
 <h2 class="anchored" data-anchor-id="read-a-excel-.xlsx-files">Read a Excel <code>.xlsx</code> Files</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>xlsx_path <span class="ot">&lt;-</span> <span class="st">"../data/vision_fixed.xlsx"</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(xlsx_path)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>xlsx_dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xlsx_path <span class="ot">&lt;-</span> <span class="st">"../data/vision_fixed.xlsx"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(xlsx_path)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>xlsx_dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 29 × 9
    Person   Ages Gender `Civil state` Height Profession Vision Distance PercDist
