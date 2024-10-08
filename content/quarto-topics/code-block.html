@@ -228,7 +228,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#code-execution-options" id="toc-code-execution-options" class="nav-link active" data-scroll-target="#code-execution-options">Code Execution Options</a></li>
+  <li><a href="#code-blocks-with-plain-text" id="toc-code-blocks-with-plain-text" class="nav-link active" data-scroll-target="#code-blocks-with-plain-text">Code Blocks with Plain Text</a></li>
+  <li><a href="#raw-html-latex-code" id="toc-raw-html-latex-code" class="nav-link" data-scroll-target="#raw-html-latex-code">Raw <code>HTML</code>, <code>Latex</code> code</a></li>
+  <li><a href="#language-support" id="toc-language-support" class="nav-link" data-scroll-target="#language-support">Language Support</a></li>
+  <li><a href="#code-blocks-can-be-treated-as-css-elements" id="toc-code-blocks-can-be-treated-as-css-elements" class="nav-link" data-scroll-target="#code-blocks-can-be-treated-as-css-elements">Code Blocks can be treated as CSS Elements</a></li>
+  <li><a href="#code-execution-options" id="toc-code-execution-options" class="nav-link" data-scroll-target="#code-execution-options">Code Execution Options</a></li>
   <li><a href="#interactive-code-annotations" id="toc-interactive-code-annotations" class="nav-link" data-scroll-target="#interactive-code-annotations">Interactive Code Annotations</a></li>
   </ul>
 </nav>
@@ -260,6 +264,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="code-blocks-with-plain-text" class="level2">
+<h2 class="anchored" data-anchor-id="code-blocks-with-plain-text">Code Blocks with Plain Text</h2>
+<p>For non-executable code blocks (e.g.&nbsp;output of a code, text from the man page, etc.), use the <code>default</code> indicator.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>This is a plain text.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="raw-html-latex-code" class="level2">
+<h2 class="anchored" data-anchor-id="raw-html-latex-code">Raw <code>HTML</code>, <code>Latex</code> code</h2>
+<p>Use the <code>{=language_name}</code> syntax. This can also be used for inline code. Learn more from <a href="https://quarto.org/docs/authoring/markdown-basics.html#raw-content">the documentation</a>.</p>
+</section>
+<section id="language-support" class="level2">
+<h2 class="anchored" data-anchor-id="language-support">Language Support</h2>
+<blockquote class="blockquote">
+<p>Pandoc supports syntax highlighting for over 140 different languages.</p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that sometimes you need to install <code>jupyter</code> in order to render code that is written in other languages, such as Python and Bash.</p>
+</div>
+</div>
+</section>
+<section id="code-blocks-can-be-treated-as-css-elements" class="level2">
+<h2 class="anchored" data-anchor-id="code-blocks-can-be-treated-as-css-elements">Code Blocks can be treated as CSS Elements</h2>
+<p>Code blocks of the same language highlight share the same CSS class, thus you can apply your own style format for code of different language. Learn more from <a href="https://quarto.org/docs/authoring/markdown-basics.html#source-code">the documentation</a>.</p>
+<p>You can also add customized class to a code block and adjusted its style individually, which is discussed in <a href="https://stackoverflow.com/a/74026889">this Stack Overflow discussion</a>.</p>
+</section>
 <section id="code-execution-options" class="level2">
 <h2 class="anchored" data-anchor-id="code-execution-options">Code Execution Options</h2>
 <p>Code execution options can be used when you want to, e.g., regulate the code output, hide the code piece, and so on. Read <a href="https://quarto.org/docs/computations/execution-options.html">the official guide about execution options</a> for more detail.</p>
@@ -275,21 +312,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Below is an example of using code annotation from <a href="https://quarto.org/docs/authoring/code-annotation.html">the official guide about code annotation</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(palmerpenguins)</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">bill_ratio =</span> bill_depth_mm <span class="sc">/</span> bill_length_mm,</span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">bill_area  =</span> bill_depth_mm <span class="sc">*</span> bill_length_mm</span>
-<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>    )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(palmerpenguins)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">bill_ratio =</span> bill_depth_mm <span class="sc">/</span> bill_length_mm,</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">bill_area  =</span> bill_depth_mm <span class="sc">*</span> bill_length_mm</span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>    )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1">Take <code>penguins</code>, and then,</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="1">Take <code>penguins</code>, and then,</span>
 </dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3,4,5,6" data-code-annotation="2">add new columns for the bill ratio and bill area.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="3,4,5,6" data-code-annotation="2">add new columns for the bill ratio and bill area.</span>
 </dd>
 </dl>
 </div>
