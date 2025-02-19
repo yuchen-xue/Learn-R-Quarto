@@ -35,6 +35,7 @@ The explanatory variables are:
 Load Necessary Packages.
 
 ```{r, warning=FALSE}
+library(httr)
 library(feather)
 library(data.table)
 library(mgcv)
@@ -46,7 +47,14 @@ library(dplyr, warn.conflicts = FALSE)
 Read the Data and show the overview of the data.
 
 ```{r, warning=FALSE}
-DT <- as.data.table(read_feather("../data/DT_4_ind"))
+# Download the data as a tempfile and loaded it locally
+url = "https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/DT_4_ind"
+GET(url, write_disk(tf <- tempfile(fileext = "")))
+DT <- as.data.table(read_feather(tf))
+
+# Remove the tempfile
+unlink(tf)
+
 str(DT)
 ```
 

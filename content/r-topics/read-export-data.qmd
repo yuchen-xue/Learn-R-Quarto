@@ -5,7 +5,7 @@ description: "This is my reading note about loading and exporting data."
 
 ## Read a csv file using the `tidyverse` packages
 
-`readr::read_csv()` is a part of the `tidyverse` universe. Its output is a `tibble`, instead of a `data.frame`.
+`readr::read_csv()` is a part of the `tidyverse` universe. Its output is a `tibble`, instead of a `data.frame`. You can use this function to read a csv file either from a local file or from an online source.
 
 ::: {.callout-important}
 Don't be confused with the native `read.csv()` function, which produces a `data.frame` object.
@@ -13,7 +13,7 @@ Don't be confused with the native `read.csv()` function, which produces a `data.
 
 ```{r}
 pacman::p_load(readr)
-path <- "../data/Clewer&Scarisbrick2001.csv"
+path <- "https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/Clewer&Scarisbrick2001.csv"
 dat <- read_csv(path) # use path from above
 ```
 
@@ -57,12 +57,36 @@ dat <- read_csv(
 
 ## Read a Excel `.xlsx` Files
 
-```{r}
-pacman::p_load(readxl)
-xlsx_path <- "../data/vision_fixed.xlsx"
-xlsx_dat <- read_excel(xlsx_path)
+### Method 1: using `readxl::read_excel()`
+The conventional `readxl::read_excel()` function can be used for reading  a `.xlsx` file from local storage. But it fails to read a file directly from an online source. Thus downloading the data is necessary before reading a `.xlsx` file using `readxl::read_excel()` function.
+
+```{r using readxl::read_excel()}
+pacman::p_load(readxl, httr)
+xlsx_path <- "https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx"
+
+# Download the `.xlsx` file as a tempfile and loaded it locally
+GET(xlsx_path, write_disk(tf <- tempfile(fileext = ".xlsx")))
+xlsx_dat <- read_excel(tf, 2L)
+
+# Remove the tempfile
+unlink(tf)
 xlsx_dat
 ```
+
+### Method 2: using `read.xlsx()` from package `openxlsx`
+
+`read.xlsx()` from package `openxlsx` can read a `.xlsx` file not only locally, but also directly from the online source. Thus it's the recommended method of file loading. 
+
+```{r using openxlsx}
+pacman::p_load(openxlsx)
+xlsx_path <- "https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx"
+xlsx_dat <- read.xlsx(xlsx_path)
+xlsx_dat
+```
+
+::: {.callout-note}
+Learn more about loading a `.xlsx` file from an online resource by following [this Stack Overflow discussion](https://stackoverflow.com/q/41368628).
+:::
 
 ## Write a csv file using the `tidyverse` packages
 
