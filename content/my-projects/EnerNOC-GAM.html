@@ -307,7 +307,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Energy Consumption Analysis Of Commercial Buildings Using GAM</h1>
+<div class="quarto-title-block"><div><h1 class="title">Energy Consumption Analysis Of Commercial Buildings Using GAM</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -1521,6 +1521,8 @@ remainder.</code></pre>
 </div>
 
 
+<!-- -->
+
 </section>
 </section>
 
@@ -1612,6 +1614,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -1941,7 +1994,876 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb156" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Energy Consumption Analysis Of Commercial Buildings Using GAM"</span></span>
+<span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Yuchen Xue"</span></span>
+<span id="cb156-4"><a href="#cb156-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "06/30/2018"</span></span>
+<span id="cb156-5"><a href="#cb156-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb156-6"><a href="#cb156-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-7"><a href="#cb156-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intro</span></span>
+<span id="cb156-8"><a href="#cb156-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-9"><a href="#cb156-9" aria-hidden="true" tabindex="-1"></a>This is the final assignment of the course “Regression Analysis” at National Taiwan University of Science and Technology (NTUST). The purpose of this final assignment is to test the students' knowledge of the R language and their ability to analyze a dataset using a linear model.</span>
+<span id="cb156-10"><a href="#cb156-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-11"><a href="#cb156-11" aria-hidden="true" tabindex="-1"></a>In this assignment, I selected a modified version of the open source dataset published by the energy supply company EnerNOC, which contains the 30-minute energy consumption data for 100 commercial/industrial sites for the year 2012. I split the data into training and testing subset, built several linear models using Generalized Additive Model (GAM) with different conditions using the training set, predicted the energy consumption and examined the prediction result using the test data. The model could successfully generalize the change in energy consumption and achieved a MAPE value of 14.89.</span>
+<span id="cb156-12"><a href="#cb156-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-13"><a href="#cb156-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE, message=FALSE, warning=FALSE}</span></span>
+<span id="cb156-14"><a href="#cb156-14" aria-hidden="true" tabindex="-1"></a><span class="in">library(knitr)</span></span>
+<span id="cb156-15"><a href="#cb156-15" aria-hidden="true" tabindex="-1"></a><span class="in">opts_chunk$set(echo = TRUE)</span></span>
+<span id="cb156-16"><a href="#cb156-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-17"><a href="#cb156-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-18"><a href="#cb156-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Data Preparation</span></span>
+<span id="cb156-19"><a href="#cb156-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-20"><a href="#cb156-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.1 Introduction to the Dataset</span></span>
+<span id="cb156-21"><a href="#cb156-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-22"><a href="#cb156-22" aria-hidden="true" tabindex="-1"></a>EnerNOC GreenButton Data is a subset of the <span class="co">[</span><span class="ot">Open EnerNOC data repository</span><span class="co">](https://open-enernoc-data.s3.amazonaws.com/anon/index.html)</span>.</span>
+<span id="cb156-23"><a href="#cb156-23" aria-hidden="true" tabindex="-1"></a>The raw data was provided by the EnerNOC electricity supplier and contains anonymous 5-minute electricity consumption data of 100 commercial/industrial sites for the year 2012.</span>
+<span id="cb156-24"><a href="#cb156-24" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">The simplified version</span><span class="co">](https://github.com/PetoLau/petolau.github.io/tree/master/_rmd)</span> contains data at 30-minute intervals.</span>
+<span id="cb156-25"><a href="#cb156-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-26"><a href="#cb156-26" aria-hidden="true" tabindex="-1"></a>The explanatory variables are:</span>
+<span id="cb156-27"><a href="#cb156-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-28"><a href="#cb156-28" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>value: Electricity consumption by timestamp</span>
+<span id="cb156-29"><a href="#cb156-29" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>week: In which week was the data collected</span>
+<span id="cb156-30"><a href="#cb156-30" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>date: On which day was the data collected</span>
+<span id="cb156-31"><a href="#cb156-31" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>type: Type of the building</span>
+<span id="cb156-32"><a href="#cb156-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-33"><a href="#cb156-33" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.2 Overview of the Dataset</span></span>
+<span id="cb156-34"><a href="#cb156-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-35"><a href="#cb156-35" aria-hidden="true" tabindex="-1"></a>Load Necessary Packages.</span>
+<span id="cb156-36"><a href="#cb156-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-37"><a href="#cb156-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE}</span></span>
+<span id="cb156-38"><a href="#cb156-38" aria-hidden="true" tabindex="-1"></a><span class="in">library(feather)</span></span>
+<span id="cb156-39"><a href="#cb156-39" aria-hidden="true" tabindex="-1"></a><span class="in">library(data.table)</span></span>
+<span id="cb156-40"><a href="#cb156-40" aria-hidden="true" tabindex="-1"></a><span class="in">library(mgcv)</span></span>
+<span id="cb156-41"><a href="#cb156-41" aria-hidden="true" tabindex="-1"></a><span class="in">library(car)</span></span>
+<span id="cb156-42"><a href="#cb156-42" aria-hidden="true" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
+<span id="cb156-43"><a href="#cb156-43" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr, warn.conflicts = FALSE)</span></span>
+<span id="cb156-44"><a href="#cb156-44" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-45"><a href="#cb156-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-46"><a href="#cb156-46" aria-hidden="true" tabindex="-1"></a>Read the Data and show the overview of the data.</span>
+<span id="cb156-47"><a href="#cb156-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-48"><a href="#cb156-48" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE}</span></span>
+<span id="cb156-49"><a href="#cb156-49" aria-hidden="true" tabindex="-1"></a><span class="in">DT &lt;- as.data.table(read_feather("../data/DT_4_ind"))</span></span>
+<span id="cb156-50"><a href="#cb156-50" aria-hidden="true" tabindex="-1"></a><span class="in">str(DT)</span></span>
+<span id="cb156-51"><a href="#cb156-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-52"><a href="#cb156-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-53"><a href="#cb156-53" aria-hidden="true" tabindex="-1"></a>Plot the Data.</span>
+<span id="cb156-54"><a href="#cb156-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-55"><a href="#cb156-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig1, fig.height = 8, fig.width = 12, fig.align = "center", na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-56"><a href="#cb156-56" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = DT, aes(x = date, y = value)) +</span></span>
+<span id="cb156-57"><a href="#cb156-57" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line() + </span></span>
+<span id="cb156-58"><a href="#cb156-58" aria-hidden="true" tabindex="-1"></a><span class="in">  facet_grid(type ~ ., scales = "free_y") +</span></span>
+<span id="cb156-59"><a href="#cb156-59" aria-hidden="true" tabindex="-1"></a><span class="in">  theme(panel.border = element_blank(),</span></span>
+<span id="cb156-60"><a href="#cb156-60" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.background = element_blank(),</span></span>
+<span id="cb156-61"><a href="#cb156-61" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.minor = element_line(colour = "grey90"),</span></span>
+<span id="cb156-62"><a href="#cb156-62" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.major = element_line(colour = "grey90"),</span></span>
+<span id="cb156-63"><a href="#cb156-63" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.major.x = element_line(colour = "grey90"),</span></span>
+<span id="cb156-64"><a href="#cb156-64" aria-hidden="true" tabindex="-1"></a><span class="in">        axis.text = element_text(size = 10),</span></span>
+<span id="cb156-65"><a href="#cb156-65" aria-hidden="true" tabindex="-1"></a><span class="in">        axis.title = element_text(size = 12, face = "bold"),</span></span>
+<span id="cb156-66"><a href="#cb156-66" aria-hidden="true" tabindex="-1"></a><span class="in">        strip.text = element_text(size = 9, face = "bold")) +</span></span>
+<span id="cb156-67"><a href="#cb156-67" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Date", y = "Load (kW)")</span></span>
+<span id="cb156-68"><a href="#cb156-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-69"><a href="#cb156-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-70"><a href="#cb156-70" aria-hidden="true" tabindex="-1"></a>We can see that the electricity consumption of the category <span class="in">`Food Sales &amp; Storage`</span> is not affected by weekdays or weekends.</span>
+<span id="cb156-71"><a href="#cb156-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-72"><a href="#cb156-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.3 Processing of Information about Days and Weeks</span></span>
+<span id="cb156-73"><a href="#cb156-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-74"><a href="#cb156-74" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`car::record()`</span> function to easily describe the relationship between the electricity consumption and each day of the week. We do this by appending a new column that associates each day of the week with a unique number.</span>
+<span id="cb156-75"><a href="#cb156-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-78"><a href="#cb156-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-79"><a href="#cb156-79" aria-hidden="true" tabindex="-1"></a>DT[, week_num <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(car<span class="sc">::</span><span class="fu">recode</span>(week,</span>
+<span id="cb156-80"><a href="#cb156-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">"'Monday'='1';'Tuesday'='2';'Wednesday'='3';'Thursday'='4';</span></span>
+<span id="cb156-81"><a href="#cb156-81" aria-hidden="true" tabindex="-1"></a><span class="st">    'Friday'='5';'Saturday'='6';'Sunday'='7'"</span>))]</span>
+<span id="cb156-82"><a href="#cb156-82" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(DT[, week])</span>
+<span id="cb156-83"><a href="#cb156-83" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(DT[, week_num])</span>
+<span id="cb156-84"><a href="#cb156-84" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-85"><a href="#cb156-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-86"><a href="#cb156-86" aria-hidden="true" tabindex="-1"></a>We extract information related to "industry", "data", "week" and "period" from the dataset. Since the data was collected every half an hour, there're 48 consecutive observations within a day, thus we have <span class="in">`period &lt;- 48`</span>.</span>
+<span id="cb156-87"><a href="#cb156-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-90"><a href="#cb156-90" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-91"><a href="#cb156-91" aria-hidden="true" tabindex="-1"></a>n_type <span class="ot">&lt;-</span> <span class="fu">unique</span>(DT[, type])</span>
+<span id="cb156-92"><a href="#cb156-92" aria-hidden="true" tabindex="-1"></a>n_date <span class="ot">&lt;-</span> <span class="fu">unique</span>(DT[, date])</span>
+<span id="cb156-93"><a href="#cb156-93" aria-hidden="true" tabindex="-1"></a>n_weekdays <span class="ot">&lt;-</span> <span class="fu">unique</span>(DT[, week])</span>
+<span id="cb156-94"><a href="#cb156-94" aria-hidden="true" tabindex="-1"></a>period <span class="ot">&lt;-</span> <span class="dv">48</span></span>
+<span id="cb156-95"><a href="#cb156-95" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-96"><a href="#cb156-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-97"><a href="#cb156-97" aria-hidden="true" tabindex="-1"></a>We select the electricity consumption of a commercial building, store it as the variable <span class="in">`data_r`</span> and plot the data.</span>
+<span id="cb156-98"><a href="#cb156-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-99"><a href="#cb156-99" aria-hidden="true" tabindex="-1"></a><span class="in">`type == n_type[1]`</span> stands for "Commercial Property", whereas <span class="in">`date %in% n_date[57:70]`</span> corresponds to two weeks.</span>
+<span id="cb156-100"><a href="#cb156-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-101"><a href="#cb156-101" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig2, fig.height = 6, fig.width = 12, fig.align = "center", na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-102"><a href="#cb156-102" aria-hidden="true" tabindex="-1"></a><span class="in">data_r &lt;- DT[(type == n_type[1] &amp; date %in% n_date[57:70])]</span></span>
+<span id="cb156-103"><a href="#cb156-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-104"><a href="#cb156-104" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data_r, aes(date_time, value)) +</span></span>
+<span id="cb156-105"><a href="#cb156-105" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line() +</span></span>
+<span id="cb156-106"><a href="#cb156-106" aria-hidden="true" tabindex="-1"></a><span class="in">  theme(panel.border = element_blank(),</span></span>
+<span id="cb156-107"><a href="#cb156-107" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.background = element_blank(),</span></span>
+<span id="cb156-108"><a href="#cb156-108" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.minor = element_line(colour = "grey90"),</span></span>
+<span id="cb156-109"><a href="#cb156-109" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.major = element_line(colour = "grey90"),</span></span>
+<span id="cb156-110"><a href="#cb156-110" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.major.x = element_line(colour = "grey90"),</span></span>
+<span id="cb156-111"><a href="#cb156-111" aria-hidden="true" tabindex="-1"></a><span class="in">        axis.text = element_text(size = 10),</span></span>
+<span id="cb156-112"><a href="#cb156-112" aria-hidden="true" tabindex="-1"></a><span class="in">        axis.title = element_text(size = 12, face = "bold")) +</span></span>
+<span id="cb156-113"><a href="#cb156-113" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Date", y = "Load (kW)")</span></span>
+<span id="cb156-114"><a href="#cb156-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-115"><a href="#cb156-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-116"><a href="#cb156-116" aria-hidden="true" tabindex="-1"></a>We re-organize the data in accordance with the change of days and weeks.</span>
+<span id="cb156-117"><a href="#cb156-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-118"><a href="#cb156-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12}</span></span>
+<span id="cb156-119"><a href="#cb156-119" aria-hidden="true" tabindex="-1"></a><span class="in">N &lt;- nrow(data_r) # number of rows in the training set</span></span>
+<span id="cb156-120"><a href="#cb156-120" aria-hidden="true" tabindex="-1"></a><span class="in">window &lt;- N / period # number of days in the training set</span></span>
+<span id="cb156-121"><a href="#cb156-121" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_gam &lt;- data.table(Load = data_r[, value],</span></span>
+<span id="cb156-122"><a href="#cb156-122" aria-hidden="true" tabindex="-1"></a><span class="in">                         Daily = rep(1:period, window),</span></span>
+<span id="cb156-123"><a href="#cb156-123" aria-hidden="true" tabindex="-1"></a><span class="in">                         Weekly = data_r[, week_num])</span></span>
+<span id="cb156-124"><a href="#cb156-124" aria-hidden="true" tabindex="-1"></a><span class="in">head(matrix_gam)</span></span>
+<span id="cb156-125"><a href="#cb156-125" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-126"><a href="#cb156-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-127"><a href="#cb156-127" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Model Building</span></span>
+<span id="cb156-128"><a href="#cb156-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-129"><a href="#cb156-129" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.1 The First Model</span></span>
+<span id="cb156-130"><a href="#cb156-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-131"><a href="#cb156-131" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`mgcv:gam()`</span> function to build the GAM model. The periodic change in days is described by a "cubic regression spline", whereas the periodic change in weeks is described by "P-splines".</span>
+<span id="cb156-132"><a href="#cb156-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-135"><a href="#cb156-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-136"><a href="#cb156-136" aria-hidden="true" tabindex="-1"></a>gam_1 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">s</span>(Daily, <span class="at">bs =</span> <span class="st">"cr"</span>, <span class="at">k =</span> period) <span class="sc">+</span></span>
+<span id="cb156-137"><a href="#cb156-137" aria-hidden="true" tabindex="-1"></a>               <span class="fu">s</span>(Weekly, <span class="at">bs =</span> <span class="st">"ps"</span>, <span class="at">k =</span> <span class="dv">7</span>),</span>
+<span id="cb156-138"><a href="#cb156-138" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-139"><a href="#cb156-139" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-140"><a href="#cb156-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-141"><a href="#cb156-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-142"><a href="#cb156-142" aria-hidden="true" tabindex="-1"></a>Inspect the summary of the model.</span>
+<span id="cb156-143"><a href="#cb156-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-146"><a href="#cb156-146" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-147"><a href="#cb156-147" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_1)<span class="sc">$</span>r.sq</span>
+<span id="cb156-148"><a href="#cb156-148" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_1)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-149"><a href="#cb156-149" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-150"><a href="#cb156-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-151"><a href="#cb156-151" aria-hidden="true" tabindex="-1"></a><span class="in">`GCV`</span> is an indicator of the fit of the model. The lower this value is, the fitter the model is. In addition we can see that <span class="in">`R-sq`</span> is not high, which indicates the bad performance of the model.</span>
+<span id="cb156-152"><a href="#cb156-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-153"><a href="#cb156-153" aria-hidden="true" tabindex="-1"></a>Compare the difference between the prediction and the reality over those two weeks.</span>
+<span id="cb156-154"><a href="#cb156-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-155"><a href="#cb156-155" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-156"><a href="#cb156-156" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_gam$Predict=gam_1$fitted.values</span></span>
+<span id="cb156-157"><a href="#cb156-157" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(matrix_gam[1:nrow(matrix_gam),], aes(1:nrow(matrix_gam)))+</span></span>
+<span id="cb156-158"><a href="#cb156-158" aria-hidden="true" tabindex="-1"></a><span class="in">           labs("lab")+</span></span>
+<span id="cb156-159"><a href="#cb156-159" aria-hidden="true" tabindex="-1"></a><span class="in">           geom_line(aes(y=Load, color="Real"), size = 0.8)+</span></span>
+<span id="cb156-160"><a href="#cb156-160" aria-hidden="true" tabindex="-1"></a><span class="in">           geom_line(aes(y = Predict, color = "Predict"), size = 0.8)</span></span>
+<span id="cb156-161"><a href="#cb156-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-162"><a href="#cb156-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-163"><a href="#cb156-163" aria-hidden="true" tabindex="-1"></a>It doesn't look nice. We carefully inspect the electricity consumption during the first week.</span>
+<span id="cb156-164"><a href="#cb156-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-165"><a href="#cb156-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-166"><a href="#cb156-166" aria-hidden="true" tabindex="-1"></a><span class="in">row_Mon &lt;- nrow(matrix_gam)/2</span></span>
+<span id="cb156-167"><a href="#cb156-167" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_gam$Predict=gam_1$fitted.values</span></span>
+<span id="cb156-168"><a href="#cb156-168" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(matrix_gam[1:row_Mon,], aes(1:row_Mon))+</span></span>
+<span id="cb156-169"><a href="#cb156-169" aria-hidden="true" tabindex="-1"></a><span class="in">           labs("lab")+</span></span>
+<span id="cb156-170"><a href="#cb156-170" aria-hidden="true" tabindex="-1"></a><span class="in">           geom_line(aes(y=Load, color="Real"), size = 0.8)+</span></span>
+<span id="cb156-171"><a href="#cb156-171" aria-hidden="true" tabindex="-1"></a><span class="in">           geom_line(aes(y = Predict, color = "Predict"), size = 0.8)</span></span>
+<span id="cb156-172"><a href="#cb156-172" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-173"><a href="#cb156-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-174"><a href="#cb156-174" aria-hidden="true" tabindex="-1"></a>This model can only predict the *trend* of the weekdays' electricity consumption, but fails in predicting the exact *amount* of electricity consumption. We do a detailed inspection on the electricity consumption on Monday.</span>
+<span id="cb156-175"><a href="#cb156-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-176"><a href="#cb156-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-177"><a href="#cb156-177" aria-hidden="true" tabindex="-1"></a><span class="in">row_Mon &lt;- nrow(matrix_gam)/14</span></span>
+<span id="cb156-178"><a href="#cb156-178" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_gam$Predict=gam_1$fitted.values</span></span>
+<span id="cb156-179"><a href="#cb156-179" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(matrix_gam[1:row_Mon,], aes(1:row_Mon))+</span></span>
+<span id="cb156-180"><a href="#cb156-180" aria-hidden="true" tabindex="-1"></a><span class="in">           labs("lab")+</span></span>
+<span id="cb156-181"><a href="#cb156-181" aria-hidden="true" tabindex="-1"></a><span class="in">           geom_line(aes(y=Load, color="Real"), size = 0.8)+</span></span>
+<span id="cb156-182"><a href="#cb156-182" aria-hidden="true" tabindex="-1"></a><span class="in">           geom_line(aes(y = Predict, color = "Predict"), size = 0.8)</span></span>
+<span id="cb156-183"><a href="#cb156-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-184"><a href="#cb156-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-185"><a href="#cb156-185" aria-hidden="true" tabindex="-1"></a>The problem is that the real electricity consumption at the end of the day is not at the same level as it at the beginning of the day, but the model shows a pure periodic change within the day, which is different from the reality. Thus we need to change our mindset and build another model.</span>
+<span id="cb156-186"><a href="#cb156-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-187"><a href="#cb156-187" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.2 The Second Model</span></span>
+<span id="cb156-188"><a href="#cb156-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-189"><a href="#cb156-189" aria-hidden="true" tabindex="-1"></a>This time we use the method of interaction between different scale and build a model by combining <span class="in">`Daily`</span> and <span class="in">`Weekly`</span>.</span>
+<span id="cb156-190"><a href="#cb156-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-193"><a href="#cb156-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-194"><a href="#cb156-194" aria-hidden="true" tabindex="-1"></a>gam_2 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">s</span>(Daily, Weekly),</span>
+<span id="cb156-195"><a href="#cb156-195" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-196"><a href="#cb156-196" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-197"><a href="#cb156-197" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-198"><a href="#cb156-198" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_2)<span class="sc">$</span>r.sq</span>
+<span id="cb156-199"><a href="#cb156-199" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_2)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-200"><a href="#cb156-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-201"><a href="#cb156-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-202"><a href="#cb156-202" aria-hidden="true" tabindex="-1"></a>According to <span class="in">`R.sq`</span> and <span class="in">`p-value`</span>, we can say that this model performs better.</span>
+<span id="cb156-203"><a href="#cb156-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-204"><a href="#cb156-204" aria-hidden="true" tabindex="-1"></a>Plot the difference between predicted result and the real result.</span>
+<span id="cb156-205"><a href="#cb156-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-206"><a href="#cb156-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-207"><a href="#cb156-207" aria-hidden="true" tabindex="-1"></a><span class="in">datas &lt;- rbindlist(list(data_r[, .(value, date_time)],</span></span>
+<span id="cb156-208"><a href="#cb156-208" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = gam_2$fitted.values,</span></span>
+<span id="cb156-209"><a href="#cb156-209" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_r[, date_time])))</span></span>
+<span id="cb156-210"><a href="#cb156-210" aria-hidden="true" tabindex="-1"></a><span class="in">datas[, type := c(rep("Real", nrow(data_r)), rep("Fitted", nrow(data_r)))]</span></span>
+<span id="cb156-211"><a href="#cb156-211" aria-hidden="true" tabindex="-1"></a><span class="in"> </span></span>
+<span id="cb156-212"><a href="#cb156-212" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datas, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-213"><a href="#cb156-213" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-214"><a href="#cb156-214" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-215"><a href="#cb156-215" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-216"><a href="#cb156-216" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Fit from GAM n.2")</span></span>
+<span id="cb156-217"><a href="#cb156-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-218"><a href="#cb156-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-219"><a href="#cb156-219" aria-hidden="true" tabindex="-1"></a>We can see that the fit during Monday to Thursday significantly improved.</span>
+<span id="cb156-220"><a href="#cb156-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-221"><a href="#cb156-221" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.3 The Third Model</span></span>
+<span id="cb156-222"><a href="#cb156-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-223"><a href="#cb156-223" aria-hidden="true" tabindex="-1"></a>Next, we use another advanced method of interaction and use a smooth function called "tensor product".</span>
+<span id="cb156-224"><a href="#cb156-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-227"><a href="#cb156-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-228"><a href="#cb156-228" aria-hidden="true" tabindex="-1"></a>gam_3 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">te</span>(Daily, Weekly,</span>
+<span id="cb156-229"><a href="#cb156-229" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>)),</span>
+<span id="cb156-230"><a href="#cb156-230" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-231"><a href="#cb156-231" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-232"><a href="#cb156-232" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-233"><a href="#cb156-233" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_3)<span class="sc">$</span>r.sq</span>
+<span id="cb156-234"><a href="#cb156-234" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_3)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-235"><a href="#cb156-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-236"><a href="#cb156-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-237"><a href="#cb156-237" aria-hidden="true" tabindex="-1"></a>Plot <span class="in">`gam_3`</span>.</span>
+<span id="cb156-238"><a href="#cb156-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-239"><a href="#cb156-239" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-240"><a href="#cb156-240" aria-hidden="true" tabindex="-1"></a><span class="in">datas &lt;- rbindlist(list(data_r[, .(value, date_time)],</span></span>
+<span id="cb156-241"><a href="#cb156-241" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = gam_3$fitted.values,</span></span>
+<span id="cb156-242"><a href="#cb156-242" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_r[, date_time])))</span></span>
+<span id="cb156-243"><a href="#cb156-243" aria-hidden="true" tabindex="-1"></a><span class="in">datas[, type := c(rep("Real", nrow(data_r)), rep("Fitted", nrow(data_r)))]</span></span>
+<span id="cb156-244"><a href="#cb156-244" aria-hidden="true" tabindex="-1"></a><span class="in"> </span></span>
+<span id="cb156-245"><a href="#cb156-245" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datas, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-246"><a href="#cb156-246" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-247"><a href="#cb156-247" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-248"><a href="#cb156-248" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-249"><a href="#cb156-249" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Fit from GAM n.3")</span></span>
+<span id="cb156-250"><a href="#cb156-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-251"><a href="#cb156-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-252"><a href="#cb156-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.4 The Fourth Model</span></span>
+<span id="cb156-253"><a href="#cb156-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-254"><a href="#cb156-254" aria-hidden="true" tabindex="-1"></a>We can make it even better. For example let the knots (a concept that is similar to dimension) fit the periodic change of days and weeks better.</span>
+<span id="cb156-255"><a href="#cb156-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-258"><a href="#cb156-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-259"><a href="#cb156-259" aria-hidden="true" tabindex="-1"></a>gam_4 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">te</span>(Daily, Weekly,</span>
+<span id="cb156-260"><a href="#cb156-260" aria-hidden="true" tabindex="-1"></a>                        <span class="at">k =</span> <span class="fu">c</span>(period, <span class="dv">7</span>),</span>
+<span id="cb156-261"><a href="#cb156-261" aria-hidden="true" tabindex="-1"></a>                        <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>)),</span>
+<span id="cb156-262"><a href="#cb156-262" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-263"><a href="#cb156-263" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> gaussian)</span>
+<span id="cb156-264"><a href="#cb156-264" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-265"><a href="#cb156-265" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_4)<span class="sc">$</span>r.sq</span>
+<span id="cb156-266"><a href="#cb156-266" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_4)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-267"><a href="#cb156-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-268"><a href="#cb156-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-269"><a href="#cb156-269" aria-hidden="true" tabindex="-1"></a>We can see that <span class="in">`R-sq`</span> has increased a little bit. But the most significant is <span class="in">`edf`</span>, which has increased 5 times. </span>
+<span id="cb156-270"><a href="#cb156-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-271"><a href="#cb156-271" aria-hidden="true" tabindex="-1"></a>Plot <span class="in">`gam_4`</span></span>
+<span id="cb156-272"><a href="#cb156-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-273"><a href="#cb156-273" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-274"><a href="#cb156-274" aria-hidden="true" tabindex="-1"></a><span class="in">datas &lt;- rbindlist(list(data_r[, .(value, date_time)],</span></span>
+<span id="cb156-275"><a href="#cb156-275" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = gam_4$fitted.values,</span></span>
+<span id="cb156-276"><a href="#cb156-276" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_r[, date_time])))</span></span>
+<span id="cb156-277"><a href="#cb156-277" aria-hidden="true" tabindex="-1"></a><span class="in">datas[, type := c(rep("Real", nrow(data_r)), rep("Fitted", nrow(data_r)))]</span></span>
+<span id="cb156-278"><a href="#cb156-278" aria-hidden="true" tabindex="-1"></a><span class="in"> </span></span>
+<span id="cb156-279"><a href="#cb156-279" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datas, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-280"><a href="#cb156-280" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-281"><a href="#cb156-281" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-282"><a href="#cb156-282" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-283"><a href="#cb156-283" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Fit from GAM n.4")</span></span>
+<span id="cb156-284"><a href="#cb156-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-285"><a href="#cb156-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-286"><a href="#cb156-286" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.5 The Fifth Model</span></span>
+<span id="cb156-287"><a href="#cb156-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-288"><a href="#cb156-288" aria-hidden="true" tabindex="-1"></a>All right, what about be greedier and combine all the previous models? Let's examine our thought by building <span class="in">`gam_5`</span>.</span>
+<span id="cb156-289"><a href="#cb156-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-292"><a href="#cb156-292" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-293"><a href="#cb156-293" aria-hidden="true" tabindex="-1"></a>gam_5 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">s</span>(Daily, <span class="at">bs =</span> <span class="st">"cr"</span>, <span class="at">k =</span> period) <span class="sc">+</span></span>
+<span id="cb156-294"><a href="#cb156-294" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">s</span>(Weekly, <span class="at">bs =</span> <span class="st">"ps"</span>, <span class="at">k =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb156-295"><a href="#cb156-295" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">ti</span>(Daily, Weekly,</span>
+<span id="cb156-296"><a href="#cb156-296" aria-hidden="true" tabindex="-1"></a>                       <span class="at">k =</span> <span class="fu">c</span>(period, <span class="dv">7</span>),</span>
+<span id="cb156-297"><a href="#cb156-297" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>)),</span>
+<span id="cb156-298"><a href="#cb156-298" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-299"><a href="#cb156-299" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-300"><a href="#cb156-300" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-301"><a href="#cb156-301" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_5)<span class="sc">$</span>r.sq</span>
+<span id="cb156-302"><a href="#cb156-302" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_5)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-303"><a href="#cb156-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-304"><a href="#cb156-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-305"><a href="#cb156-305" aria-hidden="true" tabindex="-1"></a>Although <span class="in">`p-value`</span> remains $0$, but <span class="in">`R-sq`</span> decreased and <span class="in">`GCV`</span> increased. This means that the performance is not as good as the previous <span class="in">`gam_4`</span> model.</span>
+<span id="cb156-306"><a href="#cb156-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-307"><a href="#cb156-307" aria-hidden="true" tabindex="-1"></a>Plot <span class="in">`gam_5`</span>.</span>
+<span id="cb156-308"><a href="#cb156-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-309"><a href="#cb156-309" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-310"><a href="#cb156-310" aria-hidden="true" tabindex="-1"></a><span class="in">datas &lt;- rbindlist(list(data_r[, .(value, date_time)],</span></span>
+<span id="cb156-311"><a href="#cb156-311" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = gam_5$fitted.values,</span></span>
+<span id="cb156-312"><a href="#cb156-312" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_r[, date_time])))</span></span>
+<span id="cb156-313"><a href="#cb156-313" aria-hidden="true" tabindex="-1"></a><span class="in">datas[, type := c(rep("Real", nrow(data_r)), rep("Fitted", nrow(data_r)))]</span></span>
+<span id="cb156-314"><a href="#cb156-314" aria-hidden="true" tabindex="-1"></a><span class="in"> </span></span>
+<span id="cb156-315"><a href="#cb156-315" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datas, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-316"><a href="#cb156-316" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-317"><a href="#cb156-317" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-318"><a href="#cb156-318" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-319"><a href="#cb156-319" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Fit from GAM n.5")</span></span>
+<span id="cb156-320"><a href="#cb156-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-321"><a href="#cb156-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-322"><a href="#cb156-322" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.6 The Sixth Model</span></span>
+<span id="cb156-323"><a href="#cb156-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-324"><a href="#cb156-324" aria-hidden="true" tabindex="-1"></a>Now is our last attempt. Here we add another method of tensor product interations and introduce a stricter condition by setting <span class="in">`full = TRUE`</span>.</span>
+<span id="cb156-325"><a href="#cb156-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-328"><a href="#cb156-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-329"><a href="#cb156-329" aria-hidden="true" tabindex="-1"></a>gam_6 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">t2</span>(Daily, Weekly,</span>
+<span id="cb156-330"><a href="#cb156-330" aria-hidden="true" tabindex="-1"></a>                       <span class="at">k =</span> <span class="fu">c</span>(period, <span class="dv">7</span>),</span>
+<span id="cb156-331"><a href="#cb156-331" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>),</span>
+<span id="cb156-332"><a href="#cb156-332" aria-hidden="true" tabindex="-1"></a>                       <span class="at">full =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb156-333"><a href="#cb156-333" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-334"><a href="#cb156-334" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-335"><a href="#cb156-335" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-336"><a href="#cb156-336" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_6)<span class="sc">$</span>r.sq</span>
+<span id="cb156-337"><a href="#cb156-337" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_6)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-338"><a href="#cb156-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-339"><a href="#cb156-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-340"><a href="#cb156-340" aria-hidden="true" tabindex="-1"></a>Plot <span class="in">`gam_6`</span>.</span>
+<span id="cb156-341"><a href="#cb156-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-342"><a href="#cb156-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-343"><a href="#cb156-343" aria-hidden="true" tabindex="-1"></a><span class="in">datas &lt;- rbindlist(list(data_r[, .(value, date_time)],</span></span>
+<span id="cb156-344"><a href="#cb156-344" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = gam_6$fitted.values,</span></span>
+<span id="cb156-345"><a href="#cb156-345" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_r[, date_time])))</span></span>
+<span id="cb156-346"><a href="#cb156-346" aria-hidden="true" tabindex="-1"></a><span class="in">datas[, type := c(rep("Real", nrow(data_r)), rep("Fitted", nrow(data_r)))]</span></span>
+<span id="cb156-347"><a href="#cb156-347" aria-hidden="true" tabindex="-1"></a><span class="in"> </span></span>
+<span id="cb156-348"><a href="#cb156-348" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datas, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-349"><a href="#cb156-349" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-350"><a href="#cb156-350" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-351"><a href="#cb156-351" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-352"><a href="#cb156-352" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Fit from GAM n.6")</span></span>
+<span id="cb156-353"><a href="#cb156-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-354"><a href="#cb156-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-355"><a href="#cb156-355" aria-hidden="true" tabindex="-1"></a>This plot looks even better.</span>
+<span id="cb156-356"><a href="#cb156-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-357"><a href="#cb156-357" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.7 Comparison of the Models</span></span>
+<span id="cb156-358"><a href="#cb156-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-359"><a href="#cb156-359" aria-hidden="true" tabindex="-1"></a>With so many models, how to decide which one is the best? Just ask the omnipotent <span class="in">`AIC`</span>.</span>
+<span id="cb156-360"><a href="#cb156-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-363"><a href="#cb156-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-364"><a href="#cb156-364" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(gam_1, gam_2, gam_3, gam_4, gam_5, gam_6)</span>
+<span id="cb156-365"><a href="#cb156-365" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-366"><a href="#cb156-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-367"><a href="#cb156-367" aria-hidden="true" tabindex="-1"></a>Apparently <span class="in">`gam_4`</span>, <span class="in">`gam_5`</span>, <span class="in">`gam_6`</span> are on the leading board. <span class="in">`gam_6`</span> has the best performance, while <span class="in">`gam_4`</span> comes in second.</span>
+<span id="cb156-368"><a href="#cb156-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-369"><a href="#cb156-369" aria-hidden="true" tabindex="-1"></a>Next we plot <span class="in">`gam_4`</span>, <span class="in">`gam_6`</span> together and see what we found.</span>
+<span id="cb156-370"><a href="#cb156-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-371"><a href="#cb156-371" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE}</span></span>
+<span id="cb156-372"><a href="#cb156-372" aria-hidden="true" tabindex="-1"></a><span class="in">layout(matrix(1:2, nrow = 1))</span></span>
+<span id="cb156-373"><a href="#cb156-373" aria-hidden="true" tabindex="-1"></a><span class="in">plot(gam_4, rug = FALSE, se = FALSE, n2 = 80, main = "gam n.4 with te()")</span></span>
+<span id="cb156-374"><a href="#cb156-374" aria-hidden="true" tabindex="-1"></a><span class="in">plot(gam_6, rug = FALSE, se = FALSE, n2 = 80, main = "gam n.6 with t2()")</span></span>
+<span id="cb156-375"><a href="#cb156-375" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-376"><a href="#cb156-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-377"><a href="#cb156-377" aria-hidden="true" tabindex="-1"></a>These contour lines indicate each model's response on <span class="in">`Weekly`</span> and <span class="in">`Daily`</span>. Although they look similar, the contour of <span class="in">`gam_6`</span> has more wave-like patterns. This is an indication of its higher sensitivity.</span>
+<span id="cb156-378"><a href="#cb156-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-379"><a href="#cb156-379" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualization of the Best Performing Model</span></span>
+<span id="cb156-380"><a href="#cb156-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-381"><a href="#cb156-381" aria-hidden="true" tabindex="-1"></a>Before the end of this section, let's see what we can do to make the plot of <span class="in">`gam_6`</span> looks better. Firstly we use the <span class="in">`vis.gam`</span> function from the package <span class="in">`mgcv`</span>.</span>
+<span id="cb156-382"><a href="#cb156-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-383"><a href="#cb156-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE}</span></span>
+<span id="cb156-384"><a href="#cb156-384" aria-hidden="true" tabindex="-1"></a><span class="in">#　vis.gam(gam_6, main = "t2(D, W)", plot.type = "contour",</span></span>
+<span id="cb156-385"><a href="#cb156-385" aria-hidden="true" tabindex="-1"></a><span class="in">#　        color = "terrain", contour.col = "black", lwd = 2)</span></span>
+<span id="cb156-386"><a href="#cb156-386" aria-hidden="true" tabindex="-1"></a><span class="in">vis.gam(gam_6, main = "t2(D, W)", </span></span>
+<span id="cb156-387"><a href="#cb156-387" aria-hidden="true" tabindex="-1"></a><span class="in">        color = "terrain", contour.col = "black", lwd = 2)</span></span>
+<span id="cb156-388"><a href="#cb156-388" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-389"><a href="#cb156-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-390"><a href="#cb156-390" aria-hidden="true" tabindex="-1"></a>We can see that the electricity consumption on weekdays are higher than on weekends. The peak hours are arround 3 pm from Monday to Thursday.</span>
+<span id="cb156-391"><a href="#cb156-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-392"><a href="#cb156-392" aria-hidden="true" tabindex="-1"></a>Without using the <span class="in">`contour.col`</span> option, we can make a 3D plot.</span>
+<span id="cb156-393"><a href="#cb156-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-394"><a href="#cb156-394" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12}</span></span>
+<span id="cb156-395"><a href="#cb156-395" aria-hidden="true" tabindex="-1"></a><span class="in">vis.gam(gam_6, n.grid = 50, theta = 35, phi = 32, zlab = "",</span></span>
+<span id="cb156-396"><a href="#cb156-396" aria-hidden="true" tabindex="-1"></a><span class="in">        ticktype = "detailed", color = "topo", main = "t2(D, W)")</span></span>
+<span id="cb156-397"><a href="#cb156-397" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-398"><a href="#cb156-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-399"><a href="#cb156-399" aria-hidden="true" tabindex="-1"></a>Change the viewing angle</span>
+<span id="cb156-400"><a href="#cb156-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-401"><a href="#cb156-401" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12}</span></span>
+<span id="cb156-402"><a href="#cb156-402" aria-hidden="true" tabindex="-1"></a><span class="in">vis.gam(gam_6, n.grid = 50, theta = 190, phi = 20, zlab = "",</span></span>
+<span id="cb156-403"><a href="#cb156-403" aria-hidden="true" tabindex="-1"></a><span class="in">        ticktype = "detailed", color = "topo", main = "t2(D, W)")</span></span>
+<span id="cb156-404"><a href="#cb156-404" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-405"><a href="#cb156-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-406"><a href="#cb156-406" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Analysis of the Contribution of Each Explanatory Variable</span></span>
+<span id="cb156-407"><a href="#cb156-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-408"><a href="#cb156-408" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.1 Models Building</span></span>
+<span id="cb156-409"><a href="#cb156-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-410"><a href="#cb156-410" aria-hidden="true" tabindex="-1"></a>Now let's see what would happen if we discard explanatory variables one by one.</span>
+<span id="cb156-411"><a href="#cb156-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-414"><a href="#cb156-414" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-415"><a href="#cb156-415" aria-hidden="true" tabindex="-1"></a>gam_6D <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">t2</span>(Daily, </span>
+<span id="cb156-416"><a href="#cb156-416" aria-hidden="true" tabindex="-1"></a>                       <span class="at">k =</span> period,</span>
+<span id="cb156-417"><a href="#cb156-417" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span> <span class="st">"cr"</span>,</span>
+<span id="cb156-418"><a href="#cb156-418" aria-hidden="true" tabindex="-1"></a>                       <span class="at">full =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb156-419"><a href="#cb156-419" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-420"><a href="#cb156-420" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-421"><a href="#cb156-421" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-422"><a href="#cb156-422" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_6D)<span class="sc">$</span>r.sq</span>
+<span id="cb156-423"><a href="#cb156-423" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_6D)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-424"><a href="#cb156-424" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-425"><a href="#cb156-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-426"><a href="#cb156-426" aria-hidden="true" tabindex="-1"></a>Em, it doesn't look good.</span>
+<span id="cb156-427"><a href="#cb156-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-428"><a href="#cb156-428" aria-hidden="true" tabindex="-1"></a>Now let's discard variable <span class="in">`Daily`</span>.</span>
+<span id="cb156-429"><a href="#cb156-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-432"><a href="#cb156-432" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-433"><a href="#cb156-433" aria-hidden="true" tabindex="-1"></a>gam_6W <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">t2</span>(Weekly,</span>
+<span id="cb156-434"><a href="#cb156-434" aria-hidden="true" tabindex="-1"></a>                       <span class="at">k =</span> <span class="dv">7</span>,</span>
+<span id="cb156-435"><a href="#cb156-435" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span>  <span class="st">"ps"</span>,</span>
+<span id="cb156-436"><a href="#cb156-436" aria-hidden="true" tabindex="-1"></a>                       <span class="at">full =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb156-437"><a href="#cb156-437" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_gam,</span>
+<span id="cb156-438"><a href="#cb156-438" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-439"><a href="#cb156-439" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-440"><a href="#cb156-440" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_6W)<span class="sc">$</span>r.sq</span>
+<span id="cb156-441"><a href="#cb156-441" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gam_6W)<span class="sc">$</span>sp.criterion</span>
+<span id="cb156-442"><a href="#cb156-442" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-443"><a href="#cb156-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-444"><a href="#cb156-444" aria-hidden="true" tabindex="-1"></a>We can see it looks much worse.</span>
+<span id="cb156-445"><a href="#cb156-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-446"><a href="#cb156-446" aria-hidden="true" tabindex="-1"></a>Let's maintain a rigorous attitude and use ANOVA to compare the difference between these three leading models.</span>
+<span id="cb156-447"><a href="#cb156-447" aria-hidden="true" tabindex="-1"></a>Firstly we discard variable <span class="in">`Weekly`</span> and see what will happen</span>
+<span id="cb156-448"><a href="#cb156-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-451"><a href="#cb156-451" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-452"><a href="#cb156-452" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(gam_6, gam_6D, <span class="at">test=</span><span class="st">"F"</span>)</span>
+<span id="cb156-453"><a href="#cb156-453" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-454"><a href="#cb156-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-455"><a href="#cb156-455" aria-hidden="true" tabindex="-1"></a>Then we discard variable <span class="in">`Daily`</span> and see what will happen</span>
+<span id="cb156-456"><a href="#cb156-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-459"><a href="#cb156-459" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-460"><a href="#cb156-460" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(gam_6, gam_6W, <span class="at">test=</span><span class="st">"F"</span>)</span>
+<span id="cb156-461"><a href="#cb156-461" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-462"><a href="#cb156-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-463"><a href="#cb156-463" aria-hidden="true" tabindex="-1"></a>The result is clear -- non of the variable <span class="in">`Weekly`</span> and variable <span class="in">`Daily`</span> can be dropped!</span>
+<span id="cb156-464"><a href="#cb156-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-465"><a href="#cb156-465" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.2 Model Plotting</span></span>
+<span id="cb156-466"><a href="#cb156-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-467"><a href="#cb156-467" aria-hidden="true" tabindex="-1"></a>Plot the result of discarding variable <span class="in">`Weekly`</span>.</span>
+<span id="cb156-468"><a href="#cb156-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-469"><a href="#cb156-469" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-470"><a href="#cb156-470" aria-hidden="true" tabindex="-1"></a><span class="in">datas &lt;- rbindlist(list(data_r[, .(value, date_time)],</span></span>
+<span id="cb156-471"><a href="#cb156-471" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = gam_6D$fitted.values,</span></span>
+<span id="cb156-472"><a href="#cb156-472" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_r[, date_time])))</span></span>
+<span id="cb156-473"><a href="#cb156-473" aria-hidden="true" tabindex="-1"></a><span class="in">datas[, type := c(rep("Real", nrow(data_r)), rep("Fitted", nrow(data_r)))]</span></span>
+<span id="cb156-474"><a href="#cb156-474" aria-hidden="true" tabindex="-1"></a><span class="in"> </span></span>
+<span id="cb156-475"><a href="#cb156-475" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datas, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-476"><a href="#cb156-476" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-477"><a href="#cb156-477" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-478"><a href="#cb156-478" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-479"><a href="#cb156-479" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Fit from GAM n.6")</span></span>
+<span id="cb156-480"><a href="#cb156-480" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-481"><a href="#cb156-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-482"><a href="#cb156-482" aria-hidden="true" tabindex="-1"></a>We can see that there is no weekly difference in the electricity consumption when the variable <span class="in">`Weekly`</span> is dropped.</span>
+<span id="cb156-483"><a href="#cb156-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-484"><a href="#cb156-484" aria-hidden="true" tabindex="-1"></a>Plot the result of discarding variable <span class="in">`Daily`</span>.</span>
+<span id="cb156-485"><a href="#cb156-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-486"><a href="#cb156-486" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-487"><a href="#cb156-487" aria-hidden="true" tabindex="-1"></a><span class="in">datas &lt;- rbindlist(list(data_r[, .(value, date_time)],</span></span>
+<span id="cb156-488"><a href="#cb156-488" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = gam_6W$fitted.values,</span></span>
+<span id="cb156-489"><a href="#cb156-489" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_r[, date_time])))</span></span>
+<span id="cb156-490"><a href="#cb156-490" aria-hidden="true" tabindex="-1"></a><span class="in">datas[, type := c(rep("Real", nrow(data_r)), rep("Fitted", nrow(data_r)))]</span></span>
+<span id="cb156-491"><a href="#cb156-491" aria-hidden="true" tabindex="-1"></a><span class="in"> </span></span>
+<span id="cb156-492"><a href="#cb156-492" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datas, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-493"><a href="#cb156-493" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-494"><a href="#cb156-494" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-495"><a href="#cb156-495" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-496"><a href="#cb156-496" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Fit from GAM n.6")</span></span>
+<span id="cb156-497"><a href="#cb156-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-498"><a href="#cb156-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-499"><a href="#cb156-499" aria-hidden="true" tabindex="-1"></a>We can see that there is no difference in the electricity consumption over the 24 hours of a day when the variable <span class="in">`Daily`</span> is dropped.</span>
+<span id="cb156-500"><a href="#cb156-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-501"><a href="#cb156-501" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. Prediction on Electricity Consumption</span></span>
+<span id="cb156-502"><a href="#cb156-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-503"><a href="#cb156-503" aria-hidden="true" tabindex="-1"></a>Lastly, the most exciting part -- let's predict the electricity consumption for the next two weeks.</span>
+<span id="cb156-504"><a href="#cb156-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-505"><a href="#cb156-505" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-506"><a href="#cb156-506" aria-hidden="true" tabindex="-1"></a><span class="in">data_test &lt;- DT[(type == n_type[1] &amp; date %in% n_date[71:84])]</span></span>
+<span id="cb156-507"><a href="#cb156-507" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_test &lt;- data.table(Load = data_test[, value],</span></span>
+<span id="cb156-508"><a href="#cb156-508" aria-hidden="true" tabindex="-1"></a><span class="in">                           Daily = rep(1:period, window),</span></span>
+<span id="cb156-509"><a href="#cb156-509" aria-hidden="true" tabindex="-1"></a><span class="in">                           Weekly = data_test[, week_num])</span></span>
+<span id="cb156-510"><a href="#cb156-510" aria-hidden="true" tabindex="-1"></a><span class="in">pred_week &lt;- predict(gam_6, matrix_test[1:(7*period)],interval="confidence", level = 0.95)</span></span>
+<span id="cb156-511"><a href="#cb156-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-512"><a href="#cb156-512" aria-hidden="true" tabindex="-1"></a><span class="in">datat &lt;- rbindlist(list(data_test[, .(value, date_time)],</span></span>
+<span id="cb156-513"><a href="#cb156-513" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = pred_week,</span></span>
+<span id="cb156-514"><a href="#cb156-514" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_test[, date_time])))</span></span>
+<span id="cb156-515"><a href="#cb156-515" aria-hidden="true" tabindex="-1"></a><span class="in">datat[, type := c(rep("Real", nrow(data_test)), rep("Predicted", nrow(data_test)))]</span></span>
+<span id="cb156-516"><a href="#cb156-516" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datat, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-517"><a href="#cb156-517" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-518"><a href="#cb156-518" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-519"><a href="#cb156-519" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-520"><a href="#cb156-520" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Predicted result on GAM n.6")</span></span>
+<span id="cb156-521"><a href="#cb156-521" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-522"><a href="#cb156-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-523"><a href="#cb156-523" aria-hidden="true" tabindex="-1"></a>Predict the electricity consumption of the next month.</span>
+<span id="cb156-524"><a href="#cb156-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-525"><a href="#cb156-525" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, na.rm=TRUE, warning=FALSE}</span></span>
+<span id="cb156-526"><a href="#cb156-526" aria-hidden="true" tabindex="-1"></a><span class="in">data_test &lt;- DT[(type == n_type[1] &amp; date %in% n_date[71:98])]</span></span>
+<span id="cb156-527"><a href="#cb156-527" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_test &lt;- data.table(Load = data_test[, value],</span></span>
+<span id="cb156-528"><a href="#cb156-528" aria-hidden="true" tabindex="-1"></a><span class="in">                           Daily = rep(1:period, window),</span></span>
+<span id="cb156-529"><a href="#cb156-529" aria-hidden="true" tabindex="-1"></a><span class="in">                           Weekly = data_test[, week_num])</span></span>
+<span id="cb156-530"><a href="#cb156-530" aria-hidden="true" tabindex="-1"></a><span class="in">pred_week &lt;- predict(gam_6, matrix_test[1:(7*period)],interval="confidence", level = 0.95)</span></span>
+<span id="cb156-531"><a href="#cb156-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-532"><a href="#cb156-532" aria-hidden="true" tabindex="-1"></a><span class="in">datat &lt;- rbindlist(list(data_test[, .(value, date_time)],</span></span>
+<span id="cb156-533"><a href="#cb156-533" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = pred_week,</span></span>
+<span id="cb156-534"><a href="#cb156-534" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_test[, date_time])))</span></span>
+<span id="cb156-535"><a href="#cb156-535" aria-hidden="true" tabindex="-1"></a><span class="in">datat[, type := c(rep("Real", nrow(data_test)), rep("Predicted", nrow(data_test)))]</span></span>
+<span id="cb156-536"><a href="#cb156-536" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datat, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-537"><a href="#cb156-537" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-538"><a href="#cb156-538" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-539"><a href="#cb156-539" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-540"><a href="#cb156-540" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Predicted result on GAM n.6")</span></span>
+<span id="cb156-541"><a href="#cb156-541" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-542"><a href="#cb156-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-543"><a href="#cb156-543" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5 Additional Information</span></span>
+<span id="cb156-544"><a href="#cb156-544" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-545"><a href="#cb156-545" aria-hidden="true" tabindex="-1"></a>Additional content that was added at the end of the semester.</span>
+<span id="cb156-546"><a href="#cb156-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-547"><a href="#cb156-547" aria-hidden="true" tabindex="-1"></a><span class="fu">### Function Definition</span></span>
+<span id="cb156-548"><a href="#cb156-548" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-549"><a href="#cb156-549" aria-hidden="true" tabindex="-1"></a>Define the MAPE function.</span>
+<span id="cb156-550"><a href="#cb156-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-553"><a href="#cb156-553" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-554"><a href="#cb156-554" aria-hidden="true" tabindex="-1"></a>mape <span class="ot">&lt;-</span> <span class="cf">function</span>(real, pred){</span>
+<span id="cb156-555"><a href="#cb156-555" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(<span class="fu">abs</span>((real <span class="sc">-</span> pred)<span class="sc">/</span>real)))</span>
+<span id="cb156-556"><a href="#cb156-556" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb156-557"><a href="#cb156-557" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-558"><a href="#cb156-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-559"><a href="#cb156-559" aria-hidden="true" tabindex="-1"></a>Define the criteria for model evaluation (R-sq, GCV, MAPE).</span>
+<span id="cb156-560"><a href="#cb156-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-563"><a href="#cb156-563" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-564"><a href="#cb156-564" aria-hidden="true" tabindex="-1"></a>gam_eval <span class="ot">&lt;-</span> <span class="cf">function</span>(model){</span>
+<span id="cb156-565"><a href="#cb156-565" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">data.table</span>(<span class="at">RSQ=</span><span class="fu">summary</span>(model)<span class="sc">$</span>r.sq, </span>
+<span id="cb156-566"><a href="#cb156-566" aria-hidden="true" tabindex="-1"></a>                      <span class="at">GCV=</span><span class="fu">summary</span>(model)<span class="sc">$</span>sp.criterion, </span>
+<span id="cb156-567"><a href="#cb156-567" aria-hidden="true" tabindex="-1"></a>                      <span class="at">MAPE=</span><span class="fu">mape</span>(data_new[, value], model<span class="sc">$</span>fitted.values)))</span>
+<span id="cb156-568"><a href="#cb156-568" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb156-569"><a href="#cb156-569" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-570"><a href="#cb156-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-571"><a href="#cb156-571" aria-hidden="true" tabindex="-1"></a>Define the function for plotting models.</span>
+<span id="cb156-572"><a href="#cb156-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-575"><a href="#cb156-575" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-576"><a href="#cb156-576" aria-hidden="true" tabindex="-1"></a>gam_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(model, title){</span>
+<span id="cb156-577"><a href="#cb156-577" aria-hidden="true" tabindex="-1"></a>    datas <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">list</span>(data_new[, .(value, date_time)],</span>
+<span id="cb156-578"><a href="#cb156-578" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">data.table</span>(<span class="at">value =</span> model<span class="sc">$</span>fitted.values,</span>
+<span id="cb156-579"><a href="#cb156-579" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">data_time =</span> data_new[, date_time])))</span>
+<span id="cb156-580"><a href="#cb156-580" aria-hidden="true" tabindex="-1"></a>datas[, type <span class="sc">:</span><span class="er">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Real"</span>, <span class="fu">nrow</span>(data_new)), <span class="fu">rep</span>(<span class="st">"Fitted"</span>, <span class="fu">nrow</span>(data_new)))]</span>
+<span id="cb156-581"><a href="#cb156-581" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb156-582"><a href="#cb156-582" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datas, <span class="fu">aes</span>(date_time, value, <span class="at">group =</span> type, <span class="at">colour =</span> type)) <span class="sc">+</span></span>
+<span id="cb156-583"><a href="#cb156-583" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb156-584"><a href="#cb156-584" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb156-585"><a href="#cb156-585" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="st">"Load (kW)"</span>,</span>
+<span id="cb156-586"><a href="#cb156-586" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> title)</span>
+<span id="cb156-587"><a href="#cb156-587" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb156-588"><a href="#cb156-588" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-589"><a href="#cb156-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-590"><a href="#cb156-590" aria-hidden="true" tabindex="-1"></a><span class="fu">### Model Building</span></span>
+<span id="cb156-591"><a href="#cb156-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-592"><a href="#cb156-592" aria-hidden="true" tabindex="-1"></a>Use the first season's data to train a model.</span>
+<span id="cb156-593"><a href="#cb156-593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-594"><a href="#cb156-594" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=12, warning=FALSE}</span></span>
+<span id="cb156-595"><a href="#cb156-595" aria-hidden="true" tabindex="-1"></a><span class="in">data_new &lt;- DT[(type == n_type[1] &amp; date %in% n_date[1:91])]</span></span>
+<span id="cb156-596"><a href="#cb156-596" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-597"><a href="#cb156-597" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data_new, aes(date_time, value)) +</span></span>
+<span id="cb156-598"><a href="#cb156-598" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line() +</span></span>
+<span id="cb156-599"><a href="#cb156-599" aria-hidden="true" tabindex="-1"></a><span class="in">  theme(panel.border = element_blank(),</span></span>
+<span id="cb156-600"><a href="#cb156-600" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.background = element_blank(),</span></span>
+<span id="cb156-601"><a href="#cb156-601" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.minor = element_line(colour = "grey90"),</span></span>
+<span id="cb156-602"><a href="#cb156-602" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.major = element_line(colour = "grey90"),</span></span>
+<span id="cb156-603"><a href="#cb156-603" aria-hidden="true" tabindex="-1"></a><span class="in">        panel.grid.major.x = element_line(colour = "grey90"),</span></span>
+<span id="cb156-604"><a href="#cb156-604" aria-hidden="true" tabindex="-1"></a><span class="in">        axis.text = element_text(size = 10),</span></span>
+<span id="cb156-605"><a href="#cb156-605" aria-hidden="true" tabindex="-1"></a><span class="in">        axis.title = element_text(size = 12, face = "bold")) +</span></span>
+<span id="cb156-606"><a href="#cb156-606" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Date", y = "Load (kW)")</span></span>
+<span id="cb156-607"><a href="#cb156-607" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-608"><a href="#cb156-608" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-609"><a href="#cb156-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-610"><a href="#cb156-610" aria-hidden="true" tabindex="-1"></a>Re-organize the data and add information about the electricity consumption of the previous one day and the previous week.</span>
+<span id="cb156-611"><a href="#cb156-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-614"><a href="#cb156-614" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-615"><a href="#cb156-615" aria-hidden="true" tabindex="-1"></a>matrix_new <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">Load =</span> data_new[, value],</span>
+<span id="cb156-616"><a href="#cb156-616" aria-hidden="true" tabindex="-1"></a>                         <span class="at">PrevDayLoad =</span> <span class="fu">c</span>(data_new[<span class="dv">1</span><span class="sc">:</span><span class="dv">48</span>, value], data_new[<span class="dv">1</span><span class="sc">:</span><span class="dv">4320</span>, value]),</span>
+<span id="cb156-617"><a href="#cb156-617" aria-hidden="true" tabindex="-1"></a>                         <span class="at">PrevWeekLoad =</span> <span class="fu">c</span>(data_new[<span class="dv">1</span><span class="sc">:</span><span class="dv">336</span>, value], data_new[<span class="dv">1</span><span class="sc">:</span><span class="dv">4032</span>, value]),</span>
+<span id="cb156-618"><a href="#cb156-618" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Daily =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>period, window),</span>
+<span id="cb156-619"><a href="#cb156-619" aria-hidden="true" tabindex="-1"></a>                         <span class="at">Weekly =</span> data_r[, week_num])</span>
+<span id="cb156-620"><a href="#cb156-620" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-621"><a href="#cb156-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-622"><a href="#cb156-622" aria-hidden="true" tabindex="-1"></a>Build the first model.</span>
+<span id="cb156-623"><a href="#cb156-623" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-626"><a href="#cb156-626" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-627"><a href="#cb156-627" aria-hidden="true" tabindex="-1"></a>gam_new_1 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">s</span>(Daily, <span class="at">bs =</span> <span class="st">"cr"</span>, <span class="at">k =</span> period) <span class="sc">+</span></span>
+<span id="cb156-628"><a href="#cb156-628" aria-hidden="true" tabindex="-1"></a>               <span class="fu">s</span>(Weekly, <span class="at">bs =</span> <span class="st">"ps"</span>, <span class="at">k =</span> <span class="dv">7</span>),</span>
+<span id="cb156-629"><a href="#cb156-629" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-630"><a href="#cb156-630" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-631"><a href="#cb156-631" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-632"><a href="#cb156-632" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-633"><a href="#cb156-633" aria-hidden="true" tabindex="-1"></a>Evaluate the first model.</span>
+<span id="cb156-634"><a href="#cb156-634" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-637"><a href="#cb156-637" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-638"><a href="#cb156-638" aria-hidden="true" tabindex="-1"></a>eval_1 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_1)</span>
+<span id="cb156-639"><a href="#cb156-639" aria-hidden="true" tabindex="-1"></a>eval_1</span>
+<span id="cb156-640"><a href="#cb156-640" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-641"><a href="#cb156-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-642"><a href="#cb156-642" aria-hidden="true" tabindex="-1"></a>Plot the first model.</span>
+<span id="cb156-643"><a href="#cb156-643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-644"><a href="#cb156-644" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-645"><a href="#cb156-645" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_1, "Fit from gam_new_1")</span></span>
+<span id="cb156-646"><a href="#cb156-646" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-647"><a href="#cb156-647" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-648"><a href="#cb156-648" aria-hidden="true" tabindex="-1"></a>Build the second model.</span>
+<span id="cb156-649"><a href="#cb156-649" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-652"><a href="#cb156-652" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-653"><a href="#cb156-653" aria-hidden="true" tabindex="-1"></a>gam_new_2 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">s</span>(Daily, Weekly),</span>
+<span id="cb156-654"><a href="#cb156-654" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-655"><a href="#cb156-655" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-656"><a href="#cb156-656" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-657"><a href="#cb156-657" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-658"><a href="#cb156-658" aria-hidden="true" tabindex="-1"></a>Evaluate the second model.</span>
+<span id="cb156-659"><a href="#cb156-659" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-662"><a href="#cb156-662" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-663"><a href="#cb156-663" aria-hidden="true" tabindex="-1"></a>eval_2 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_2)</span>
+<span id="cb156-664"><a href="#cb156-664" aria-hidden="true" tabindex="-1"></a>eval_2</span>
+<span id="cb156-665"><a href="#cb156-665" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-666"><a href="#cb156-666" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-667"><a href="#cb156-667" aria-hidden="true" tabindex="-1"></a>Plot the second model.</span>
+<span id="cb156-668"><a href="#cb156-668" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-669"><a href="#cb156-669" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-670"><a href="#cb156-670" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_2, "Fit from gam_new_2")</span></span>
+<span id="cb156-671"><a href="#cb156-671" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-672"><a href="#cb156-672" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-673"><a href="#cb156-673" aria-hidden="true" tabindex="-1"></a>Build the third model.</span>
+<span id="cb156-674"><a href="#cb156-674" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-677"><a href="#cb156-677" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-678"><a href="#cb156-678" aria-hidden="true" tabindex="-1"></a>gam_new_3 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">te</span>(Daily, Weekly,</span>
+<span id="cb156-679"><a href="#cb156-679" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>)),</span>
+<span id="cb156-680"><a href="#cb156-680" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-681"><a href="#cb156-681" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-682"><a href="#cb156-682" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-683"><a href="#cb156-683" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-684"><a href="#cb156-684" aria-hidden="true" tabindex="-1"></a>Evaluate the third model.</span>
+<span id="cb156-685"><a href="#cb156-685" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-688"><a href="#cb156-688" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-689"><a href="#cb156-689" aria-hidden="true" tabindex="-1"></a>eval_3 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_3)</span>
+<span id="cb156-690"><a href="#cb156-690" aria-hidden="true" tabindex="-1"></a>eval_3</span>
+<span id="cb156-691"><a href="#cb156-691" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-692"><a href="#cb156-692" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-693"><a href="#cb156-693" aria-hidden="true" tabindex="-1"></a>Plot the third model.</span>
+<span id="cb156-694"><a href="#cb156-694" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-695"><a href="#cb156-695" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-696"><a href="#cb156-696" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_3, "Fit from gam_new_3")</span></span>
+<span id="cb156-697"><a href="#cb156-697" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-698"><a href="#cb156-698" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-699"><a href="#cb156-699" aria-hidden="true" tabindex="-1"></a>Build the fourth model.</span>
+<span id="cb156-700"><a href="#cb156-700" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-703"><a href="#cb156-703" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-704"><a href="#cb156-704" aria-hidden="true" tabindex="-1"></a>gam_new_4 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">te</span>(Daily, Weekly,</span>
+<span id="cb156-705"><a href="#cb156-705" aria-hidden="true" tabindex="-1"></a>                        <span class="at">k =</span> <span class="fu">c</span>(period, <span class="dv">7</span>),</span>
+<span id="cb156-706"><a href="#cb156-706" aria-hidden="true" tabindex="-1"></a>                        <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>)),</span>
+<span id="cb156-707"><a href="#cb156-707" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-708"><a href="#cb156-708" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> gaussian)</span>
+<span id="cb156-709"><a href="#cb156-709" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-710"><a href="#cb156-710" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-711"><a href="#cb156-711" aria-hidden="true" tabindex="-1"></a>Evaluate the fourth model.</span>
+<span id="cb156-712"><a href="#cb156-712" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-715"><a href="#cb156-715" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-716"><a href="#cb156-716" aria-hidden="true" tabindex="-1"></a>eval_4 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_4)</span>
+<span id="cb156-717"><a href="#cb156-717" aria-hidden="true" tabindex="-1"></a>eval_4</span>
+<span id="cb156-718"><a href="#cb156-718" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-719"><a href="#cb156-719" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-720"><a href="#cb156-720" aria-hidden="true" tabindex="-1"></a>Plot the fourth model.</span>
+<span id="cb156-721"><a href="#cb156-721" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-722"><a href="#cb156-722" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-723"><a href="#cb156-723" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_4, "Fit from gam_new_4")</span></span>
+<span id="cb156-724"><a href="#cb156-724" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-725"><a href="#cb156-725" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-726"><a href="#cb156-726" aria-hidden="true" tabindex="-1"></a>Build the fifth model.</span>
+<span id="cb156-727"><a href="#cb156-727" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-730"><a href="#cb156-730" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-731"><a href="#cb156-731" aria-hidden="true" tabindex="-1"></a>gam_new_5 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">s</span>(Daily, <span class="at">bs =</span> <span class="st">"cr"</span>, <span class="at">k =</span> period) <span class="sc">+</span></span>
+<span id="cb156-732"><a href="#cb156-732" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">s</span>(Weekly, <span class="at">bs =</span> <span class="st">"ps"</span>, <span class="at">k =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb156-733"><a href="#cb156-733" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">ti</span>(Daily, Weekly,</span>
+<span id="cb156-734"><a href="#cb156-734" aria-hidden="true" tabindex="-1"></a>                       <span class="at">k =</span> <span class="fu">c</span>(period, <span class="dv">7</span>),</span>
+<span id="cb156-735"><a href="#cb156-735" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>)),</span>
+<span id="cb156-736"><a href="#cb156-736" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-737"><a href="#cb156-737" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-738"><a href="#cb156-738" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-739"><a href="#cb156-739" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-740"><a href="#cb156-740" aria-hidden="true" tabindex="-1"></a>Evaluate the fifth model.</span>
+<span id="cb156-741"><a href="#cb156-741" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-744"><a href="#cb156-744" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-745"><a href="#cb156-745" aria-hidden="true" tabindex="-1"></a>eval_5 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_5)</span>
+<span id="cb156-746"><a href="#cb156-746" aria-hidden="true" tabindex="-1"></a>eval_5</span>
+<span id="cb156-747"><a href="#cb156-747" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-748"><a href="#cb156-748" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-749"><a href="#cb156-749" aria-hidden="true" tabindex="-1"></a>Plot the fifth model.</span>
+<span id="cb156-750"><a href="#cb156-750" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-751"><a href="#cb156-751" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-752"><a href="#cb156-752" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_5, "Fit from gam_new_5")</span></span>
+<span id="cb156-753"><a href="#cb156-753" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-754"><a href="#cb156-754" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-755"><a href="#cb156-755" aria-hidden="true" tabindex="-1"></a>Build the sixth model.</span>
+<span id="cb156-756"><a href="#cb156-756" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-759"><a href="#cb156-759" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-760"><a href="#cb156-760" aria-hidden="true" tabindex="-1"></a>gam_new_6 <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">t2</span>(Daily, Weekly,</span>
+<span id="cb156-761"><a href="#cb156-761" aria-hidden="true" tabindex="-1"></a>                       <span class="at">k =</span> <span class="fu">c</span>(period, <span class="dv">7</span>),</span>
+<span id="cb156-762"><a href="#cb156-762" aria-hidden="true" tabindex="-1"></a>                       <span class="at">bs =</span> <span class="fu">c</span>(<span class="st">"cr"</span>, <span class="st">"ps"</span>),</span>
+<span id="cb156-763"><a href="#cb156-763" aria-hidden="true" tabindex="-1"></a>                       <span class="at">full =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb156-764"><a href="#cb156-764" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-765"><a href="#cb156-765" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-766"><a href="#cb156-766" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-767"><a href="#cb156-767" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-768"><a href="#cb156-768" aria-hidden="true" tabindex="-1"></a>Evaluate the sixth model.</span>
+<span id="cb156-769"><a href="#cb156-769" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-772"><a href="#cb156-772" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-773"><a href="#cb156-773" aria-hidden="true" tabindex="-1"></a>eval_6 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_6)</span>
+<span id="cb156-774"><a href="#cb156-774" aria-hidden="true" tabindex="-1"></a>eval_6</span>
+<span id="cb156-775"><a href="#cb156-775" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-776"><a href="#cb156-776" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-777"><a href="#cb156-777" aria-hidden="true" tabindex="-1"></a>Plot the sixth model.</span>
+<span id="cb156-778"><a href="#cb156-778" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-779"><a href="#cb156-779" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-780"><a href="#cb156-780" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_6, "Fit from gam_new_6")</span></span>
+<span id="cb156-781"><a href="#cb156-781" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-782"><a href="#cb156-782" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-783"><a href="#cb156-783" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-784"><a href="#cb156-784" aria-hidden="true" tabindex="-1"></a>Build the seventh model -- without using smooth function of GAM.</span>
+<span id="cb156-785"><a href="#cb156-785" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-788"><a href="#cb156-788" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-789"><a href="#cb156-789" aria-hidden="true" tabindex="-1"></a>gam_new_simple <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> Daily<span class="sc">+</span>Weekly,</span>
+<span id="cb156-790"><a href="#cb156-790" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-791"><a href="#cb156-791" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> gaussian)</span>
+<span id="cb156-792"><a href="#cb156-792" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-793"><a href="#cb156-793" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-794"><a href="#cb156-794" aria-hidden="true" tabindex="-1"></a>Evaluate the seventh model.</span>
+<span id="cb156-795"><a href="#cb156-795" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-798"><a href="#cb156-798" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-799"><a href="#cb156-799" aria-hidden="true" tabindex="-1"></a>eval_7 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_simple)</span>
+<span id="cb156-800"><a href="#cb156-800" aria-hidden="true" tabindex="-1"></a>eval_7</span>
+<span id="cb156-801"><a href="#cb156-801" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-802"><a href="#cb156-802" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-803"><a href="#cb156-803" aria-hidden="true" tabindex="-1"></a>Plot the seventh model.</span>
+<span id="cb156-804"><a href="#cb156-804" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-805"><a href="#cb156-805" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-806"><a href="#cb156-806" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_simple, "Fit from gam_new_simple")</span></span>
+<span id="cb156-807"><a href="#cb156-807" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-808"><a href="#cb156-808" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-809"><a href="#cb156-809" aria-hidden="true" tabindex="-1"></a>Build the eighth model -- only apply te smooth function on the variable <span class="in">`Daily`</span>.</span>
+<span id="cb156-810"><a href="#cb156-810" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-813"><a href="#cb156-813" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-814"><a href="#cb156-814" aria-hidden="true" tabindex="-1"></a>gam_new_te_daily <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">te</span>(Daily, <span class="at">bs =</span> <span class="st">"cr"</span>, <span class="at">k =</span> period) <span class="sc">+</span>Weekly,</span>
+<span id="cb156-815"><a href="#cb156-815" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-816"><a href="#cb156-816" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-817"><a href="#cb156-817" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-818"><a href="#cb156-818" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-819"><a href="#cb156-819" aria-hidden="true" tabindex="-1"></a>Evaluate the eighth model.</span>
+<span id="cb156-820"><a href="#cb156-820" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-823"><a href="#cb156-823" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-824"><a href="#cb156-824" aria-hidden="true" tabindex="-1"></a>eval_8 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_te_daily)</span>
+<span id="cb156-825"><a href="#cb156-825" aria-hidden="true" tabindex="-1"></a>eval_8</span>
+<span id="cb156-826"><a href="#cb156-826" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-827"><a href="#cb156-827" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-828"><a href="#cb156-828" aria-hidden="true" tabindex="-1"></a>Plot the eighth model.</span>
+<span id="cb156-829"><a href="#cb156-829" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-830"><a href="#cb156-830" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-831"><a href="#cb156-831" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_te_daily, "Fit from gam_new_te_daily")</span></span>
+<span id="cb156-832"><a href="#cb156-832" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-833"><a href="#cb156-833" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-834"><a href="#cb156-834" aria-hidden="true" tabindex="-1"></a>Build the nineth model -- only apply te smooth function on the variable <span class="in">`Weekly`</span>.</span>
+<span id="cb156-835"><a href="#cb156-835" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-838"><a href="#cb156-838" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-839"><a href="#cb156-839" aria-hidden="true" tabindex="-1"></a>gam_new_te_weekly <span class="ot">&lt;-</span> <span class="fu">gam</span>(Load <span class="sc">~</span> <span class="fu">te</span>(Weekly, <span class="at">bs =</span> <span class="st">"ps"</span>, <span class="at">k =</span> <span class="dv">7</span>) <span class="sc">+</span>Daily,</span>
+<span id="cb156-840"><a href="#cb156-840" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> matrix_new,</span>
+<span id="cb156-841"><a href="#cb156-841" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> gaussian)</span>
+<span id="cb156-842"><a href="#cb156-842" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-843"><a href="#cb156-843" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-844"><a href="#cb156-844" aria-hidden="true" tabindex="-1"></a>Evaluate the nineth model.</span>
+<span id="cb156-845"><a href="#cb156-845" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-848"><a href="#cb156-848" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-849"><a href="#cb156-849" aria-hidden="true" tabindex="-1"></a>eval_9 <span class="ot">&lt;-</span> <span class="fu">gam_eval</span>(gam_new_te_weekly)</span>
+<span id="cb156-850"><a href="#cb156-850" aria-hidden="true" tabindex="-1"></a>eval_9</span>
+<span id="cb156-851"><a href="#cb156-851" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-852"><a href="#cb156-852" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-853"><a href="#cb156-853" aria-hidden="true" tabindex="-1"></a>Plot the nineth model.</span>
+<span id="cb156-854"><a href="#cb156-854" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-855"><a href="#cb156-855" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-856"><a href="#cb156-856" aria-hidden="true" tabindex="-1"></a><span class="in">gam_plot(gam_new_te_weekly, "Fit from gam_new_te_weekly")</span></span>
+<span id="cb156-857"><a href="#cb156-857" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-858"><a href="#cb156-858" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-859"><a href="#cb156-859" aria-hidden="true" tabindex="-1"></a><span class="fu">### Analysis of the models</span></span>
+<span id="cb156-860"><a href="#cb156-860" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-861"><a href="#cb156-861" aria-hidden="true" tabindex="-1"></a>Use a table to analyse the nine models.</span>
+<span id="cb156-862"><a href="#cb156-862" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-863"><a href="#cb156-863" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE}</span></span>
+<span id="cb156-864"><a href="#cb156-864" aria-hidden="true" tabindex="-1"></a><span class="in">eval_table &lt;- bind_rows(eval_1, eval_2, eval_3, eval_4, eval_5, eval_6, eval_7, eval_8, eval_9)</span></span>
+<span id="cb156-865"><a href="#cb156-865" aria-hidden="true" tabindex="-1"></a><span class="in">all_aic &lt;- AIC(gam_new_1, gam_new_2, gam_new_3, gam_new_4, gam_new_5, gam_new_6, gam_new_simple, gam_new_te_daily, gam_new_te_weekly)$AIC</span></span>
+<span id="cb156-866"><a href="#cb156-866" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-867"><a href="#cb156-867" aria-hidden="true" tabindex="-1"></a><span class="in">eval_table[, AIC :=all_aic]</span></span>
+<span id="cb156-868"><a href="#cb156-868" aria-hidden="true" tabindex="-1"></a><span class="in">eval_table</span></span>
+<span id="cb156-869"><a href="#cb156-869" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-870"><a href="#cb156-870" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-871"><a href="#cb156-871" aria-hidden="true" tabindex="-1"></a>Predict the electricity consumption of season 2 using the fourth model.</span>
+<span id="cb156-872"><a href="#cb156-872" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-873"><a href="#cb156-873" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-874"><a href="#cb156-874" aria-hidden="true" tabindex="-1"></a><span class="in">data_test_2qt &lt;- DT[(type == n_type[1] &amp; date %in% n_date[92:183])]</span></span>
+<span id="cb156-875"><a href="#cb156-875" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_test_2qt &lt;- data.table(Load = data_test_2qt[, value],</span></span>
+<span id="cb156-876"><a href="#cb156-876" aria-hidden="true" tabindex="-1"></a><span class="in">                           Daily = rep(1:period, 91),</span></span>
+<span id="cb156-877"><a href="#cb156-877" aria-hidden="true" tabindex="-1"></a><span class="in">                           Weekly = data_test_2qt[, week_num])</span></span>
+<span id="cb156-878"><a href="#cb156-878" aria-hidden="true" tabindex="-1"></a><span class="in">pred_2qt &lt;- predict(gam_new_4, matrix_test_2qt[1:(7*period)],interval="confidence", level = 0.95)</span></span>
+<span id="cb156-879"><a href="#cb156-879" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-880"><a href="#cb156-880" aria-hidden="true" tabindex="-1"></a><span class="in">datat &lt;- rbindlist(list(data_test_2qt[, .(value, date_time)],</span></span>
+<span id="cb156-881"><a href="#cb156-881" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = pred_2qt,</span></span>
+<span id="cb156-882"><a href="#cb156-882" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_test_2qt[, date_time])))</span></span>
+<span id="cb156-883"><a href="#cb156-883" aria-hidden="true" tabindex="-1"></a><span class="in">datat[, type := c(rep("Real", nrow(data_test_2qt)), rep("Predicted", nrow(data_test_2qt)))]</span></span>
+<span id="cb156-884"><a href="#cb156-884" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datat, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-885"><a href="#cb156-885" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-886"><a href="#cb156-886" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-887"><a href="#cb156-887" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-888"><a href="#cb156-888" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Predicted result on GAM n.6")</span></span>
+<span id="cb156-889"><a href="#cb156-889" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-890"><a href="#cb156-890" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-891"><a href="#cb156-891" aria-hidden="true" tabindex="-1"></a>Predict the electricity consumption of season 3 using the fourth model.</span>
+<span id="cb156-892"><a href="#cb156-892" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-893"><a href="#cb156-893" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-894"><a href="#cb156-894" aria-hidden="true" tabindex="-1"></a><span class="in">data_test_3qt &lt;- DT[(type == n_type[1] &amp; date %in% n_date[183:274])]</span></span>
+<span id="cb156-895"><a href="#cb156-895" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_test_3qt &lt;- data.table(Load = data_test_3qt[, value],</span></span>
+<span id="cb156-896"><a href="#cb156-896" aria-hidden="true" tabindex="-1"></a><span class="in">                           Daily = rep(1:period, 91),</span></span>
+<span id="cb156-897"><a href="#cb156-897" aria-hidden="true" tabindex="-1"></a><span class="in">                           Weekly = data_test_3qt[, week_num])</span></span>
+<span id="cb156-898"><a href="#cb156-898" aria-hidden="true" tabindex="-1"></a><span class="in">pred_3qt &lt;- predict(gam_new_4, matrix_test_3qt[1:(7*period)],interval="confidence", level = 0.95)</span></span>
+<span id="cb156-899"><a href="#cb156-899" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-900"><a href="#cb156-900" aria-hidden="true" tabindex="-1"></a><span class="in">datat &lt;- rbindlist(list(data_test_3qt[, .(value, date_time)],</span></span>
+<span id="cb156-901"><a href="#cb156-901" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = pred_3qt,</span></span>
+<span id="cb156-902"><a href="#cb156-902" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_test_3qt[, date_time])))</span></span>
+<span id="cb156-903"><a href="#cb156-903" aria-hidden="true" tabindex="-1"></a><span class="in">datat[, type := c(rep("Real", nrow(data_test_3qt)), rep("Predicted", nrow(data_test_3qt)))]</span></span>
+<span id="cb156-904"><a href="#cb156-904" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datat, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-905"><a href="#cb156-905" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-906"><a href="#cb156-906" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-907"><a href="#cb156-907" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-908"><a href="#cb156-908" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Predicted result on GAM n.6")</span></span>
+<span id="cb156-909"><a href="#cb156-909" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-910"><a href="#cb156-910" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-911"><a href="#cb156-911" aria-hidden="true" tabindex="-1"></a>Predict the electricity consumption of season 4 using the fourth model.</span>
+<span id="cb156-912"><a href="#cb156-912" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-913"><a href="#cb156-913" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=13, warning=FALSE}</span></span>
+<span id="cb156-914"><a href="#cb156-914" aria-hidden="true" tabindex="-1"></a><span class="in">data_test_4qt &lt;- DT[(type == n_type[1] &amp; date %in% n_date[274:365])]</span></span>
+<span id="cb156-915"><a href="#cb156-915" aria-hidden="true" tabindex="-1"></a><span class="in">matrix_test_4qt &lt;- data.table(Load = data_test_4qt[, value],</span></span>
+<span id="cb156-916"><a href="#cb156-916" aria-hidden="true" tabindex="-1"></a><span class="in">                           Daily = rep(1:period, 91),</span></span>
+<span id="cb156-917"><a href="#cb156-917" aria-hidden="true" tabindex="-1"></a><span class="in">                           Weekly = data_test_4qt[, week_num])</span></span>
+<span id="cb156-918"><a href="#cb156-918" aria-hidden="true" tabindex="-1"></a><span class="in">pred_4qt &lt;- predict(gam_new_4, matrix_test_4qt[1:(7*period)],interval="confidence", level = 0.95)</span></span>
+<span id="cb156-919"><a href="#cb156-919" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-920"><a href="#cb156-920" aria-hidden="true" tabindex="-1"></a><span class="in">datat &lt;- rbindlist(list(data_test_4qt[, .(value, date_time)],</span></span>
+<span id="cb156-921"><a href="#cb156-921" aria-hidden="true" tabindex="-1"></a><span class="in">                        data.table(value = pred_4qt,</span></span>
+<span id="cb156-922"><a href="#cb156-922" aria-hidden="true" tabindex="-1"></a><span class="in">                                   data_time = data_test_4qt[, date_time])))</span></span>
+<span id="cb156-923"><a href="#cb156-923" aria-hidden="true" tabindex="-1"></a><span class="in">datat[, type := c(rep("Real", nrow(data_test_4qt)), rep("Predicted", nrow(data_test_4qt)))]</span></span>
+<span id="cb156-924"><a href="#cb156-924" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data = datat, aes(date_time, value, group = type, colour = type)) +</span></span>
+<span id="cb156-925"><a href="#cb156-925" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(size = 0.8) +</span></span>
+<span id="cb156-926"><a href="#cb156-926" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_bw() +</span></span>
+<span id="cb156-927"><a href="#cb156-927" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Time", y = "Load (kW)",</span></span>
+<span id="cb156-928"><a href="#cb156-928" aria-hidden="true" tabindex="-1"></a><span class="in">       title = "Predicted result on GAM n.6")</span></span>
+<span id="cb156-929"><a href="#cb156-929" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb156-930"><a href="#cb156-930" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-931"><a href="#cb156-931" aria-hidden="true" tabindex="-1"></a>Compute the MAPE of the predictions.</span>
+<span id="cb156-932"><a href="#cb156-932" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-935"><a href="#cb156-935" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb156-936"><a href="#cb156-936" aria-hidden="true" tabindex="-1"></a>mape_2qt <span class="ot">&lt;-</span> <span class="fu">mape</span>(matrix_test_2qt[<span class="dv">1</span><span class="sc">:</span>(<span class="dv">7</span><span class="sc">*</span>period)]<span class="sc">$</span>Load, pred_2qt)</span>
+<span id="cb156-937"><a href="#cb156-937" aria-hidden="true" tabindex="-1"></a>mape_3qt <span class="ot">&lt;-</span> <span class="fu">mape</span>(matrix_test_3qt[<span class="dv">1</span><span class="sc">:</span>(<span class="dv">7</span><span class="sc">*</span>period)]<span class="sc">$</span>Load, pred_3qt)</span>
+<span id="cb156-938"><a href="#cb156-938" aria-hidden="true" tabindex="-1"></a>mape_4qt <span class="ot">&lt;-</span> <span class="fu">mape</span>(matrix_test_4qt[<span class="dv">1</span><span class="sc">:</span>(<span class="dv">7</span><span class="sc">*</span>period)]<span class="sc">$</span>Load, pred_4qt)</span>
+<span id="cb156-939"><a href="#cb156-939" aria-hidden="true" tabindex="-1"></a>mapes <span class="ot">&lt;-</span> <span class="fu">cbind</span>(mape_2qt, mape_3qt, mape_4qt)</span>
+<span id="cb156-940"><a href="#cb156-940" aria-hidden="true" tabindex="-1"></a>mapes</span>
+<span id="cb156-941"><a href="#cb156-941" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

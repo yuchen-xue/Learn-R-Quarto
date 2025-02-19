@@ -260,7 +260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Brief Introduction to <code>{tidyverse}</code></h1>
+<div class="quarto-title-block"><div><h1 class="title">Brief Introduction to <code>{tidyverse}</code></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 <div>
@@ -942,6 +942,8 @@ dbl (2): drinks, blood_alc
 </div>
 
 
+<!-- -->
+
 </section>
 
 </main> <!-- /main -->
@@ -1032,6 +1034,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -1361,7 +1414,276 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb64" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Brief Introduction to `{tidyverse}`"</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "This is my reading note about some common functions in the `{tidyverse}` package"</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tibble</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why `tibble`?</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>The benefits of using <span class="in">`tibble`</span> over <span class="in">`data.frame`</span> are:</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>It tells the data type of each column.</span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Instead of printing all the data, it only prints a limited numbers of rows and columns, so that the console won't be flouded by too many text.</span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Missing values and negative values are printed in red.</span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a><span class="fu">### Load a `data.frame` as a `tibble`</span></span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r as tibble}</span></span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a><span class="in">pacman::p_load(tidyverse)</span></span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a><span class="in">tbl &lt;- as_tibble(PlantGrowth)</span></span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### Print a `tibble`</span></span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>By default it prints 10 rows.</span>
+<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r print 10 rows}</span></span>
+<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a><span class="in">print(tbl) # To 10 rows</span></span>
+<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a>To print more rows you can:</span>
+<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r print more rows}</span></span>
+<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a><span class="in">print(tbl, n = 20) # To 20 rows</span></span>
+<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a><span class="in">print(tbl, n = Inf) # To print all rows</span></span>
+<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### Load external data as a `tibble`</span></span>
+<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-39"><a href="#cb64-39" aria-hidden="true" tabindex="-1"></a>To import from a csv file, you can:</span>
+<span id="cb64-40"><a href="#cb64-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-43"><a href="#cb64-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-44"><a href="#cb64-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb64-45"><a href="#cb64-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-46"><a href="#cb64-46" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(path_to_csv) <span class="co"># base R import as data.frame</span></span>
+<span id="cb64-47"><a href="#cb64-47" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(path_to_csv) <span class="co"># load as `tidyverse::tibble` </span></span>
+<span id="cb64-48"><a href="#cb64-48" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-49"><a href="#cb64-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-50"><a href="#cb64-50" aria-hidden="true" tabindex="-1"></a>Note that you can also read data from online</span>
+<span id="cb64-51"><a href="#cb64-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-54"><a href="#cb64-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-55"><a href="#cb64-55" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/SchmidtPaul/dsfair_quarto/master/data/DrinksPeterMax.csv"</span>)</span>
+<span id="cb64-56"><a href="#cb64-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-57"><a href="#cb64-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-58"><a href="#cb64-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Transform a `tibble` into a `data.frame`</span></span>
+<span id="cb64-59"><a href="#cb64-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-62"><a href="#cb64-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-63"><a href="#cb64-63" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb64-64"><a href="#cb64-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-65"><a href="#cb64-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-66"><a href="#cb64-66" aria-hidden="true" tabindex="-1"></a><span class="fu">## `mutate()`</span></span>
+<span id="cb64-67"><a href="#cb64-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-70"><a href="#cb64-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-71"><a href="#cb64-71" aria-hidden="true" tabindex="-1"></a>tbl2 <span class="ot">&lt;-</span> <span class="fu">head</span>(tbl)</span>
+<span id="cb64-72"><a href="#cb64-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-73"><a href="#cb64-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-74"><a href="#cb64-74" aria-hidden="true" tabindex="-1"></a>baseR</span>
+<span id="cb64-75"><a href="#cb64-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-78"><a href="#cb64-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-79"><a href="#cb64-79" aria-hidden="true" tabindex="-1"></a>tbl2<span class="sc">$</span>new <span class="ot">&lt;-</span> tbl2<span class="sc">$</span>weight <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb64-80"><a href="#cb64-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-81"><a href="#cb64-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-82"><a href="#cb64-82" aria-hidden="true" tabindex="-1"></a>Create new column</span>
+<span id="cb64-83"><a href="#cb64-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-86"><a href="#cb64-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-87"><a href="#cb64-87" aria-hidden="true" tabindex="-1"></a>tbl2 <span class="ot">&lt;-</span> tbl2 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">new =</span> weight <span class="sc">+</span> <span class="dv">2</span>)</span>
+<span id="cb64-88"><a href="#cb64-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-89"><a href="#cb64-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-90"><a href="#cb64-90" aria-hidden="true" tabindex="-1"></a>Replace the value in-place</span>
+<span id="cb64-91"><a href="#cb64-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-94"><a href="#cb64-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-95"><a href="#cb64-95" aria-hidden="true" tabindex="-1"></a>tbl2 <span class="ot">&lt;-</span> tbl2 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">weight =</span> weight <span class="sc">+</span> <span class="dv">2</span>)</span>
+<span id="cb64-96"><a href="#cb64-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-97"><a href="#cb64-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-98"><a href="#cb64-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-99"><a href="#cb64-99" aria-hidden="true" tabindex="-1"></a>The backtick:</span>
+<span id="cb64-100"><a href="#cb64-100" aria-hidden="true" tabindex="-1"></a>when export to excel, the backtick won't shown in the excel file.</span>
+<span id="cb64-101"><a href="#cb64-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-104"><a href="#cb64-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-105"><a href="#cb64-105" aria-hidden="true" tabindex="-1"></a>tbl2 <span class="sc">%&gt;%</span></span>
+<span id="cb64-106"><a href="#cb64-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb64-107"><a href="#cb64-107" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Name with space</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Hello!"</span>, </span>
+<span id="cb64-108"><a href="#cb64-108" aria-hidden="true" tabindex="-1"></a>    <span class="at">number10 =</span> <span class="dv">10</span></span>
+<span id="cb64-109"><a href="#cb64-109" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb64-110"><a href="#cb64-110" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-111"><a href="#cb64-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-112"><a href="#cb64-112" aria-hidden="true" tabindex="-1"></a>For the 3</span>
+<span id="cb64-113"><a href="#cb64-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-116"><a href="#cb64-116" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-117"><a href="#cb64-117" aria-hidden="true" tabindex="-1"></a>tbl2 <span class="sc">%&gt;%</span></span>
+<span id="cb64-118"><a href="#cb64-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">v1 =</span> <span class="dv">1</span>, <span class="at">v2 =</span> <span class="dv">2</span>, <span class="at">v3 =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb64-119"><a href="#cb64-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb64-120"><a href="#cb64-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"v"</span>), <span class="sc">~</span> .x <span class="sc">+</span> <span class="dv">20</span>))</span>
+<span id="cb64-121"><a href="#cb64-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-122"><a href="#cb64-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-123"><a href="#cb64-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## `select()`</span></span>
+<span id="cb64-124"><a href="#cb64-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-127"><a href="#cb64-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-128"><a href="#cb64-128" aria-hidden="true" tabindex="-1"></a>tbl3 <span class="ot">&lt;-</span> tbl2 <span class="sc">%&gt;%</span> </span>
+<span id="cb64-129"><a href="#cb64-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">var1 =</span> <span class="dv">1</span>, <span class="at">var2 =</span> <span class="dv">2</span>, <span class="at">var3 =</span> <span class="st">"text"</span>, <span class="at">var4 =</span> <span class="st">"word"</span>)</span>
+<span id="cb64-130"><a href="#cb64-130" aria-hidden="true" tabindex="-1"></a>tbl3</span>
+<span id="cb64-131"><a href="#cb64-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-132"><a href="#cb64-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-133"><a href="#cb64-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-136"><a href="#cb64-136" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-137"><a href="#cb64-137" aria-hidden="true" tabindex="-1"></a>tbl3 <span class="sc">%&gt;%</span> </span>
+<span id="cb64-138"><a href="#cb64-138" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(group, var1, var4)</span>
+<span id="cb64-139"><a href="#cb64-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-140"><a href="#cb64-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-143"><a href="#cb64-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-144"><a href="#cb64-144" aria-hidden="true" tabindex="-1"></a>tbl3 <span class="sc">%&gt;%</span> </span>
+<span id="cb64-145"><a href="#cb64-145" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(group, var1<span class="sc">:</span>var4)</span>
+<span id="cb64-146"><a href="#cb64-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-147"><a href="#cb64-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-150"><a href="#cb64-150" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-151"><a href="#cb64-151" aria-hidden="true" tabindex="-1"></a>tbl3 <span class="sc">%&gt;%</span> </span>
+<span id="cb64-152"><a href="#cb64-152" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>group)</span>
+<span id="cb64-153"><a href="#cb64-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-154"><a href="#cb64-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-157"><a href="#cb64-157" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-158"><a href="#cb64-158" aria-hidden="true" tabindex="-1"></a>tbl3 <span class="sc">%&gt;%</span> </span>
+<span id="cb64-159"><a href="#cb64-159" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span>
+<span id="cb64-160"><a href="#cb64-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-161"><a href="#cb64-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-162"><a href="#cb64-162" aria-hidden="true" tabindex="-1"></a>Select *literally* everything but move the column <span class="in">`var`</span> to the front.</span>
+<span id="cb64-165"><a href="#cb64-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-166"><a href="#cb64-166" aria-hidden="true" tabindex="-1"></a>tbl3 <span class="sc">%&gt;%</span> </span>
+<span id="cb64-167"><a href="#cb64-167" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(var1, <span class="fu">everything</span>())</span>
+<span id="cb64-168"><a href="#cb64-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-169"><a href="#cb64-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-170"><a href="#cb64-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## `filter()`</span></span>
+<span id="cb64-171"><a href="#cb64-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-174"><a href="#cb64-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-175"><a href="#cb64-175" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-176"><a href="#cb64-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(weight <span class="sc">&gt;</span> <span class="dv">6</span> <span class="sc">&amp;</span> group <span class="sc">==</span> <span class="st">"trt2"</span>)</span>
+<span id="cb64-177"><a href="#cb64-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-178"><a href="#cb64-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-181"><a href="#cb64-181" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-182"><a href="#cb64-182" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-183"><a href="#cb64-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(weight <span class="sc">&gt;</span> <span class="dv">6</span> <span class="sc">|</span> weight <span class="sc">&lt;</span> <span class="dv">4</span>)</span>
+<span id="cb64-184"><a href="#cb64-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-185"><a href="#cb64-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-186"><a href="#cb64-186" aria-hidden="true" tabindex="-1"></a>Now we want to keep only trt1 and trt2 observations</span>
+<span id="cb64-187"><a href="#cb64-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-188"><a href="#cb64-188" aria-hidden="true" tabindex="-1"></a>Option 1:</span>
+<span id="cb64-189"><a href="#cb64-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-192"><a href="#cb64-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-193"><a href="#cb64-193" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-194"><a href="#cb64-194" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(group <span class="sc">==</span> <span class="st">"trt1"</span> <span class="sc">|</span> group <span class="sc">==</span> <span class="st">"trt2"</span>)</span>
+<span id="cb64-195"><a href="#cb64-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-196"><a href="#cb64-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-197"><a href="#cb64-197" aria-hidden="true" tabindex="-1"></a>Option 2:</span>
+<span id="cb64-198"><a href="#cb64-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-201"><a href="#cb64-201" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-202"><a href="#cb64-202" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-203"><a href="#cb64-203" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"trt1"</span>, <span class="st">"trt2"</span>))</span>
+<span id="cb64-204"><a href="#cb64-204" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-205"><a href="#cb64-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-206"><a href="#cb64-206" aria-hidden="true" tabindex="-1"></a>Option 3:</span>
+<span id="cb64-207"><a href="#cb64-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-210"><a href="#cb64-210" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-211"><a href="#cb64-211" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-212"><a href="#cb64-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(group <span class="sc">!=</span> <span class="st">"ctrl"</span>)</span>
+<span id="cb64-213"><a href="#cb64-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-214"><a href="#cb64-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-217"><a href="#cb64-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-218"><a href="#cb64-218" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-219"><a href="#cb64-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(weight <span class="sc">&gt;</span> <span class="fu">mean</span>(weight))</span>
+<span id="cb64-220"><a href="#cb64-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-221"><a href="#cb64-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-222"><a href="#cb64-222" aria-hidden="true" tabindex="-1"></a><span class="fu">## `arrange()`</span></span>
+<span id="cb64-223"><a href="#cb64-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-224"><a href="#cb64-224" aria-hidden="true" tabindex="-1"></a>Firstly we gather the data. Note that we make use of <span class="in">`slice()`</span>, whose function is to select data of discrete ranges.</span>
+<span id="cb64-225"><a href="#cb64-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-228"><a href="#cb64-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-229"><a href="#cb64-229" aria-hidden="true" tabindex="-1"></a>tbl4 <span class="ot">&lt;-</span> tbl <span class="sc">%&gt;%</span></span>
+<span id="cb64-230"><a href="#cb64-230" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">11</span><span class="sc">:</span><span class="dv">13</span>, <span class="dv">21</span><span class="sc">:</span><span class="dv">23</span>) </span>
+<span id="cb64-231"><a href="#cb64-231" aria-hidden="true" tabindex="-1"></a><span class="co"># this keeps only rows 1,2,3,11,12,13,21,22,23</span></span>
+<span id="cb64-232"><a href="#cb64-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-233"><a href="#cb64-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-234"><a href="#cb64-234" aria-hidden="true" tabindex="-1"></a>Sort by weight (default: ascending)</span>
+<span id="cb64-235"><a href="#cb64-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-238"><a href="#cb64-238" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-239"><a href="#cb64-239" aria-hidden="true" tabindex="-1"></a>tbl4 <span class="sc">%&gt;%</span></span>
+<span id="cb64-240"><a href="#cb64-240" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(weight) </span>
+<span id="cb64-241"><a href="#cb64-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-242"><a href="#cb64-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-243"><a href="#cb64-243" aria-hidden="true" tabindex="-1"></a>Sort by weight, but descending:</span>
+<span id="cb64-244"><a href="#cb64-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-247"><a href="#cb64-247" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-248"><a href="#cb64-248" aria-hidden="true" tabindex="-1"></a>tbl4 <span class="sc">%&gt;%</span></span>
+<span id="cb64-249"><a href="#cb64-249" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(weight))</span>
+<span id="cb64-250"><a href="#cb64-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-251"><a href="#cb64-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-252"><a href="#cb64-252" aria-hidden="true" tabindex="-1"></a>Firslty sort by "group". Within each "group" we sort by "weight".  </span>
+<span id="cb64-253"><a href="#cb64-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-256"><a href="#cb64-256" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-257"><a href="#cb64-257" aria-hidden="true" tabindex="-1"></a>tbl4 <span class="sc">%&gt;%</span></span>
+<span id="cb64-258"><a href="#cb64-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(group, weight)</span>
+<span id="cb64-259"><a href="#cb64-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-260"><a href="#cb64-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-261"><a href="#cb64-261" aria-hidden="true" tabindex="-1"></a>Custom order (e.g. sort not alphabetically):</span>
+<span id="cb64-262"><a href="#cb64-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-265"><a href="#cb64-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-266"><a href="#cb64-266" aria-hidden="true" tabindex="-1"></a>myorder <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"trt1"</span>, <span class="st">"ctrl"</span>, <span class="st">"trt2"</span>)</span>
+<span id="cb64-267"><a href="#cb64-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-268"><a href="#cb64-268" aria-hidden="true" tabindex="-1"></a>tbl4 <span class="sc">%&gt;%</span> </span>
+<span id="cb64-269"><a href="#cb64-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(</span>
+<span id="cb64-270"><a href="#cb64-270" aria-hidden="true" tabindex="-1"></a>    <span class="fu">match</span>(group, myorder), </span>
+<span id="cb64-271"><a href="#cb64-271" aria-hidden="true" tabindex="-1"></a>    weight</span>
+<span id="cb64-272"><a href="#cb64-272" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb64-273"><a href="#cb64-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-274"><a href="#cb64-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-275"><a href="#cb64-275" aria-hidden="true" tabindex="-1"></a><span class="fu">## `summarise()`</span></span>
+<span id="cb64-276"><a href="#cb64-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-279"><a href="#cb64-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-280"><a href="#cb64-280" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-281"><a href="#cb64-281" aria-hidden="true" tabindex="-1"></a>  <span class="co"># no group_by </span></span>
+<span id="cb64-282"><a href="#cb64-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">my_mean =</span> <span class="fu">mean</span>(weight))</span>
+<span id="cb64-283"><a href="#cb64-283" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-284"><a href="#cb64-284" aria-hidden="true" tabindex="-1"></a>But why not use the built-in <span class="in">`mean()`</span> function? (i.e. in this case <span class="in">`mean(tbl$weight)`</span>).</span>
+<span id="cb64-285"><a href="#cb64-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-286"><a href="#cb64-286" aria-hidden="true" tabindex="-1"></a>But <span class="in">`summary()`</span> shines when combining with other functions. E.g. we can get the mean of each control groups:</span>
+<span id="cb64-289"><a href="#cb64-289" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-290"><a href="#cb64-290" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-291"><a href="#cb64-291" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-292"><a href="#cb64-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">my_mean =</span> <span class="fu">mean</span>(weight))</span>
+<span id="cb64-293"><a href="#cb64-293" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-294"><a href="#cb64-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-295"><a href="#cb64-295" aria-hidden="true" tabindex="-1"></a>We can also elaborate by combining with multiple functions:</span>
+<span id="cb64-296"><a href="#cb64-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-299"><a href="#cb64-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-300"><a href="#cb64-300" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-301"><a href="#cb64-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-302"><a href="#cb64-302" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb64-303"><a href="#cb64-303" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(weight),</span>
+<span id="cb64-304"><a href="#cb64-304" aria-hidden="true" tabindex="-1"></a>    <span class="at">StdDev =</span> <span class="fu">sd</span>(weight),</span>
+<span id="cb64-305"><a href="#cb64-305" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min =</span> <span class="fu">min</span>(weight),</span>
+<span id="cb64-306"><a href="#cb64-306" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median =</span> <span class="fu">median</span>(weight),</span>
+<span id="cb64-307"><a href="#cb64-307" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max =</span> <span class="fu">max</span>(weight),</span>
+<span id="cb64-308"><a href="#cb64-308" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_Obs =</span> <span class="fu">n</span>(),</span>
+<span id="cb64-309"><a href="#cb64-309" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb64-310"><a href="#cb64-310" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-311"><a href="#cb64-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-312"><a href="#cb64-312" aria-hidden="true" tabindex="-1"></a>We can even group by more than one groups</span>
+<span id="cb64-313"><a href="#cb64-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-316"><a href="#cb64-316" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-317"><a href="#cb64-317" aria-hidden="true" tabindex="-1"></a>tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb64-318"><a href="#cb64-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">larger5 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb64-319"><a href="#cb64-319" aria-hidden="true" tabindex="-1"></a>    weight <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"yes"</span>,</span>
+<span id="cb64-320"><a href="#cb64-320" aria-hidden="true" tabindex="-1"></a>    weight <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"no"</span></span>
+<span id="cb64-321"><a href="#cb64-321" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-322"><a href="#cb64-322" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group, larger5) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-323"><a href="#cb64-323" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb64-324"><a href="#cb64-324" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_Obs =</span> <span class="fu">n</span>(),</span>
+<span id="cb64-325"><a href="#cb64-325" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(weight)</span>
+<span id="cb64-326"><a href="#cb64-326" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb64-327"><a href="#cb64-327" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

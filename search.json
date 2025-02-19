@@ -191,28 +191,28 @@
   {
     "objectID": "content/r-topics/pipe-operator.html",
     "href": "content/r-topics/pipe-operator.html",
-    "title": "Learning R + Quarto",
+    "title": "",
     "section": "",
-    "text": "pacman::p_load(tidyverse)"
+    "text": "Code\npacman::p_load(tidyverse)"
   },
   {
     "objectID": "content/r-topics/pipe-operator.html#about-pipe",
     "href": "content/r-topics/pipe-operator.html#about-pipe",
-    "title": "Learning R + Quarto",
+    "title": "",
     "section": "About pipe",
     "text": "About pipe\nHere’s a mini example 1. Create a vector 2. Calculate the square root of this vector 3. Calculate the mean of the square root of the result 4. Calculate the square root of the result\n\nOption 1: Nesting Functions\n\nsqrt(mean(sqrt(c(3, 5, 8))))\n\n[1] 1.505163\n\n\n\nPRO: Not much code\nCON: Hard to read\n\n\n\nOption 2: Intermediate Results\n\nPRO: Easy to read\nCON: A lot of code, unnecessary intermediate results\n\n\na &lt;- c(3, 5, 8)\nb &lt;- sqrt(a)\nc &lt;- mean(b)\nsqrt(c)\n\n[1] 1.505163\n\n\n\n\nOption 3: Pipe Operator\nThese do the same thing:\n\nsqrt(c(3, 5, 8))      # baseR\n\n[1] 1.732051 2.236068 2.828427\n\nc(3, 5, 8) %&gt;% sqrt() # Pipe\n\n[1] 1.732051 2.236068 2.828427\n\n\nThus the final solution by using the pipe operator is:\n\nc(3, 5, 8) %&gt;% sqrt() %&gt;% mean() %&gt;% sqrt()\n\n[1] 1.505163"
   },
   {
     "objectID": "content/r-topics/pipe-operator.html#deal-with-functions-with-additional-arguments",
     "href": "content/r-topics/pipe-operator.html#deal-with-functions-with-additional-arguments",
-    "title": "Learning R + Quarto",
+    "title": "",
     "section": "Deal with functions with additional arguments",
     "text": "Deal with functions with additional arguments\nWhat if I want to pipe my object into an argument of a function that is NOT the first argument? For example:\n\ntbl &lt;- as_tibble(PlantGrowth)\nlm(weight ~ group, data = tbl)\n\n\nCall:\nlm(formula = weight ~ group, data = tbl)\n\nCoefficients:\n(Intercept)    grouptrt1    grouptrt2  \n      5.032       -0.371        0.494  \n\n\nAnswer: Use a dot to say which argument to pipe to.\n\ntbl %&gt;% lm(weight ~ group, data = .)\n\n\nCall:\nlm(formula = weight ~ group, data = .)\n\nCoefficients:\n(Intercept)    grouptrt1    grouptrt2  \n      5.032       -0.371        0.494"
   },
   {
     "objectID": "content/r-topics/pipe-operator.html#but-what-about-this-operator",
     "href": "content/r-topics/pipe-operator.html#but-what-about-this-operator",
-    "title": "Learning R + Quarto",
+    "title": "",
     "section": "But what about this Operator: |>",
     "text": "But what about this Operator: |&gt;\nThere’s minor difference but %&gt;% operator is still bettern than |&gt; operator. Find more information from this tutorial."
   },
