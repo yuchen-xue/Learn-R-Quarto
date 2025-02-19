@@ -244,7 +244,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#suppressing-the-output" id="toc-suppressing-the-output" class="nav-link" data-scroll-target="#suppressing-the-output">Suppressing the output</a></li>
   <li><a href="#suppressing-using-function-arguments" id="toc-suppressing-using-function-arguments" class="nav-link" data-scroll-target="#suppressing-using-function-arguments">Suppressing using function arguments</a></li>
   </ul></li>
-  <li><a href="#read-a-excel-.xlsx-files" id="toc-read-a-excel-.xlsx-files" class="nav-link" data-scroll-target="#read-a-excel-.xlsx-files">Read a Excel <code>.xlsx</code> Files</a></li>
+  <li><a href="#read-a-excel-.xlsx-files" id="toc-read-a-excel-.xlsx-files" class="nav-link" data-scroll-target="#read-a-excel-.xlsx-files">Read a Excel <code>.xlsx</code> Files</a>
+  <ul class="collapse">
+  <li><a href="#method-1-using-readxlread_excel" id="toc-method-1-using-readxlread_excel" class="nav-link" data-scroll-target="#method-1-using-readxlread_excel">Method 1: using <code>readxl::read_excel()</code></a></li>
+  <li><a href="#method-2-using-read.xlsx-from-package-openxlsx" id="toc-method-2-using-read.xlsx-from-package-openxlsx" class="nav-link" data-scroll-target="#method-2-using-read.xlsx-from-package-openxlsx">Method 2: using <code>read.xlsx()</code> from package <code>openxlsx</code></a></li>
+  </ul></li>
   <li><a href="#write-a-csv-file-using-the-tidyverse-packages" id="toc-write-a-csv-file-using-the-tidyverse-packages" class="nav-link" data-scroll-target="#write-a-csv-file-using-the-tidyverse-packages">Write a csv file using the <code>tidyverse</code> packages</a></li>
   </ul>
 </nav>
@@ -278,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="read-a-csv-file-using-the-tidyverse-packages" class="level2">
 <h2 class="anchored" data-anchor-id="read-a-csv-file-using-the-tidyverse-packages">Read a csv file using the <code>tidyverse</code> packages</h2>
-<p><code>readr::read_csv()</code> is a part of the <code>tidyverse</code> universe. Its output is a <code>tibble</code>, instead of a <code>data.frame</code>.</p>
+<p><code>readr::read_csv()</code> is a part of the <code>tidyverse</code> universe. Its output is a <code>tibble</code>, instead of a <code>data.frame</code>. You can use this function to read a csv file either from a local file or from an online source.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -294,7 +298,7 @@ Important
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"../data/Clewer&amp;Scarisbrick2001.csv"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/Clewer&amp;Scarisbrick2001.csv"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(path) <span class="co"># use path from above</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 12 Columns: 5
@@ -335,28 +339,118 @@ dbl (3): yield, row, col
 </section>
 <section id="read-a-excel-.xlsx-files" class="level2">
 <h2 class="anchored" data-anchor-id="read-a-excel-.xlsx-files">Read a Excel <code>.xlsx</code> Files</h2>
+<section id="method-1-using-readxlread_excel" class="level3">
+<h3 class="anchored" data-anchor-id="method-1-using-readxlread_excel">Method 1: using <code>readxl::read_excel()</code></h3>
+<p>The conventional <code>readxl::read_excel()</code> function can be used for reading a <code>.xlsx</code> file from local storage. But it fails to read a file directly from an online source. Thus downloading the data is necessary before reading a <code>.xlsx</code> file using <code>readxl::read_excel()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xlsx_path <span class="ot">&lt;-</span> <span class="st">"../data/vision_fixed.xlsx"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(xlsx_path)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>xlsx_dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl, httr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xlsx_path <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the `.xlsx` file as a tempfile and loaded it locally</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(xlsx_path, <span class="fu">write_disk</span>(tf <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".xlsx"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 29 × 9
-   Person   Ages Gender `Civil state` Height Profession Vision Distance PercDist
-   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1 Andrés     25 M      S                180 Student        10      1.5     15  
- 2 Anja       29 F      S                168 Professio…     10      4.5     45  
- 3 Armando    31 M      S                169 Professio…      9      4.5     50  
- 4 Carlos     25 M      M                185 Professio…      8      6       75  
- 5 Cristi…    23 F      &lt;NA&gt;             170 Student        10      3       30  
- 6 Delfa      39 F      M                158 Professio…      6      4.5     75  
- 7 Eduardo    28 M      S                166 Professio…      8      4.5     56.2
- 8 Enrique    NA &lt;NA&gt;   &lt;NA&gt;              NA Professio…     NA      6       NA  
- 9 Fanny      25 F      M                164 Student         9      3       33.3
-10 Franci…    46 M      M                168 Professio…      8      4.5     56.2
-# ℹ 19 more rows</code></pre>
+<pre><code>Response [https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx]
+  Date: 2025-02-19 13:59
+  Status: 200
+  Content-Type: application/octet-stream
+  Size: 11.5 kB
+&lt;ON DISK&gt;  /tmp/RtmpD8eFnP/file18347702ddf6.xlsx</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(tf, <span class="dv">2</span>L)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the tempfile</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(tf)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>xlsx_dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 0</code></pre>
 </div>
 </div>
+</section>
+<section id="method-2-using-read.xlsx-from-package-openxlsx" class="level3">
+<h3 class="anchored" data-anchor-id="method-2-using-read.xlsx-from-package-openxlsx">Method 2: using <code>read.xlsx()</code> from package <code>openxlsx</code></h3>
+<p><code>read.xlsx()</code> from package <code>openxlsx</code> can read a <code>.xlsx</code> file not only locally, but also directly from the online source. Thus it’s the recommended method of file loading.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(openxlsx)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>xlsx_path <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(xlsx_path)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>xlsx_dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Person Ages Gender Civil.state Height   Profession Vision Distance
+1         Andrés   25      M           S    180      Student     10      1.5
+2           Anja   29      F           S    168 Professional     10      4.5
+3        Armando   31      M           S    169 Professional      9      4.5
+4         Carlos   25      M           M    185 Professional      8      6.0
+5       Cristina   23      F        &lt;NA&gt;    170      Student     10      3.0
+6          Delfa   39      F           M    158 Professional      6      4.5
+7        Eduardo   28      M           S    166 Professional      8      4.5
+8        Enrique   NA   &lt;NA&gt;        &lt;NA&gt;     NA Professional     NA      6.0
+9          Fanny   25      F           M    164      Student      9      3.0
+10     Francisco   46      M           M    168 Professional      8      4.5
+11      Franklin   55      M           M    165 Professional      7      4.5
+12       Hannele   22      F           S    161      Student     10      1.5
+13        Henrry   28      M           S    168 Professional     10      6.0
+14          Iván   29      M           S    169 Professional      8      3.0
+15         Jaime   23      M           M    190      Student      9      1.5
+16         Josué   25      M           S    175      Student     10      1.5
+17        Lorena   26      F           M    168      Student      7      3.0
+18         Marco   28      M           S    175 Professional     10      1.5
+19 Maria Augusta   25      F           S    163      Student     10      3.0
+20        Marina   25      F           S    166      Student     10      3.0
+21         Marta   47      F           S    152 Professional      7      1.5
+22          Nora   50      F           M    145 Professional      6      6.0
+23         Pablo   24      M           S    172      Student      9      3.0
+24         Pablo   49      M           M    165 Professional      6      4.5
+25      Patricia   25      F           S    152      Student      7      3.0
+26          Raúl   26      M           S    178 Professional      9      1.5
+27       Rolando   26      M           M    180 Professional      3      4.5
+28        Silvio   27      M           S    168 Professional      8      4.5
+29        Victor   26      M           S    170 Professional     10      1.5
+    PercDist
+1   15.00000
+2   45.00000
+3   50.00000
+4   75.00000
+5   30.00000
+6   75.00000
+7   56.25000
+8         NA
+9   33.33333
+10  56.25000
+11  64.28571
+12  15.00000
+13  60.00000
+14  37.50000
+15  16.66667
+16  15.00000
+17  42.85714
+18  15.00000
+19  30.00000
+20  30.00000
+21  21.42857
+22 100.00000
+23  33.33333
+24  75.00000
+25  42.85714
+26  16.66667
+27 150.00000
+28  56.25000
+29  15.00000</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn more about loading a <code>.xlsx</code> file from an online resource by following <a href="https://stackoverflow.com/q/41368628">this Stack Overflow discussion</a>.</p>
+</div>
+</div>
+</section>
 </section>
 <section id="write-a-csv-file-using-the-tidyverse-packages" class="level2">
 <h2 class="anchored" data-anchor-id="write-a-csv-file-using-the-tidyverse-packages">Write a csv file using the <code>tidyverse</code> packages</h2>
@@ -836,75 +930,99 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Read &amp; Export Data"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "This is my reading note about loading and exporting data."</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read a csv file using the `tidyverse` packages</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="in">`readr::read_csv()`</span> is a part of the <span class="in">`tidyverse`</span> universe. Its output is a <span class="in">`tibble`</span>, instead of a <span class="in">`data.frame`</span>.</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>Don't be confused with the native <span class="in">`read.csv()`</span> function, which produces a <span class="in">`data.frame`</span> object.</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"../data/Clewer&amp;Scarisbrick2001.csv"</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(path) <span class="co"># use path from above</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Suppressing the output</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>You will notice from the output there's a message:</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="in">```default</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="in">Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### Suppressing using function arguments</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>According to <span class="co">[</span><span class="ot">this Stack Overflow discussion</span><span class="co">](https://stackoverflow.com/q/55687401)</span>, you have two options. Either -- as suggested by the message -- pass the <span class="in">`show_col_types = FALSE`</span> argument, or add information about the separator.</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>:::: {.columns}</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>::: {.column width="49%"}</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>::: {.column width="2%"}</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- empty column to create gap --&gt;</span></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>::: {.column width="49%"}</span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    path, <span class="at">col_types =</span> <span class="fu">cols</span>())</span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>::::  </span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- end of columns --&gt;</span></span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read a Excel `.xlsx` Files</span></span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl)</span>
-<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>xlsx_path <span class="ot">&lt;-</span> <span class="st">"../data/vision_fixed.xlsx"</span></span>
-<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(xlsx_path)</span>
-<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>xlsx_dat</span>
-<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Write a csv file using the `tidyverse` packages</span></span>
-<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>Learn more from this <span class="co">[</span><span class="ot">doc</span><span class="co">](https://readr.tidyverse.org/reference/write_delim.html)</span>.</span>
+<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Read &amp; Export Data"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "This is my reading note about loading and exporting data."</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read a csv file using the `tidyverse` packages</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="in">`readr::read_csv()`</span> is a part of the <span class="in">`tidyverse`</span> universe. Its output is a <span class="in">`tibble`</span>, instead of a <span class="in">`data.frame`</span>. You can use this function to read a csv file either from a local file or from an online source.</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>Don't be confused with the native <span class="in">`read.csv()`</span> function, which produces a <span class="in">`data.frame`</span> object.</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/Clewer&amp;Scarisbrick2001.csv"</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(path) <span class="co"># use path from above</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Suppressing the output</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>You will notice from the output there's a message:</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="in">```default</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="in">Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### Suppressing using function arguments</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>According to <span class="co">[</span><span class="ot">this Stack Overflow discussion</span><span class="co">](https://stackoverflow.com/q/55687401)</span>, you have two options. Either -- as suggested by the message -- pass the <span class="in">`show_col_types = FALSE`</span> argument, or add information about the separator.</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>:::: {.columns}</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>::: {.column width="49%"}</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>::: {.column width="2%"}</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- empty column to create gap --&gt;</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>::: {.column width="49%"}</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    path, <span class="at">col_types =</span> <span class="fu">cols</span>())</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>::::  </span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- end of columns --&gt;</span></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read a Excel `.xlsx` Files</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 1: using `readxl::read_excel()`</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>The conventional <span class="in">`readxl::read_excel()`</span> function can be used for reading  a <span class="in">`.xlsx`</span> file from local storage. But it fails to read a file directly from an online source. Thus downloading the data is necessary before reading a <span class="in">`.xlsx`</span> file using <span class="in">`readxl::read_excel()`</span> function.</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a><span class="in">```{r using readxl::read_excel()}</span></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a><span class="in">pacman::p_load(readxl, httr)</span></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a><span class="in">xlsx_path &lt;- "https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx"</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a><span class="in"># Download the `.xlsx` file as a tempfile and loaded it locally</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a><span class="in">GET(xlsx_path, write_disk(tf &lt;- tempfile(fileext = ".xlsx")))</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a><span class="in">xlsx_dat &lt;- read_excel(tf, 2L)</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a><span class="in"># Remove the tempfile</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a><span class="in">unlink(tf)</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a><span class="in">xlsx_dat</span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Method 2: using `read.xlsx()` from package `openxlsx`</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="in">`read.xlsx()`</span> from package <span class="in">`openxlsx`</span> can read a <span class="in">`.xlsx`</span> file not only locally, but also directly from the online source. Thus it's the recommended method of file loading. </span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r using openxlsx}</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a><span class="in">pacman::p_load(openxlsx)</span></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="in">xlsx_path &lt;- "https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx"</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="in">xlsx_dat &lt;- read.xlsx(xlsx_path)</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a><span class="in">xlsx_dat</span></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>Learn more about loading a <span class="in">`.xlsx`</span> file from an online resource by following <span class="co">[</span><span class="ot">this Stack Overflow discussion</span><span class="co">](https://stackoverflow.com/q/41368628)</span>.</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a><span class="fu">## Write a csv file using the `tidyverse` packages</span></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>Learn more from this <span class="co">[</span><span class="ot">doc</span><span class="co">](https://readr.tidyverse.org/reference/write_delim.html)</span>.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
