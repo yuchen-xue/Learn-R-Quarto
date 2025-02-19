@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Learning R + Quarto"
+  favicon: content/img/favicon.png  # https://icons8.com/icon/110863/r
   navbar:
     left:
       - text: Home
