@@ -19,8 +19,8 @@ website:
             href: content/r-topics/ggplot2-basic.qmd
           - text: Pipe Operator
             href: content/r-topics/pipe-operator.qmd
-          - text: Package Loading & Conflict Resolve
-            href: content/r-topics/package-loading-conflict.qmd
+          - text: Package Management
+            href: content/r-topics/package-management.qmd
           - text: Read And Export Data
             href: content/r-topics/read-export-data.qmd
           - text: Model Testing

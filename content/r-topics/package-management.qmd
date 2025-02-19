@@ -46,3 +46,7 @@ conflicts_prefer(dplyr::filter)
 ::: {.callout-note title="External resources"}
 * https://schmidtpaul.github.io/dsfair_quarto/ch/misc/usefulthings.html#conflicted
 :::
+
+## Removing Packages
+
+[Here's a good example](https://stackoverflow.com/a/26633042) of removing a package along with its dependencies.
