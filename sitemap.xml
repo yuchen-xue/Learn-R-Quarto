@@ -2,74 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/experiment-designs/rcbd_clewerscarisbrick2001.html</loc>
-    <lastmod>2025-02-19T14:25:03.529Z</lastmod>
+    <lastmod>2025-02-20T12:34:19.141Z</lastmod>
   </url>
   <url>
     <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/experiment-designs/experiment-design-basic.html</loc>
-    <lastmod>2025-02-19T14:25:03.529Z</lastmod>
+    <lastmod>2025-02-20T12:34:19.141Z</lastmod>
   </url>
   <url>
     <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/code-block.html</loc>
-    <lastmod>2025-02-19T14:25:03.531Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/website.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/pipe-operator.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/ggplot2-basic.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/useful-r-r_studio.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/tidyverse-exercise.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/model-testing.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/index.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/correlation-lm.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/package-management.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/tidyverse-basic.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/read-export-data.html</loc>
-    <lastmod>2025-02-19T14:25:03.532Z</lastmod>
-  </url>
-  <url>
-    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/layout-style.html</loc>
-    <lastmod>2025-02-19T14:25:03.531Z</lastmod>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
   </url>
   <url>
     <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/quarto-projects.html</loc>
-    <lastmod>2025-02-19T14:25:03.531Z</lastmod>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/website.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/pipe-operator.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/ggplot2-basic.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/useful-r-r_studio.html</loc>
+    <lastmod>2025-02-20T12:34:19.144Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/tidyverse-exercise.html</loc>
+    <lastmod>2025-02-20T12:34:19.144Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/model-testing.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/index.html</loc>
+    <lastmod>2025-02-20T12:34:19.144Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/correlation-lm.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/package-management.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/tidyverse-basic.html</loc>
+    <lastmod>2025-02-20T12:34:19.144Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/r-topics/read-export-data.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/layout-style.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/presentation-example.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/quarto-topics/presentation.html</loc>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
   </url>
   <url>
     <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/my-projects/EnerNOC-GAM.html</loc>
-    <lastmod>2025-02-19T14:25:03.531Z</lastmod>
+    <lastmod>2025-02-20T12:34:19.143Z</lastmod>
   </url>
   <url>
     <loc>https://yuchen-xue.github.io/Learn-R-Quarto/content/experiment-designs/crd_mead1993.html</loc>
-    <lastmod>2025-02-19T14:25:03.529Z</lastmod>
+    <lastmod>2025-02-20T12:34:19.141Z</lastmod>
   </url>
 </urlset>
