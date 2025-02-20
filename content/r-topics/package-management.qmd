@@ -3,7 +3,9 @@ title: "Package Loading and Conflicting Management"
 description: "This page contains the information about packages loading and conflict resolving"
 ---
 
-## Loading Packages
+## Installing and Loading Packages
+
+### Brief Overview of Differnt Package Loading Methods
 
 When using built-in R functions
 
@@ -21,6 +23,28 @@ When using `pacman::p_load()`, it only installs packages when the package is not
 
 pacman::p_load("packagename1", "packagename2") 
 ```
+
+### Installing Packages from a user-specified CRAN Mirror Site
+
+When you install packages using `install.packages()` method, you may encounter the following message:
+
+```default
+--- Please select a CRAN mirror for use in this session ---
+```
+
+You can either follow the GUI to choose your desire mirror site (which requires TCL/TK), or you can  simply pass an argument `repos` without the GUI tool, e.g.:
+
+```{r select mirror site during function call}
+#| eval: false
+
+install.packages('RMySQL', repos='http://cran.us.r-project.org')
+```
+
+Here is the full list of [CRAN mirror sites](https://cran.r-project.org/mirrors.html).
+
+::: {.callout-note}
+Read more information from [this Stack Overflow discussion](https://stackoverflow.com/q/11488174).
+:::
 
 ## Conflict Resolving
 
