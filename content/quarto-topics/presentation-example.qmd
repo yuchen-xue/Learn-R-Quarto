@@ -1,0 +1,40 @@
+---
+title: "An Example of Presentation using Quarto"
+subtitle: "Hint: use arrow keys to navigate through pages"
+author: "Yuchen Xue"
+format:
+  revealjs:
+    footer: "[Back to the introduction page](presentation.html)"
+---
+
+# Header 1
+This text is the content of a header of level 1. 
+Content of headers of level 1 always occupy one single slide. 
+
+## Header 1.1
+This is the content of a header of level 2.
+
+### Header 1.1.1
+This is the content of a header of level 3.
+It shares the same slide with the content of the previous header. 
+
+***
+
+### Header 1.1.2
+This text also belongs to a heading of level 3, but it comes in another slide, since we've inserted a manual slide break (i.e. a horizontal rule `***`) in front of the header.  
+
+
+# Example of Bullet points
+Bullet points can be defined using either `*` symbol or `-` symbol.
+
+* This bullet point is defined using `*` symbol
+- This bullet point is defined using `-` symbol
+
+Incremental bullet points can be defined by using an `incremental` option.
+They appear one by one when the user click the "next slide" button. 
+Read the detailed information from [the official guide](https://quarto.org/docs/presentations/revealjs/#incremental-lists).
+
+::: {.incremental}
+* Incremental bullet point 1
+* Incremental bullet point 2
+:::

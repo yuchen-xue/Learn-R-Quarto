@@ -38,6 +38,8 @@ website:
             href: content/quarto-topics/code-block.qmd
           - text: Writing a Website using Quarto
             href: content/quarto-topics/website.qmd
+          - text: Presentation
+            href: content/quarto-topics/presentation.qmd
       - text: Experiment Designs
         menu:
           - text: Basics of Experiment Design

@@ -1,0 +1,10 @@
+---
+title: "Introduction to Presentation using Quarto"
+description: "This is my reading note about Presentation using Quarto."
+---
+
+## Presentation using Quarto
+
+You can find the introductory information about making a presentation using Quarto from [the official guide](https://quarto.org/docs/presentations/revealjs). You can also find the detailed options from [the reference page](https://quarto.org/docs/reference/formats/presentations/revealjs.html).
+
+Besides, you can have a look at [my presentation example](presentation-example.html).
