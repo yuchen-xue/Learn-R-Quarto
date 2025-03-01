@@ -12,8 +12,10 @@ website:
         menu:
           - text: Correlation And Linear Model
             href: content/r-topics/correlation-lm.qmd
-          - text: Basics of Tidyverse
-            href: content/r-topics/tidyverse-basic.qmd
+          - text: First Impression on your Data
+            href: content/r-topics/first-impression-data.qmd
+          - text: Playing with your Data
+            href: content/r-topics/playing-with-data.qmd
           - text: Tidyverse Exercise
             href: content/r-topics/tidyverse-exercise.qmd
           - text: Basics of ggplot2

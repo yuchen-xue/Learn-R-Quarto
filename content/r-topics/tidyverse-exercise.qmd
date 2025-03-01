@@ -5,7 +5,7 @@ code-fold: true
 
 ## Introduction
 
-This page contains several tests. The output of each answer is shown in order to help you understand the questions. The code itself is hidden and you can unfold them when needed.
+This page contains several tests. The output of each answer is shown in order to help you understand the questions. The code itself is hidden and you can unfold them when needed. It is recommended that you go through [the basic](playing-with-data.html) before taking the following exercises.
 
 ```{r load packages & data}
 #| output: false

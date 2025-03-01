@@ -1,31 +1,40 @@
 ---
 title: "Read & Export Data"
-description: "This is my reading note about loading and exporting data."
+description: "This covers topics regarding loading and exporting data from external source."
 ---
 
 ## Read a csv file using the `tidyverse` packages
 
-`readr::read_csv()` is a part of the `tidyverse` universe. Its output is a `tibble`, instead of a `data.frame`. You can use this function to read a csv file either from a local file or from an online source.
+`readr::read_csv()` is a part of the `tidyverse` universe.
 
-::: {.callout-important}
-Don't be confused with the native `read.csv()` function, which produces a `data.frame` object.
-:::
-
-```{r}
+```{r load readr}
 pacman::p_load(readr)
+```
+
+You can use this function to read a csv file not only from your local storage, but also from an online source.
+
+```{r read csv from an online source}
 path <- "https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/Clewer&Scarisbrick2001.csv"
 dat <- read_csv(path) # use path from above
 ```
 
-### Suppressing the output
+### Difference between `read.csv()` and `read_csv()`
+Its output of `readr::read_csv()` is a `tibble`, whereas the native `read.csv()` function produces a `data.frame` object.
 
-You will notice from the output there's a message:
+```{r}
+#| eval: false
+
+read.csv(path_to_csv) # base R import as data.frame
+read_csv(path_to_csv) # load as `tidyverse::tibble` 
+```
+
+### Suppressing the message regarding column types
+
+When loading the csv file, there might be a message goes like:
 
 ```default
 Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
-
-### Suppressing using function arguments
 
 According to [this Stack Overflow discussion](https://stackoverflow.com/q/55687401), you have two options. Either -- as suggested by the message -- pass the `show_col_types = FALSE` argument, or add information about the separator.
 

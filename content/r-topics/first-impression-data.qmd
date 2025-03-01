@@ -1,0 +1,143 @@
+---
+title: "Gaining a First Impression on Your Data"
+description: "This article covers some methods of inspecting the data when you get it at the first time."
+---
+
+## Basic Methods
+
+In this example we use the dataset `PlantGrowth`. We can simply gain a first impression on the data by simply calling `PlantGrowth` directly.
+
+```{r direct call on the dataset}
+PlantGrowth
+```
+
+We begin with the conventional approach: loading the data and save it as a `data.frame`.
+
+```{r load as df}
+df <- PlantGrowth
+```
+
+We can print some basic information about this `data.frame` using the `str()` method.
+
+```{r str representation of df}
+str(df)
+```
+
+Using `summary()` is a very better way of gaining a comprehensive view on the data.
+
+```{r summary of df}
+summary(df)
+```
+
+We can also get an overview on values of every columns.
+
+```{r show the weight column}
+df$weight
+```
+
+```{r show the group column}
+df$group
+```
+
+In addition, we can also show the first or the last rows.
+
+```{r head and tail}
+head(df)
+tail(df)
+```
+
+## Inspect the Data using the `{dplyr}` Package
+
+[`dplyr`](https://dplyr.tidyverse.org//) is one of the most popular package from the `tidyverse` universe. Before we proceed, we need to load this package.
+
+```{r load dplyr}
+pacman::p_load(dplyr)
+```
+
+### `dplyr::glimpse()`
+
+The `dplyr::glimpse()` method provides a similar output as the `str()` method.
+
+```{r using glimpse()}
+glimpse(PlantGrowth)
+```
+
+### Using `tibble`
+
+A `tibble` is a more efficient version of a `data.frame`. A `tibble` is based on `data.frame` and in most cases its behavior still mimics a `data.frame`. Despite, here are some benefits of using `tibble` over `data.frame`:
+
+1. It tells the data type of each column.
+2. Instead of printing all the data, it only prints a limited numbers of rows and columns, so that the console won't be flooded by too many text.
+3. Missing values and negative values are printed in red.
+
+By using the function `dplyr::as_tibble()`, we can convert a `df` into a `tibble`.
+
+```{r load a df as a tibble()}
+tbl <- as_tibble(df)
+tbl
+```
+
+### Print a `tibble`
+
+By default 10 rows are printed.
+
+```{r default behavior of print()}
+print(tbl) # To 10 rows
+```
+
+To print more rows we can:
+```{r print 20 rows}
+print(tbl, n = 20) # To 20 rows
+```
+
+To print all rows we can:
+```{r print all rows}
+print(tbl, n = Inf) # To print all rows
+```
+
+### Transform a `tibble` into a `data.frame`
+
+A `tibble` can be transformed into a `data.frame`.
+
+```{r transform a tibble into a data.frame}
+tbl %>% as.data.frame()
+```
+
+## Compare `data.frame` and `tibble`
+
+Here is a comparison of calling some common functions on a `tibble` and on a `data.frame`.
+
+:::: {.columns}
+::: {.column width="49%"}
+```{r}
+class(tbl)
+str(tbl)
+head(tbl)
+summary(tbl)
+tbl$weight
+tbl$group
+```
+:::
+
+::: {.column width="2%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="49%"}
+```{r}
+class(df)
+str(df)
+head(df)
+summary(df)
+df$weight
+df$group
+```
+:::
+::::  
+<!-- end of columns -->
+
+## What's next?
+
+Reading the numerical data is intuitive, despite, we prefer "seeing" the data. Navigate to [the introduction to `ggplot2`](ggplot2-basic.html) for more information about plotting the data.
+
+In addition, you can also navigate to [this article](playing-with-data.html) to gain knowledge about how you can use your data and extract useful information.

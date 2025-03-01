@@ -1,7 +1,21 @@
 ---
-title: "Brief Introduction to `tidyverse::ggplot2`"
-description: "This is my reading note about ggplot2 function"
+title: "Brief Introduction to `{ggplot2}`"
+description: "This article covers information about the `{ggplot2}` package"
 ---
+
+## Basics of `plot()`
+
+The R engine can detect the type of the given data and create suitable plots accordingly.  
+
+```{r}
+#| layout-ncol: 3
+
+df <- PlantGrowth # Load the data
+
+plot(df$weight) # scatter plot of values in the order they appear
+plot(df$group) # bar plot of frequency of each level
+plot(x = df$group, y = df$weight) # boxplot for values of each level
+```
 
 ## Expansion
 
@@ -14,7 +28,7 @@ For charts like scatter plots, this gives us a nicer look because points are not
 
 ### Does the order of the function call matters? 
 
-Usually it doens't. Only the order of the *`geom`* functions (e.g. `geom_abline()`) may influence the result.
+Usually it doesn't. Only the order of the *`geom`* functions (e.g. `geom_abline()`) may influence the result.
 
 ### How to add a photo for $x$ tick?
 

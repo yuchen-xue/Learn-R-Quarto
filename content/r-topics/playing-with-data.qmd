@@ -1,67 +1,23 @@
 ---
-title: "Brief Introduction to `{tidyverse}`"
-description: "This is my reading note about some common functions in the `{tidyverse}` package"
+title: "Playing with Your Data using `{dplyr}`"
+description: "This article covers some common functions in the `{dplyr}` package for processing the data."
 ---
 
-## Tibble
+## Load the Data
 
-### Why `tibble`?
-
-The benefits of using `tibble` over `data.frame` are:
-
-1. It tells the data type of each column.
-2. Instead of printing all the data, it only prints a limited numbers of rows and columns, so that the console won't be flouded by too many text.
-3. Missing values and negative values are printed in red.
-
-### Load a `data.frame` as a `tibble`
+In the following example, we use a partial of the `PlantGrowth` dataset.
 
 ```{r as tibble}
-pacman::p_load(tidyverse)
+pacman::p_load(dplyr)
 tbl <- as_tibble(PlantGrowth)
-```
-
-### Print a `tibble`
-
-By default it prints 10 rows.
-
-```{r print 10 rows}
-print(tbl) # To 10 rows
-```
-
-To print more rows you can:
-```{r print more rows}
-print(tbl, n = 20) # To 20 rows
-print(tbl, n = Inf) # To print all rows
-```
-
-### Load external data as a `tibble`
-
-To import from a csv file, you can:
-
-```{r}
-#| eval: false
-
-read.csv(path_to_csv) # base R import as data.frame
-read_csv(path_to_csv) # load as `tidyverse::tibble` 
-```
-
-Note that you can also read data from online
-
-```{r}
-read_csv("https://raw.githubusercontent.com/SchmidtPaul/dsfair_quarto/master/data/DrinksPeterMax.csv")
-```
-
-### Transform a `tibble` into a `data.frame`
-
-```{r}
-tbl %>% as.data.frame()
-```
-
-## `mutate()`
-
-```{r}
 tbl2 <- head(tbl)
 ```
+
+::: {.callout-note}
+Read [this article](first-impression-data.html) for more information about the `PlantGrowth` dataset itself.
+:::
+
+## `mutate()`
 
 baseR
 
@@ -81,9 +37,7 @@ Replace the value in-place
 tbl2 <- tbl2 %>% mutate(weight = weight + 2)
 ```
 
-
-The backtick:
-when export to excel, the backtick won't shown in the excel file.
+Note that when we export it to excel, the backtick won't shown in the excel file.
 
 ```{r}
 tbl2 %>%
@@ -109,7 +63,6 @@ tbl3 <- tbl2 %>%
     mutate(var1 = 1, var2 = 2, var3 = "text", var4 = "word")
 tbl3
 ```
-
 
 ```{r}
 tbl3 %>% 
@@ -149,7 +102,7 @@ tbl %>%
   filter(weight > 6 | weight < 4)
 ```
 
-Now we want to keep only trt1 and trt2 observations
+Now we want to keep only `trt1` and `trt2` observations
 
 Option 1:
 
@@ -201,7 +154,7 @@ tbl4 %>%
   arrange(desc(weight))
 ```
 
-Firslty sort by "group". Within each "group" we sort by "weight".  
+Firstly sort by "group". Within each "group" we sort by "weight".  
 
 ```{r}
 tbl4 %>%
@@ -265,3 +218,7 @@ tbl %>%
     Mean = mean(weight)
   )
 ```
+
+## What's next?
+
+Here are [some tests](tidyverse-exercise.html) for you.
