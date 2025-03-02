@@ -10,8 +10,8 @@ website:
         href: index.qmd
       - text: R Topics
         menu:
-          - text: Correlation And Linear Model
-            href: content/r-topics/correlation-lm.qmd
+          - text: Read And Export Data
+            href: content/r-topics/read-export-data.qmd
           - text: First Impression on your Data
             href: content/r-topics/first-impression-data.qmd
           - text: Playing with your Data
@@ -24,11 +24,7 @@ website:
             href: content/r-topics/pipe-operator.qmd
           - text: Package Management
             href: content/r-topics/package-management.qmd
-          - text: Read And Export Data
-            href: content/r-topics/read-export-data.qmd
-          - text: Model Testing
-            href: content/r-topics/model-testing.qmd
-          - text: Using Things about R and R Studio
+          - text: Useful Things about R and R Studio
             href: content/r-topics/useful-r-r_studio.qmd
       - text: Quarto Topics
         menu:
@@ -58,10 +54,14 @@ website:
             href: content/probability-analysis/flip-the-coin.qmd
           - text: QQ Plot
             href: content/probability-analysis/QQ-plot.qmd
-      - text: My Projects
+      - text: Linear Model
         menu:
+          - text: Correlation And Linear Model
+            href: content/linear-model/correlation-lm.qmd
+          - text: Model Testing
+            href: content/linear-model/model-testing.qmd
           - text: Energy Consumption Analysis Of Commercial Buildings Using GAM
-            href: content/my-projects/EnerNOC-GAM.qmd
+            href: content/linear-model/EnerNOC-GAM.qmd
 
 format:
   html:
