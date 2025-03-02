@@ -1,0 +1,5 @@
+---
+title: Page Not Found
+---
+
+The URL you followed is probably outdated, but the content is still online. Usually I don't delete content, but I do sometimes restructure the website. Therefore, please go to the [home page](index.html) or try finding the chapter you are looking for by navigating the menu at the top.

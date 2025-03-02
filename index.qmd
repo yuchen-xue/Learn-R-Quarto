@@ -1,6 +1,15 @@
 ---
-title: "My R Language Learning Note"
-description: "This website serves as my reading note about R language and Quarto."
+title: "Welcome To All About R"
+description: "This website contains useful things about R language, Quarto and their applications."
 ---
 
-This project contains my note about the R workshop in University of Rostock in 2024.
+## How To Use This Website?
+Simply navigate the top menu and enjoy.
+
+::: {.callout-important}
+This website is still under construction. Don't worry if you notice that some pages might be altered and some links are not functioning. Most likely it is due the fact that I changed some content for improving this website. Thanks for your understanding!
+:::
+
+## Disclaimer
+I am not a professional R language user, nor am I a professional website developer.
+If there's something wrong in this website, make use of the "Report an issue" button at the right panel (or navigate to the [Github page](https://github.com/yuchen-xue/Learn-R-Quarto/issues)) and let me know about your suggestion.

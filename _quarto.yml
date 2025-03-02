@@ -2,8 +2,10 @@ project:
   type: website
 
 website:
-  title: "Learning R + Quarto"
+  title: "All about R"
   favicon: content/img/favicon.png  # https://icons8.com/icon/110863/r
+  repo-url: https://github.com/yuchen-xue/Learn-R-Quarto
+  repo-actions: [edit, source, issue]
   navbar:
     left:
       - text: Home
