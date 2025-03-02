@@ -2,8 +2,21 @@
 title: "Introduction to Code Blocks"
 description: "This is my reading note about features of code blocks in Quarto."
 ---
+## Basics of Code Blocks
 
-## Code Blocks with Plain Text
+In Quarto you can simply highlight code context using a **code block**. It is also possible if you would like to run the code in a code block and render the output in your Quarto notebook.
+
+### Language Support
+
+Quarto, which is based on Pandoc, supports syntax highlighting for over 140 different languages.
+By specifying the `{=language_name}` syntax you can specify the language name. This also applies to inline code. 
+Setting the language name is crucial if you would like to run the content in a code block in the Quarto runtime environment. See ["Executable Code Blocks"](#executable-code-blocks) for more information.
+
+### Code Execution Options
+
+Code execution options can be used when you want to, e.g., regulate the code output, hide the code piece, and so on. Read [the official guide about execution options](https://quarto.org/docs/computations/execution-options.html) for more detail.
+
+## Non-executable Code Blocks
 
 For non-executable code blocks (e.g. output of a code, text from the man page, etc.), use the `default` indicator. 
 
@@ -11,31 +24,27 @@ For non-executable code blocks (e.g. output of a code, text from the man page, e
 This is a plain text.
 ```
 
-## Raw `HTML`, `Latex` code
+Learn more from [the documentation](https://quarto.org/docs/authoring/markdown-basics.html#raw-content).
 
-Use the `{=language_name}` syntax. This can also be used for inline code. Learn more from [the documentation](https://quarto.org/docs/authoring/markdown-basics.html#raw-content).
+## Executable Code Blocks
 
-## Language Support
+### Set Up Your Runtime Environment
 
-> Pandoc supports syntax highlighting for over 140 different languages.
+Intuitively you need to install R language backend on your machine to render code written in R. Note that sometimes you need to install `jupyter` in order to render code that is written in other languages, such as Python and Bash.
 
-::: {.callout-important}
-Note that sometimes you need to install `jupyter` in order to render code that is written in other languages, such as Python and Bash.
-:::
+Setting the `{=language_name}` indicator is also needed if you want to run the code in the Quarto runtime environment.
 
-## Code Blocks can be treated as CSS Elements
+### Displaying the Language Name for an Executable Code Block
 
-Code blocks of the same language highlight share the same CSS class, thus you can apply your own style format for code of different language. Learn more from [the documentation](https://quarto.org/docs/authoring/markdown-basics.html#source-code).
+The [fenced echo](https://quarto.org/docs/computations/execution-options.html#fenced-echo) is what you are looking for.
 
-You can also add customized class to a code block and adjusted its style individually, which is discussed in [this Stack Overflow discussion](https://stackoverflow.com/a/74026889).
+### Reuse content from previous code block
 
-## Code Execution Options
-
-Code execution options can be used when you want to, e.g., regulate the code output, hide the code piece, and so on. Read [the official guide about execution options](https://quarto.org/docs/computations/execution-options.html) for more detail.
+Often you would like to split a code snippet in different code blocks, or you define a function that is used by different code blocks. [This article](https://bookdown.org/yihui/rmarkdown-cookbook/reuse-chunks.html) covers the information about how to reference to the content in other code blocks.
 
 ## Interactive Code Annotations
 
-Interactive code annotation is a combination of inline comment and bullet points. The display of code annotation can be controled by the variable `code-annotations`, which contains the following options: 
+Interactive code annotation is a combination of inline comment and bullet points. The display of code annotation can be controlled by the variable `code-annotations`, which contains the following options: 
 
 * below (default)
 * hover
@@ -70,3 +79,9 @@ penguins |> # <1>
 
 1. Take `penguins`, and then,
 2. add new columns for the bill ratio and bill area.
+
+## Customize the Style of Code Blocks
+
+Code blocks of the same language highlight share the same CSS class, thus you can apply your own style format for code of different language. Learn more from [the documentation](https://quarto.org/docs/authoring/markdown-basics.html#source-code).
+
+You can also add customized class to a code block and adjusted its style individually, which is discussed in [this Stack Overflow discussion](https://stackoverflow.com/a/74026889).
