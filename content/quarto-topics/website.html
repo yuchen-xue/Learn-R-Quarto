@@ -272,7 +272,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#render-the-website-locally" id="toc-render-the-website-locally" class="nav-link" data-scroll-target="#render-the-website-locally">Render the Website locally</a></li>
   <li><a href="#publishing-website-using-github-action" id="toc-publishing-website-using-github-action" class="nav-link" data-scroll-target="#publishing-website-using-github-action">Publishing Website using Github Action</a></li>
+  <li><a href="#include-a-link-to-your-github-repository" id="toc-include-a-link-to-your-github-repository" class="nav-link" data-scroll-target="#include-a-link-to-your-github-repository">Include a Link to your Github Repository</a></li>
   </ul></li>
+  <li><a href="#customize-404-page" id="toc-customize-404-page" class="nav-link" data-scroll-target="#customize-404-page">Customize 404 Page</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/edit/main/content/quarto-topics/website.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/blob/main/content/quarto-topics/website.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -373,11 +375,19 @@ git push origin gh-pages</code></pre></li>
 <h3 class="anchored" data-anchor-id="publishing-website-using-github-action">Publishing Website using Github Action</h3>
 <p>If you would like to execute your code locally before pushing to Github, you can follow <a href="https://quarto.org/docs/publishing/github-pages.html#freezing-computations">this tutorial</a>. This can be useful if you would like to include result from a legacy code.</p>
 <p>You can also instead let Github Action run the code and publish the website all at once, thus you can follow <a href="https://quarto.org/docs/publishing/github-pages.html#executing-code">this tutorial</a>.</p>
+</section>
+<section id="include-a-link-to-your-github-repository" class="level3">
+<h3 class="anchored" data-anchor-id="include-a-link-to-your-github-repository">Include a Link to your Github Repository</h3>
+<p>There are related html options for this purpose. More information can be found in the <a href="https://quarto.org/docs/websites/website-navigation.html#github-links">official guide</a>.</p>
+</section>
+</section>
+<section id="customize-404-page" class="level2">
+<h2 class="anchored" data-anchor-id="customize-404-page">Customize 404 Page</h2>
+<p>You can create your own page for handling 404 error. In many cases a <code>404.qmd</code> file is all what you need. More information can be found in the <a href="https://quarto.org/docs/websites/website-navigation.html#pages-404">official guide</a>.</p>
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -909,7 +919,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>If you would like to execute your code locally before pushing to Github, you can follow <span class="co">[</span><span class="ot">this tutorial</span><span class="co">](https://quarto.org/docs/publishing/github-pages.html#freezing-computations)</span>. This can be useful if you would like to include result from a legacy code.</span>
 <span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>You can also instead let Github Action run the code and publish the website all at once, thus you can follow <span class="co">[</span><span class="ot">this tutorial</span><span class="co">](https://quarto.org/docs/publishing/github-pages.html#executing-code)</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>You can also instead let Github Action run the code and publish the website all at once, thus you can follow <span class="co">[</span><span class="ot">this tutorial</span><span class="co">](https://quarto.org/docs/publishing/github-pages.html#executing-code)</span>.</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Include a Link to your Github Repository</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>There are related html options for this purpose. More information can be found in the <span class="co">[</span><span class="ot">official guide</span><span class="co">](https://quarto.org/docs/websites/website-navigation.html#github-links)</span>.</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Customize 404 Page</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>You can create your own page for handling 404 error. In many cases a <span class="in">`404.qmd`</span> file is all what you need. More information can be found in the <span class="co">[</span><span class="ot">official guide</span><span class="co">](https://quarto.org/docs/websites/website-navigation.html#pages-404)</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
