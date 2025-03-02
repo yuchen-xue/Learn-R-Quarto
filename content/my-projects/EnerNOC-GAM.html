@@ -252,6 +252,25 @@ window.Quarto = {
     </ul>
   </li>
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-probability-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Probability Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-probability-analysis">    
+        <li>
+    <a class="dropdown-item" href="../../content/probability-analysis/probability-distributions.html">
+ <span class="dropdown-text">Probability Distributions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/probability-analysis/flip-the-coin.html">
+ <span class="dropdown-text">Flip The Coin</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/probability-analysis/QQ-plot.html">
+ <span class="dropdown-text">QQ Plot</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-my-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">My Projects</span>
     </a>
@@ -391,11 +410,11 @@ window.Quarto = {
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(url, <span class="fu">write_disk</span>(tf <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">""</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response [https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/DT_4_ind]
-  Date: 2025-03-01 16:00
+  Date: 2025-03-02 11:46
   Status: 200
   Content-Type: application/octet-stream
   Size: 3.58 MB
-&lt;ON DISK&gt;  /tmp/RtmpmfsZt6/file18a261fb959c</code></pre>
+&lt;ON DISK&gt;  /tmp/Rtmpme8cqk/file19a018f3fc2</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(<span class="fu">read_feather</span>(tf))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
