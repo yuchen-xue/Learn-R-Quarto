@@ -50,6 +50,14 @@ website:
             href: content/experiment-designs/crd_mead1993.qmd
           - text: One Way RCBD Analysis
             href: content/experiment-designs/rcbd_clewerscarisbrick2001.qmd
+      - text: Probability Analysis
+        menu:
+          - text: Probability Distributions
+            href: content/probability-analysis/probability-distributions.qmd
+          - text: Flip The Coin
+            href: content/probability-analysis/flip-the-coin.qmd
+          - text: QQ Plot
+            href: content/probability-analysis/QQ-plot.qmd
       - text: My Projects
         menu:
           - text: Energy Consumption Analysis Of Commercial Buildings Using GAM
