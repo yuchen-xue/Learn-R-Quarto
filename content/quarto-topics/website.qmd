@@ -59,3 +59,11 @@ More information can be found from [the original tutorial](https://quarto.org/do
 If you would like to execute your code locally before pushing to Github, you can follow [this tutorial](https://quarto.org/docs/publishing/github-pages.html#freezing-computations). This can be useful if you would like to include result from a legacy code.
 
 You can also instead let Github Action run the code and publish the website all at once, thus you can follow [this tutorial](https://quarto.org/docs/publishing/github-pages.html#executing-code).
+
+### Include a Link to your Github Repository
+
+There are related html options for this purpose. More information can be found in the [official guide](https://quarto.org/docs/websites/website-navigation.html#github-links).
+
+## Customize 404 Page
+
+You can create your own page for handling 404 error. In many cases a `404.qmd` file is all what you need. More information can be found in the [official guide](https://quarto.org/docs/websites/website-navigation.html#pages-404).
