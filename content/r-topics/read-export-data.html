@@ -8,7 +8,7 @@
 
 <meta name="description" content="This covers topics regarding loading and exporting data from external source.">
 
-<title>Read &amp; Export Data – Learning R + Quarto</title>
+<title>Read &amp; Export Data – All about R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Learning R + Quarto</span>
+    <span class="navbar-title">All about R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -279,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#write-a-csv-file-using-the-tidyverse-packages" id="toc-write-a-csv-file-using-the-tidyverse-packages" class="nav-link" data-scroll-target="#write-a-csv-file-using-the-tidyverse-packages">Write a csv file using the <code>tidyverse</code> packages</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/edit/main/content/r-topics/read-export-data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/blob/main/content/r-topics/read-export-data.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -373,11 +373,11 @@ dbl (3): yield, row, col
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(xlsx_path, <span class="fu">write_disk</span>(tf <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".xlsx"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response [https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx]
-  Date: 2025-03-02 16:36
+  Date: 2025-03-02 17:22
   Status: 200
   Content-Type: application/octet-stream
   Size: 11.5 kB
-&lt;ON DISK&gt;  /tmp/Rtmp2rUusL/file168f7fdec983.xlsx</code></pre>
+&lt;ON DISK&gt;  /tmp/RtmpyrVNmP/file167f543b8de8.xlsx</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(tf, <span class="dv">2</span>L)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1062,4 +1062,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/edit/main/content/r-topics/read-export-data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/blob/main/content/r-topics/read-export-data.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
