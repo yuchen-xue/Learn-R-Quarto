@@ -1457,7 +1457,7 @@ Note
     Shapiro-Wilk normality test
 
 data:  y
-W = 0.99792, p-value = 0.2504</code></pre>
+W = 0.99849, p-value = 0.5501</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Perform Anderson-Darling test for normality</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nortest)</span>
@@ -1467,7 +1467,7 @@ W = 0.99792, p-value = 0.2504</code></pre>
     Anderson-Darling normality test
 
 data:  y
-A = 0.38847, p-value = 0.3851</code></pre>
+A = 0.36166, p-value = 0.4441</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate some non-normally distributed data (f distribution, Fisher-Dist.).</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rf</span>(<span class="dv">1000</span>,<span class="dv">3</span>,<span class="dv">27</span>)</span>
@@ -1495,7 +1495,7 @@ A = 0.38847, p-value = 0.3851</code></pre>
     Shapiro-Wilk normality test
 
 data:  y
-W = 0.81553, p-value &lt; 2.2e-16</code></pre>
+W = 0.82645, p-value &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Perform Anderson-Darling test for normality</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nortest)</span>
@@ -1505,7 +1505,7 @@ W = 0.81553, p-value &lt; 2.2e-16</code></pre>
     Anderson-Darling normality test
 
 data:  y
-A = 42.759, p-value &lt; 2.2e-16</code></pre>
+A = 41.743, p-value &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The following data represent the finishing times </span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (in seconds) for six randomly selected races of a </span></span>
