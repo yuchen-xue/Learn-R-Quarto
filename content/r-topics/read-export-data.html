@@ -373,11 +373,11 @@ dbl (3): yield, row, col
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(xlsx_path, <span class="fu">write_disk</span>(tf <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".xlsx"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response [https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/vision_fixed.xlsx]
-  Date: 2025-03-02 17:22
+  Date: 2025-03-02 17:29
   Status: 200
   Content-Type: application/octet-stream
   Size: 11.5 kB
-&lt;ON DISK&gt;  /tmp/RtmpyrVNmP/file167f543b8de8.xlsx</code></pre>
+&lt;ON DISK&gt;  /tmp/RtmpJF82Xz/file16797f93c3f1.xlsx</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>xlsx_dat <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(tf, <span class="dv">2</span>L)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
