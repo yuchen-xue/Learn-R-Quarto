@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="This is a brief introduction to Quarto projects.">
+<meta name="description" content="This page contains a collection of interesting Quarto projects.">
 
-<title>Brief Introduction to Quarto Projects – All about R</title>
+<title>List of Open Source Quarto Examples – All about R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -267,29 +267,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-a-quarto-project" id="toc-about-a-quarto-project" class="nav-link active" data-scroll-target="#about-a-quarto-project">About a Quarto Project</a></li>
-  <li><a href="#what-can-you-do-with-quarto" id="toc-what-can-you-do-with-quarto" class="nav-link" data-scroll-target="#what-can-you-do-with-quarto">What can you do with Quarto?</a>
-  <ul class="collapse">
-  <li><a href="#write-scientific-documents" id="toc-write-scientific-documents" class="nav-link" data-scroll-target="#write-scientific-documents">Write Scientific Documents</a></li>
-  <li><a href="#create-a-static-website" id="toc-create-a-static-website" class="nav-link" data-scroll-target="#create-a-static-website">Create a Static Website</a></li>
-  <li><a href="#create-a-word-document" id="toc-create-a-word-document" class="nav-link" data-scroll-target="#create-a-word-document">Create a Word Document</a></li>
-  <li><a href="#create-a-diagram" id="toc-create-a-diagram" class="nav-link" data-scroll-target="#create-a-diagram">Create a Diagram</a></li>
-  <li><a href="#presentation" id="toc-presentation" class="nav-link" data-scroll-target="#presentation">Presentation</a></li>
-  </ul></li>
+  <li><a href="#letter-examples" id="toc-letter-examples" class="nav-link active" data-scroll-target="#letter-examples">Letter Examples</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/edit/main/content/quarto-topics/quarto-projects.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/blob/main/content/quarto-topics/quarto-projects.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/edit/main/content/quarto-topics/open-source-examples.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/blob/main/content/quarto-topics/open-source-examples.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Brief Introduction to Quarto Projects</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">List of Open Source Quarto Examples</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 <div>
   <div class="description">
-    This is a brief introduction to Quarto projects.
+    This page contains a collection of interesting Quarto projects.
   </div>
 </div>
 
@@ -306,53 +298,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="about-a-quarto-project" class="level2">
-<h2 class="anchored" data-anchor-id="about-a-quarto-project">About a Quarto Project</h2>
-<p>Quarto is a successor of R markdown. A Quarto project is defined by a <code>_quarto.yml</code> file and usually some Quarto markdown <code>.qmd</code> files. It can conveniently convert <code>.qmd</code> files into website, presentation or other formats. The output format is defined inside the <code>_quarto.yml</code> file. Multiple output format is allowed.</p>
-<p>Quarto projects can be created and managed by <a href="https://quarto.org/docs/get-started/">Quarto CLI tool</a>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Read more about <a href="https://quarto.org/docs/projects/quarto-projects.html">Quarto Projects</a>.</p>
-</div>
-</div>
-</section>
-<section id="what-can-you-do-with-quarto" class="level2">
-<h2 class="anchored" data-anchor-id="what-can-you-do-with-quarto">What can you do with Quarto?</h2>
-<p>Quarto is universal!</p>
-<section id="write-scientific-documents" class="level3">
-<h3 class="anchored" data-anchor-id="write-scientific-documents">Write Scientific Documents</h3>
-<p>One of the most frequent use of Quarto is rendering PDF files for academic needs. <a href="https://quarto.org/docs/output-formats/pdf-basics.html">The official tutorial</a> covers many aspects about this topic.</p>
-<p>Additionally, you can use a LaTex template in a Quarto notebook for need of format. Here’s <a href="https://quarto.org/docs/journals/templates.html">the official tutorial</a> about this topic. Need inspirations? Check <a href="open-source-examples.html#letter-examples">the list of some letter examples</a>.</p>
-<p>If you write journal papers, you can also consider <a href="https://quarto.org/docs/journals/formats.html">the built-in support</a>.</p>
-</section>
-<section id="create-a-static-website" class="level3">
-<h3 class="anchored" data-anchor-id="create-a-static-website">Create a Static Website</h3>
-<p>You can, of course, publish a website using Quarto, like how this website is rendered. Read more from <a href="website.html">this introduction</a>.</p>
-</section>
-<section id="create-a-word-document" class="level3">
-<h3 class="anchored" data-anchor-id="create-a-word-document">Create a Word Document</h3>
-<p>Microsoft Word (.docx) format is also supported by Quarto. Read more from <a href="https://quarto.org/docs/output-formats/ms-word.html">this official tutorial</a>.</p>
-</section>
-<section id="create-a-diagram" class="level3">
-<h3 class="anchored" data-anchor-id="create-a-diagram">Create a Diagram</h3>
-<p>It’s possible to create simple but informative diagrams using Quarto. Read more from <a href="https://quarto.org/docs/authoring/diagrams.html">this official tutorial</a></p>
-</section>
-<section id="presentation" class="level3">
-<h3 class="anchored" data-anchor-id="presentation">Presentation</h3>
-<p>Read more from <a href="presentation.html">my page</a> about using Quarto to produce a nice presentation.</p>
+<section id="letter-examples" class="level2">
+<h2 class="anchored" data-anchor-id="letter-examples">Letter Examples</h2>
+<ul>
+<li><a href="https://github.com/mavam/quarto-brief">quarto-brief</a></li>
+<li><a href="https://github.com/mcanouil/quarto-letter">quarto-letter</a></li>
+</ul>
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -825,51 +780,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Brief Introduction to Quarto Projects"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "This is a brief introduction to Quarto projects."</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "List of Open Source Quarto Examples"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "This page contains a collection of interesting Quarto projects."</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## About a Quarto Project</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Letter Examples</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Quarto is a successor of R markdown. A Quarto project is defined by a <span class="in">`_quarto.yml`</span> file and usually some Quarto markdown <span class="in">`.qmd`</span> files. It can conveniently convert <span class="in">`.qmd`</span> files into website, presentation or other formats. The output format is defined inside the <span class="in">`_quarto.yml`</span> file. Multiple output format is allowed.</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Quarto projects can be created and managed by <span class="co">[</span><span class="ot">Quarto CLI tool</span><span class="co">](https://quarto.org/docs/get-started/)</span>.</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Read more about <span class="co">[</span><span class="ot">Quarto Projects</span><span class="co">](https://quarto.org/docs/projects/quarto-projects.html)</span>.</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## What can you do with Quarto?</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Quarto is universal!</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Write Scientific Documents</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>One of the most frequent use of Quarto is rendering PDF files for academic needs. <span class="co">[</span><span class="ot">The official tutorial</span><span class="co">](https://quarto.org/docs/output-formats/pdf-basics.html)</span> covers many aspects about this topic.</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Additionally, you can use a LaTex template in a Quarto notebook for need of format. Here's <span class="co">[</span><span class="ot">the official tutorial</span><span class="co">](https://quarto.org/docs/journals/templates.html)</span> about this topic. Need inspirations? Check <span class="co">[</span><span class="ot">the list of some letter examples</span><span class="co">](open-source-examples.html#letter-examples)</span>.</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>If you write journal papers, you can also consider <span class="co">[</span><span class="ot">the built-in support</span><span class="co">](https://quarto.org/docs/journals/formats.html)</span>.</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Create a Static Website</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>You can, of course, publish a website using Quarto, like how this website is rendered. Read more from <span class="co">[</span><span class="ot">this introduction</span><span class="co">](website.html)</span>.</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">### Create a Word Document</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>Microsoft Word (.docx) format is also supported by Quarto. Read more from <span class="co">[</span><span class="ot">this official tutorial</span><span class="co">](https://quarto.org/docs/output-formats/ms-word.html)</span>.</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Create a Diagram</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>It's possible to create simple but informative diagrams using Quarto. Read more from <span class="co">[</span><span class="ot">this official tutorial</span><span class="co">](https://quarto.org/docs/authoring/diagrams.html)</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">### Presentation</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>Read more from <span class="co">[</span><span class="ot">my page</span><span class="co">](presentation.html)</span> about using Quarto to produce a nice presentation.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="co">[</span><span class="ot">quarto-brief</span><span class="co">](https://github.com/mavam/quarto-brief)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="co">[</span><span class="ot">quarto-letter</span><span class="co">](https://github.com/mcanouil/quarto-letter)</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/edit/main/content/quarto-topics/quarto-projects.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/blob/main/content/quarto-topics/quarto-projects.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/edit/main/content/quarto-topics/open-source-examples.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/blob/main/content/quarto-topics/open-source-examples.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/yuchen-xue/Learn-R-Quarto/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
