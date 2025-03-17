@@ -222,6 +222,10 @@ window.Quarto = {
     <a class="dropdown-item" href="../../content/quarto-topics/presentation.html">
  <span class="dropdown-text">Presentation</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../content/quarto-topics/open-source-examples.html">
+ <span class="dropdown-text">Open Source Quarto Projects</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -410,11 +414,11 @@ window.Quarto = {
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(url, <span class="fu">write_disk</span>(tf <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">""</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response [https://raw.githubusercontent.com/yuchen-xue/Learn-R-Quarto/main/content/data/DT_4_ind]
-  Date: 2025-03-17 10:45
+  Date: 2025-03-17 10:52
   Status: 200
   Content-Type: application/octet-stream
   Size: 3.58 MB
-&lt;ON DISK&gt;  /tmp/Rtmpw44wZC/file42da55bfa0ee</code></pre>
+&lt;ON DISK&gt;  /tmp/RtmpQnVJw6/file193434f3c3f9</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(<span class="fu">read_feather</span>(tf))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
