@@ -1,6 +1,6 @@
 ---
 title: "Brief Introduction to Quarto Projects"
-description: "This is a brief introduciton to Quarto projects."
+description: "This is a brief introduction to Quarto projects."
 ---
 
 ## About a Quarto Project
@@ -12,3 +12,31 @@ Quarto projects can be created and managed by [Quarto CLI tool](https://quarto.o
 ::: {.callout-note}
 Read more about [Quarto Projects](https://quarto.org/docs/projects/quarto-projects.html).
 :::
+
+## What can you do with Quarto?
+
+Quarto is universal!
+
+### Write PDF Documents
+
+One of the most frequent use of Quarto is rendering PDF files for academic needs. [The official tutorial](https://quarto.org/docs/output-formats/pdf-basics.html) covers many aspects about this topic.
+
+Additionally, you can use a LaTex template in a Quarto notebook for need of format. Here's [the official tutorial](https://quarto.org/docs/journals/templates.html) about this topic. Need inspirations? Check [the list of some letter examples](open-source-examples.html#letter-examples).
+
+If you write journal papers, you can also consider [the built-in support of journals](https://quarto.org/docs/journals/formats.html).
+
+### Create a Static Website
+
+You can, of course, publish a website using Quarto, like how this website is rendered. Read more from [this introduction](website.html).
+
+### Create a Word Document
+
+Microsoft Word (.docx) format is also supported by Quarto. Read more from [this official tutorial](https://quarto.org/docs/output-formats/ms-word.html).
+
+### Create a Diagram
+
+It's possible to create simple but informative diagrams using Quarto. Read more from [this official tutorial](https://quarto.org/docs/authoring/diagrams.html)
+
+### Presentation
+
+Read more from [my page](presentation.html) about using Quarto to produce a nice presentation.

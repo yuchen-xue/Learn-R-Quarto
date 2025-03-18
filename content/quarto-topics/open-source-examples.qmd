@@ -1,0 +1,9 @@
+---
+title: "List of Open Source Quarto Examples"
+description: "This page contains a collection of interesting Quarto projects."
+---
+
+## Letter Examples
+
+* [quarto-brief](https://github.com/mavam/quarto-brief)
+* [quarto-letter](https://github.com/mcanouil/quarto-letter)
