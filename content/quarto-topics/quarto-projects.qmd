@@ -25,6 +25,10 @@ Additionally, you can use a LaTex template in a Quarto notebook for need of form
 
 If you write journal papers, you can also consider [the built-in support of journals](https://quarto.org/docs/journals/formats.html).
 
+### Write your CV
+
+Here is [the list](open-source-examples.html#CV-examples) of some cool projects. And here is [a good discussion](https://github.com/quarto-dev/quarto-cli/discussions/705) about this topic.
+
 ### Create a Static Website
 
 You can, of course, publish a website using Quarto, like how this website is rendered. Read more from [this introduction](website.html).
